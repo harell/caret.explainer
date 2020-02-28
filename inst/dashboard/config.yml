@@ -1,0 +1,3 @@
+appName: !expr gsub("\\." ,"-", desc::description$new()$get_field("Package"))
+appTitle: The Simplest Shiny App
+appForceUpdate: no

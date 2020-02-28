@@ -1,0 +1,29 @@
+Package: template.dashboard
+Type: Package
+Title: Boilerplate for 'tidylab' Dashboards
+URL: https://tidylab.github.io/template.dashboard/
+BugReports: https://github.com/tidylab/template.dashboard/issues
+Version: 1.0.1
+Date: 2020-01-01
+Authors@R: c(person("Harel", "Lustiger", email = "tidylab@gmail.com", role = c("aut", "cre")))
+Maintainer: Harel Lustiger <tidylab@gmail.com>
+Description: Preconfigured dashboard that supports continuous development and 
+    deployment of a Shiny application. Committing to master branch triggers:  
+    * Dashboard deployment to https://www.shinyapps.io/ (via `rsconnect`); and  
+    * Package website deployment (via `pkgdown`).
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
+Roxygen: list(markdown = TRUE, r6 = TRUE)
+Language: en-GB
+Depends: 
+    R (>= 3.5)
+Suggests: 
+    covr (>= 3.2.1),
+    desc (>= 1.2.0),
+    devtools (>= 2.0.2),
+    testthat (>= 2.0.1),
+    rmarkdown
+Imports: 
+    shiny (>= 1.4.0)
