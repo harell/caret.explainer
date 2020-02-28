@@ -70,7 +70,7 @@ knitr::include_graphics("https://i.imgur.com/RLEQkhe.png")
 
 ## Overview
 
-`r desc_obj$get_field("Description")`
+The dashboard supplied with this package is a candidate for [Shiny Contest 2020](https://blog.rstudio.com/2020/02/12/shiny-contest-2020-is-here/).
 
 See the [package website](`r desc_obj$get_urls()[[1]]`) for more information. 
 

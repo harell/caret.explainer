@@ -13,16 +13,12 @@ Status](https://travis-ci.org/harell/caret.explainer.svg?branch=master)](https:/
 Status](https://codecov.io/gh/harell/caret.explainer/branch/master/graph/badge.svg)](https://codecov.io/github/harell/caret.explainer/?branch=master)
 <!-- badges: end -->
 
-## Boilerplate for ‘tidylab’ Dashboards
+## Explore, Explain and Examine Predictive `caret` Models
 
 ## Overview
 
-Preconfigured dashboard that supports continuous development and
-deployment of a Shiny application. Committing to master branch
-triggers:  
-\* Dashboard deployment to <https://www.shinyapps.io/> (via
-`rsconnect`); and  
-\* Package website deployment (via `pkgdown`).
+The dashboard supplied with this package is a candidate for [Shiny
+Contest 2020](https://blog.rstudio.com/2020/02/12/shiny-contest-2020-is-here/).
 
 See the [package website](https://harell.github.io/caret.explainer/) for
 more information.
