@@ -1,9 +1,9 @@
-Package: template.dashboard
+Package: caret.explainer
 Type: Package
 Title: Boilerplate for 'tidylab' Dashboards
-URL: https://tidylab.github.io/template.dashboard/
-BugReports: https://github.com/tidylab/template.dashboard/issues
-Version: 1.0.1
+URL: https://harell.github.io/caret.explainer/
+BugReports: https://github.com/harell/caret.explainer/issues
+Version: 0.0.1
 Date: 2020-01-01
 Authors@R: c(person("Harel", "Lustiger", email = "tidylab@gmail.com", role = c("aut", "cre")))
 Maintainer: Harel Lustiger <tidylab@gmail.com>
