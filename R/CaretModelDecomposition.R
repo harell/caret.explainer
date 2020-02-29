@@ -50,7 +50,5 @@ CaretModelDecomposition$fun <- new.env()
 CaretModelDecomposition$fun$extract_model_object <- function(object) NULL
 CaretModelDecomposition$fun$extract_historical_data <- function(object) NULL
 CaretModelDecomposition$fun$extract_new_data <- function(object) NULL
-CaretModelDecomposition$fun$extract_role_input <- function(object) NULL
-CaretModelDecomposition$fun$extract_role_target <- function(object){
-    all.vars(object$terms)[1]
-}
+CaretModelDecomposition$fun$extract_role_target <- function(object) all.vars(object$terms)[1]
+CaretModelDecomposition$fun$extract_role_input <- function(object) all.vars(object$terms)[-1]

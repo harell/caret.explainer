@@ -6,6 +6,9 @@ testthat::setup({
     utils::data('titanic_imputed', package = "DALEX")
     dataset <- titanic_imputed
     dataset$survived <- factor(dataset$survived, levels = 1:0, c("Survived", "Perished"))
+    role_target <- "survived"
+    role_input <- c("gender", "age", "class", "embarked", "fare", "sibsp", "parch")
+    model_formula <- formula(paste(role_target, "~" , paste(role_input, collapse = " + ")))
 
     set.seed(1546)
     suppressWarnings({
@@ -14,6 +17,8 @@ testthat::setup({
         caret_predict <- predict(caret_train, newdata = dataset)
     })
 
+    test_env$role_input <- role_input
+    test_env$role_target <- role_target
     test_env$caret_train <- caret_train
 })
 
@@ -30,7 +35,9 @@ test_that("CaretModelDecomposition$new works", {
 test_that("CaretModelDecomposition extract essential elements", {
     attach(test_env)
     cmd <- test_env$cmd
-    expect_identical(cmd$role_target, "survived")
+    expect_identical(cmd$role_target, test_env$role_target)
+    expect_setequal(cmd$role_input, test_env$role_input)
+
     # expect_class(cmd$historical_data, "data.frame")
 
 })
