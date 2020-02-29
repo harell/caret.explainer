@@ -21,6 +21,16 @@ testthat::setup({
 test_that("CaretModelDecomposition$new works", {
     attach(test_env)
     object <- test_env$caret_train
-    expect_silent(pme <- CaretModelDecomposition$new(object))
-    expect_class(pme, "ModelDecomposition")
+    expect_silent(cmd <- CaretModelDecomposition$new(object))
+    expect_class(cmd, "ModelDecomposition")
+    test_env$cmd <- cmd
+})
+
+# Extract essential elements ----------------------------------------------
+test_that("CaretModelDecomposition extract essential elements", {
+    attach(test_env)
+    cmd <- test_env$cmd
+    expect_identical(cmd$role_target, "survived")
+    # expect_class(cmd$historical_data, "data.frame")
+
 })
