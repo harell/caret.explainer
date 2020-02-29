@@ -23,10 +23,10 @@ ModelDecomposition <- R6::R6Class(
     public = list(
         # Public Fields --------------------------------------------------------
         model_object = NULL,
-        historical_data = tibble::tibble(),
-        new_data = tibble::tibble(),
-        role_target = character(),
-        role_input = character(),
+        historical_data = NULL,
+        new_data = NULL,
+        role_target = NULL,
+        role_input = NULL,
         # Public Methods -------------------------------------------------------
         #' @description
         #' Predict method for \code{object}.

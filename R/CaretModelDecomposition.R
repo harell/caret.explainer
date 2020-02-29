@@ -27,12 +27,6 @@ CaretModelDecomposition <- R6::R6Class(
     cloneable = FALSE,
     lock_objects = TRUE,
     public = list(
-        # Public Fields --------------------------------------------------------
-        model_object = NULL,
-        historical_data = tibble::tibble(),
-        new_data = tibble::tibble(),
-        role_target = character(),
-        role_input = character(),
         # Public Methods -------------------------------------------------------
         #' @description
         #' Predict method for \code{object}.
