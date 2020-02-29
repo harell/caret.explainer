@@ -36,11 +36,11 @@ ModelDecomposition <- R6::R6Class(
         #' @description
         #' Decompose a given object to its essential parts.
         initialize = function(object){
-            self$model_object <- private$extract_model_object(object)
-            self$historical_data <- private$extract_historical_data(object)
-            self$new_data <- private$extract_new_data(object)
             self$role_target <- private$extract_role_target(object)
             self$role_input <- private$extract_role_input(object)
+            self$historical_data <- private$extract_historical_data(object)
+            self$new_data <- private$extract_new_data(object)
+            self$model_object <- private$extract_model_object(object)
         }
     ),
     private = list(

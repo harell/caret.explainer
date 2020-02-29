@@ -35,9 +35,10 @@ test_that("CaretModelDecomposition$new works", {
 test_that("CaretModelDecomposition extract essential elements", {
     attach(test_env)
     cmd <- test_env$cmd
-    expect_identical(cmd$role_target, test_env$role_target)
-    expect_setequal(cmd$role_input, test_env$role_input)
+    role_target <- test_env$role_target
+    role_input <- test_env$role_input
 
-    # expect_class(cmd$historical_data, "data.frame")
-
+    expect_identical(cmd$role_target, role_target)
+    expect_setequal(cmd$role_input, role_input)
+    expect_table_has_col_names(cmd$historical_data, c(role_target, role_input))
 })
