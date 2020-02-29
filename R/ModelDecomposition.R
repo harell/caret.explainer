@@ -46,10 +46,10 @@ ModelDecomposition <- R6::R6Class(
     private = list(
         # Private Fields -------------------------------------------------------
         # Private Methods ------------------------------------------------------
-        extract_model_object = function(obj) stop("I'm a signature function"),
-        extract_historical_data = function(obj) stop("I'm a signature function"),
-        extract_new_data = function(obj) stop("I'm a signature function"),
-        extract_role_target = function(obj) stop("I'm a signature function"),
-        extract_role_input = function(obj) stop("I'm a signature function")
+        extract_model_object = function(object) stop("I'm a signature function"),
+        extract_historical_data = function(object) stop("I'm a signature function"),
+        extract_new_data = function(object) stop("I'm a signature function"),
+        extract_role_target = function(object) stop("I'm a signature function"),
+        extract_role_input = function(object) stop("I'm a signature function")
     )
 )

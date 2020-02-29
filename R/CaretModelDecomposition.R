@@ -1,0 +1,61 @@
+#' @title Decompose caret model into its essential parts
+#'
+#' @description
+#' Given \code{object} which is a `caret` object made with \link[caret]{train},
+#' When \code{CaretModelDecomposition$new(object)} is called,
+#' Then the object essential parts are available via public fields.
+#'
+#' @field model_object (`train`) A model object to decompose.
+#' @field historical_data (`data.frame`) A data table with the data used to
+#'   create \code{model_object}.
+#' @field new_data (`data.frame`) A data table with the data to predict.
+#' @field role_target (`character`) The name of the target variable in
+#'   \code{model_object}.
+#' @field role_input (`character`) The name of the target variable
+#'   \code{model_object}.
+#'
+#' @export
+#'
+#' @section Further Reading:
+#' * \href{http://topepo.github.io/caret/}{The `caret` Package book}
+#'
+#' @param object (`train`) A model object made by \link[caret]{train}.
+#'
+CaretModelDecomposition <- R6::R6Class(
+    inherit = ModelDecomposition,
+    classname = "CaretModelDecomposition",
+    cloneable = FALSE,
+    lock_objects = TRUE,
+    public = list(
+        # Public Fields --------------------------------------------------------
+        model_object = NULL,
+        historical_data = tibble::tibble(),
+        new_data = tibble::tibble(),
+        role_target = character(),
+        role_input = character(),
+        # Public Methods -------------------------------------------------------
+        #' @description
+        #' Predict method for \code{object}.
+        #' @param newdata (`data.frame`)` A data table in which to look for
+        #'   variables with which to predict.
+        predict_function = function(object, newdata = NULL) predict(object, newdata)
+    ),
+    private = list(
+        # Private Fields -------------------------------------------------------
+        # Private Methods ------------------------------------------------------
+        extract_model_object = function(object) CaretModelDecomposition$fun$extract_model_object(object),
+        extract_historical_data = function(object) CaretModelDecomposition$fun$extract_historical_data(object),
+        extract_new_data = function(object) CaretModelDecomposition$fun$extract_new_data(object),
+        extract_role_target = function(object) CaretModelDecomposition$fun$extract_role_target(object),
+        extract_role_input = function(object) CaretModelDecomposition$fun$extract_role_input(object)
+    )
+)
+CaretModelDecomposition$fun <- new.env()
+
+# Private methods ---------------------------------------------------------
+CaretModelDecomposition$fun$extract_model_object <- function(object) NULL
+CaretModelDecomposition$fun$extract_historical_data <- function(object) NULL
+CaretModelDecomposition$fun$extract_new_data <- function(object) NULL
+CaretModelDecomposition$fun$extract_role_target <- function(object) NULL
+CaretModelDecomposition$fun$extract_role_input <- function(object) NULL
+
