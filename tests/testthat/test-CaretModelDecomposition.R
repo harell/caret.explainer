@@ -38,7 +38,9 @@ test_that("CaretModelDecomposition extract essential elements", {
     role_target <- test_env$role_target
     role_input <- test_env$role_input
 
+    expect_class(cmd$model_object, "train")
     expect_identical(cmd$role_target, role_target)
     expect_setequal(cmd$role_input, role_input)
     expect_table_has_col_names(cmd$historical_data, c(role_target, role_input))
+    expect_null(cmd$new_data)
 })

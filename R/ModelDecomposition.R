@@ -16,7 +16,7 @@
 #'
 #' @param object (`?`) A model object to decompose.
 #'
-ModelDecomposition <- R6::R6Class(
+ModelDecomposition <- R6::R6Class( # nocov start
     classname = "ModelDecomposition",
     cloneable = FALSE,
     lock_objects = TRUE,
@@ -52,4 +52,4 @@ ModelDecomposition <- R6::R6Class(
         extract_role_target = function(object) stop("I'm a signature function"),
         extract_role_input = function(object) stop("I'm a signature function")
     )
-)
+) # nocov end
