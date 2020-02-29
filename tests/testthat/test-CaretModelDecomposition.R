@@ -44,3 +44,14 @@ test_that("CaretModelDecomposition extract essential elements", {
     expect_table_has_col_names(cmd$historical_data, c(role_target, role_input))
     expect_null(cmd$new_data)
 })
+
+# Predict Function --------------------------------------------------------
+test_that("CaretModelDecomposition$predict_function works", {
+    attach(test_env)
+    cmd <- test_env$cmd
+    new_data <- cmd$historical_data
+    model_object <- cmd$model_object
+
+    expect_length(cmd$predict_function(model_object, new_data), nrow(new_data))
+})
+
