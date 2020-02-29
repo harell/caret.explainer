@@ -16,17 +16,17 @@
 #'
 #' @param object (`?`) A model object to decompose.
 #'
-ModelDecomposition <- R6::R6Class(
+ModelDecomposition <- R6::R6Class( # nocov start
     classname = "ModelDecomposition",
     cloneable = FALSE,
     lock_objects = TRUE,
     public = list(
         # Public Fields --------------------------------------------------------
         model_object = NULL,
-        historical_data = tibble::tibble(),
-        new_data = tibble::tibble(),
-        role_target = character(),
-        role_input = character(),
+        historical_data = NULL,
+        new_data = NULL,
+        role_target = NULL,
+        role_input = NULL,
         # Public Methods -------------------------------------------------------
         #' @description
         #' Predict method for \code{object}.
@@ -36,20 +36,20 @@ ModelDecomposition <- R6::R6Class(
         #' @description
         #' Decompose a given object to its essential parts.
         initialize = function(object){
-            self$model_object <- private$extract_model_object(object)
-            self$historical_data <- private$extract_historical_data(object)
-            self$new_data <- private$extract_new_data(object)
             self$role_target <- private$extract_role_target(object)
             self$role_input <- private$extract_role_input(object)
+            self$historical_data <- private$extract_historical_data(object)
+            self$new_data <- private$extract_new_data(object)
+            self$model_object <- private$extract_model_object(object)
         }
     ),
     private = list(
         # Private Fields -------------------------------------------------------
         # Private Methods ------------------------------------------------------
-        extract_model_object = function(obj) stop("I'm a signature function"),
-        extract_historical_data = function(obj) stop("I'm a signature function"),
-        extract_new_data = function(obj) stop("I'm a signature function"),
-        extract_role_target = function(obj) stop("I'm a signature function"),
-        extract_role_input = function(obj) stop("I'm a signature function")
+        extract_model_object = function(object) stop("I'm a signature function"),
+        extract_historical_data = function(object) stop("I'm a signature function"),
+        extract_new_data = function(object) stop("I'm a signature function"),
+        extract_role_target = function(object) stop("I'm a signature function"),
+        extract_role_input = function(object) stop("I'm a signature function")
     )
-)
+) # nocov end

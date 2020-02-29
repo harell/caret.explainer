@@ -12,7 +12,7 @@ test_steps <- function(stage){
     stage %>%
         add_step(step_message(c(add_hashtag_line(), "\n## Test\n", add_hashtag_line()))) %>%
         add_code_step(devtools::load_all(export_all = FALSE)) %>%
-        add_code_step(testthat::test_dir("./tests/testthat"))
+        add_code_step(testthat::test_dir("./tests/testthat", stop_on_failure = TRUE))
 }
 
 deploy_website <- function(stage){
