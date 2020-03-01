@@ -14,9 +14,10 @@ test_that("Explanations$new works", {
     test_env$explanations <- explanations
 })
 
-# ModelComposition DALEX --------------------------------------------------
-# test_that("ModelComposition$new works", {
-#     attach(test_env)
-#     expect_class(test_env$mc$DALEX, "explainer")
-# })
+# iBreakDown plots --------------------------------------------------------
+test_that("ModelComposition$plot_break_down works", {
+    attach(test_env)
+    explanations <- test_env$explanations
+    expect_class(explanations$plot_break_down(), "ggplot")
+})
 

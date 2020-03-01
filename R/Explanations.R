@@ -15,9 +15,6 @@
 Explanations <- R6::R6Class(
     classname = "Explanations",
     public = list(
-        # Public Fields --------------------------------------------------------
-
-        # Public Methods -------------------------------------------------------
         #' @description
         #' Construct an Explanations object
         initialize = function(...){
@@ -29,24 +26,20 @@ Explanations <- R6::R6Class(
                 private$DALEX <- append(private$DALEX, list(object$DALEX))
             } # DALEX for-loop
 
-        } # end initialize()
+        },
+
+        # iBreakDown plots -----------------------------------------------------
+        #' @inherit iBreakDown::break_down description
+        #' @param parameters passed to \link[iBreakDown]{break_down}.
+        plot_break_down = function(...) Explanations$iBreakDown$plot_break_down(private, ...)
     ),
-    private = list(
-        # Private Fields -------------------------------------------------------
-        DALEX = list()
-        # Private Methods ------------------------------------------------------
-    )
+    private = list(DALEX = list())
 )
-Explanations$funs <- new.env()
+
 
 # Private Methods ---------------------------------------------------------
-# Explanations$funs$instantiate_DALEX <- function(object){
-#     DALEX::explain(
-#         model = object$model_object,
-#         data = object$historical_data[, object$role_input],
-#         y = object$historical_data[, object$role_target],
-#         predict_function = object$predict_function,
-#         verbose = FALSE
-#     )
-# }
+Explanations$iBreakDown <- new.env()
+Explanations$iBreakDown$plot_break_down <- function(private, ...){
+    ggplot2::ggplot()
+}
 
