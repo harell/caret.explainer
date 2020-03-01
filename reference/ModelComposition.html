@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Say Hello — hello • caret.explainer</title>
+<title>Model Explainers Factory — ModelComposition • caret.explainer</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,9 @@
 
 
 
-<meta property="og:title" content="Say Hello — hello" />
-<meta property="og:description" content="This is an example function named 'hello' which prints 'Hello,
-world!'." />
+<meta property="og:title" content="Model Explainers Factory — ModelComposition" />
+<meta property="og:description" content="Model Explainers Factory
+Model Explainers Factory" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -113,42 +113,67 @@ world!'." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Say Hello</h1>
+    <h1>Model Explainers Factory</h1>
     
-    <div class="hidden name"><code>hello.Rd</code></div>
+    <div class="hidden name"><code>ModelComposition.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This is an example function named 'hello' which prints 'Hello,
-world!'.</p>
+    <p>Model Explainers Factory</p>
+<p>Model Explainers Factory</p>
     </div>
 
-    <pre class="usage"><span class='fu'>hello</span>()</pre>
 
 
-    <h2 class="hasAnchor" id="nice-to-know"><a class="anchor" href="#nice-to-know"></a>Nice to Know</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>ModelComposition decoupls the construction of explainers objects from the objects themselves.</p>
+    <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
+
+    <p><div class="r6-fields"></p><dl class='dl-horizontal'>
+<dt><code>DALEX</code></dt><dd><p>(<code>explainer</code>) An object constructed by <a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a>.</p></dd>
+
+</dl><p></div></p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
+<h3>Public methods</h3>
 
-<p>You can learn more about package authoring with RStudio at:
-<a href='http://r-pkgs.had.co.nz/'>http://r-pkgs.had.co.nz/</a></p>
-<p>Some useful keyboard shortcuts for package authoring:</p><ul>
-<li><p>Install Package: 'Ctrl + Shift + B'</p></li>
-<li><p>Check Package: 'Ctrl + Shift + E'</p></li>
-<li><p>Test Package: 'Ctrl + Shift + T'</p></li>
+<ul>
+<li><p><a href='#method-new'><code>ModelComposition$new()</code></a></p></li>
+<li><p><a href='#method-clone'><code>ModelComposition$clone()</code></a></p></li>
 </ul>
+<p><hr>
+<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
+<p>Decompose a given object to its essential parts.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>ModelComposition$new(object)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>object</code></dt><dd><p>(<code>ModelDecomposition</code>) A decomposed model object constructed by
+<a href='ModelDecomposition.html'>ModelDecomposition</a> subclass.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>ModelComposition$clone(deep = FALSE)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
+
+</dl><p></div></p>
 
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-  <span class='fu'>hello</span>()
-}</div></pre>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#nice-to-know">Nice to Know</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#details">Details</a></li>
+      <li><a href="#public-fields">Public fields</a></li>
+      <li><a href="#methods">Methods</a></li>
     </ul>
 
   </div>
