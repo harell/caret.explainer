@@ -5,15 +5,6 @@
 #' When \code{CaretModelDecomposition$new(object)} is called,
 #' Then the object essential parts are available via public fields.
 #'
-#' @field model_object (`train`) A model object to decompose.
-#' @field historical_data (`data.frame`) A data table with the data used to
-#'   create \code{model_object}.
-#' @field new_data (`data.frame`) A data table with the data to predict.
-#' @field role_target (`character`) The name of the target variable in
-#'   \code{model_object}.
-#' @field role_input (`character`) The name of the target variable
-#'   \code{model_object}.
-#'
 #' @export
 #'
 #' @section Further Reading:
