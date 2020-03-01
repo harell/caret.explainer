@@ -21,16 +21,20 @@ Explanations <- R6::R6Class(
         #' @description
         #' Construct an Explanations object
         initialize = function(...){
-            # browser()
+            assert_that <- assertthat::assert_that
+
             objects <- list(...)
-            for(object in objects) assertthat::assert_that("ModelComposition" %in% class(object))
-        }
+            for(object in objects){
+                assert_that("ModelComposition" %in% class(object))
+                private$DALEX <- append(private$DALEX, list(object$DALEX))
+            } # DALEX for-loop
+
+        } # end initialize()
     ),
     private = list(
         # Private Fields -------------------------------------------------------
-        DALEX_array = list()
+        DALEX = list()
         # Private Methods ------------------------------------------------------
-        # instantiate_DALEX = function(object) ModelComposition$funs$instantiate_DALEX(object)
     )
 )
 Explanations$funs <- new.env()
