@@ -36,18 +36,14 @@ ModelDecomposition <- R6::R6Class( # nocov start
         #' @description
         #' Decompose a given object to its essential parts.
         initialize = function(object){
-            assert_that <- assertthat::assert_that
-            is.scalar <- assertthat::is.scalar
+            check_self <- ModelDecomposition$funs$check_self
 
             self$role_target <- private$extract_role_target(object)
             self$role_input <- private$extract_role_input(object)
             self$historical_data <- private$extract_historical_data(object)
             self$new_data <- private$extract_new_data(object)
             self$model_object <- private$extract_model_object(object)
-
-            assert_that(is.character(self$role_target), is.scalar(self$role_target))
-            assert_that(is.character(self$role_input))
-            assert_that(is.data.frame(self$historical_data))
+            check_self(self)
         }
     ),
     private = list(
@@ -60,3 +56,14 @@ ModelDecomposition <- R6::R6Class( # nocov start
         extract_role_input = function(object) stop("I'm a signature function")
     )
 ) # nocov end
+ModelDecomposition$funs <- new.env()
+
+# Helpers -----------------------------------------------------------------
+ModelDecomposition$funs$check_self <- function(self){
+    assert_that <- assertthat::assert_that
+    is.scalar <- assertthat::is.scalar
+    assert_that(is.character(self$role_target), is.scalar(self$role_target))
+    assert_that(is.character(self$role_input))
+    assert_that(is.data.frame(self$historical_data))
+}
+

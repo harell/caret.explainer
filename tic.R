@@ -48,4 +48,5 @@ get_stage("deploy") # tic deploy is disabled at config.yml
 
 # Stage: After Deploy -----------------------------------------------------
 get_stage("after_deploy") %>%
+    add_code_step(source("./.Rprofile")) %>%
     add_code_step(print(rsconnect::appDependencies(getOption("path_dashboard"))))
