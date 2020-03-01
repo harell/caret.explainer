@@ -6,3 +6,11 @@ testthat::setup({
     test_env$md <- MockModelDecomposition$new()
 })
 
+# General -----------------------------------------------------------------
+test_that("ModelComposition$new works", {
+    attach(test_env)
+    object <- test_env$md
+    expect_silent(mc <- ModelComposition$new(test_env$md))
+    expect_class(mc, "ModelComposition")
+    test_env$mc <- mc
+})
