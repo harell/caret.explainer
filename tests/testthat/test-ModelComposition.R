@@ -14,3 +14,10 @@ test_that("ModelComposition$new works", {
     expect_class(mc, "ModelComposition")
     test_env$mc <- mc
 })
+
+# ModelComposition DALEX --------------------------------------------------
+test_that("ModelComposition$new works", {
+    attach(test_env)
+    expect_class(test_env$mc$DALEX, "explainer")
+})
+

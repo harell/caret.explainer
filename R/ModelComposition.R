@@ -9,7 +9,7 @@
 #' @param object (`ModelDecomposition`) A decomposed model object constructed by
 #'   \link{ModelDecomposition} subclass.
 #'
-ModelComposition <- R6::R6Class( # nocov start
+ModelComposition <- R6::R6Class(
     classname = "ModelComposition",
     public = list(
         # Public Fields --------------------------------------------------------
@@ -25,6 +25,19 @@ ModelComposition <- R6::R6Class( # nocov start
     private = list(
         # Private Fields -------------------------------------------------------
         # Private Methods ------------------------------------------------------
-        instantiate_DALEX = function(object) NULL
+        instantiate_DALEX = function(object) ModelComposition$funs$instantiate_DALEX(object)
     )
-) # nocov end
+)
+ModelComposition$funs <- new.env()
+
+# Private Methods ---------------------------------------------------------
+ModelComposition$funs$instantiate_DALEX <- function(object){
+    DALEX::explain(
+        model = object$model_object,
+        data = object$historical_data[, object$role_input],
+        y = object$historical_data[, object$role_target],
+        predict_function = object$predict_function,
+        verbose = FALSE
+    )
+}
+
