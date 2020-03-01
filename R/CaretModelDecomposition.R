@@ -1,4 +1,4 @@
-#' @title Decompose caret model into its essential parts
+#' @title Decompose a caret model into its essential parts
 #'
 #' @description
 #' Given \code{object} which is a `caret` object made with \link[caret]{train},
