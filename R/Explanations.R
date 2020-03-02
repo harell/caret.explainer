@@ -40,6 +40,12 @@ Explanations <- R6::R6Class(
 # Private Methods ---------------------------------------------------------
 Explanations$iBreakDown <- new.env()
 Explanations$iBreakDown$plot_break_down <- function(private, ...){
-    ggplot2::ggplot()
+    explainer <- private$DALEX[[1]]
+    args <- list(x = explainer, new_observation = explainer$data[1, ])
+    args <- purrr::list_modify(args, !!!list(...))
+    break_down <- do.call(iBreakDown::break_down, args)
+
+    ggplot <- plot(break_down)
+    return(ggplot)
 }
 
