@@ -16,8 +16,9 @@ test_that("ModelComposition$new works", {
 })
 
 # ModelComposition DALEX --------------------------------------------------
-test_that("ModelComposition$new works", {
+test_that("ModelComposition$DALEX works", {
     attach(test_env)
     expect_class(test_env$mc$DALEX, "explainer")
+    expect_setequal(colnames(test_env$mc$DALEX$data), test_env$md$role_input)
 })
 

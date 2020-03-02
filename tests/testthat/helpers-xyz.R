@@ -7,8 +7,7 @@ MockModelDecomposition <- R6::R6Class(
     public = list(
         # Public Fields
         model_object = lm(mpg ~ ., mtcars),
-        historical_data = mtcars,
-        new_data = NULL,
+        data = mtcars,
         role_target = "mpg",
         role_input = colnames(mtcars)[-1],
         # Public Methods
