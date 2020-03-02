@@ -12,12 +12,16 @@ test_that("ModelComposition$new works", {
     object <- test_env$md
     expect_silent(mc <- ModelComposition$new(test_env$md))
     expect_class(mc, "ModelComposition")
+    mc$DALEX$data
+
+
     test_env$mc <- mc
 })
 
 # ModelComposition DALEX --------------------------------------------------
-test_that("ModelComposition$new works", {
+test_that("ModelComposition$DALEX works", {
     attach(test_env)
     expect_class(test_env$mc$DALEX, "explainer")
+    expect_setequal(colnames(test_env$mc$DALEX$data), test_env$md$role_input)
 })
 

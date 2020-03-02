@@ -11,13 +11,12 @@
 #' @export
 #'
 #' @param ... (`ModelComposition`) One or more objects created by \link{ModelComposition}.
+#' @param new_observation (`data.frame`) A new observation with columns that
+#'   correspond to variables used in the model.
 #'
 Explanations <- R6::R6Class(
     classname = "Explanations",
     public = list(
-        # Public Fields --------------------------------------------------------
-
-        # Public Methods -------------------------------------------------------
         #' @description
         #' Construct an Explanations object
         initialize = function(...){
@@ -29,24 +28,34 @@ Explanations <- R6::R6Class(
                 private$DALEX <- append(private$DALEX, list(object$DALEX))
             } # DALEX for-loop
 
-        } # end initialize()
+        },
+
+        # iBreakDown plots -----------------------------------------------------
+        #' @inherit iBreakDown::break_down description
+        #' @param ... parameters passed to \link[iBreakDown]{break_down}.
+        plot_break_down = function(new_observation, ...) Explanations$iBreakDown$plot_break_down(private, new_observation, ...)
     ),
-    private = list(
-        # Private Fields -------------------------------------------------------
-        DALEX = list()
-        # Private Methods ------------------------------------------------------
-    )
+    private = list(DALEX = list())
 )
-Explanations$funs <- new.env()
 
 # Private Methods ---------------------------------------------------------
-# Explanations$funs$instantiate_DALEX <- function(object){
-#     DALEX::explain(
-#         model = object$model_object,
-#         data = object$historical_data[, object$role_input],
-#         y = object$historical_data[, object$role_target],
-#         predict_function = object$predict_function,
-#         verbose = FALSE
-#     )
-# }
+Explanations$iBreakDown <- new.env()
 
+Explanations$iBreakDown$plot_break_down <- function(private, new_observation = NULL, ...){
+    return_blank_ggplot <- Explanations$helpers$return_blank_ggplot
+    has_no_new_observation <- Explanations$helpers$has_no_new_observation
+
+    args <- list(x = private$DALEX[[1]])
+    args <- purrr::list_modify(args, !!!list(...))
+
+    if(args %>% has_no_new_observation()) return(return_blank_ggplot())
+
+    break_down <- do.call(iBreakDown::break_down, args)
+    ggplot <- plot(break_down)
+    return(ggplot)
+}
+
+# Helpers -----------------------------------------------------------------
+Explanations$helpers <- new.env()
+Explanations$helpers$return_blank_ggplot <- function() return(ggplot2::ggplot() + ggplot2::geom_blank())
+Explanations$helpers$has_no_new_observation <- function(args) is.null(args$new_observation)
