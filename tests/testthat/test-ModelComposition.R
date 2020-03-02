@@ -12,9 +12,6 @@ test_that("ModelComposition$new works", {
     object <- test_env$md
     expect_silent(mc <- ModelComposition$new(test_env$md))
     expect_class(mc, "ModelComposition")
-    mc$DALEX$data
-
-
     test_env$mc <- mc
 })
 
