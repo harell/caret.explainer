@@ -27,7 +27,11 @@ ModelDecomposition <- R6::R6Class( # nocov start
         role_input = NULL,
         # Public Methods -------------------------------------------------------
         #' @description
-        #' Substitute the default data with a different dataset. This is useful when
+        #' Substitute the default data with a different dataset. This is useful
+        #' when you have a model which was fitted on a train set, but you want
+        #' to explain the test set.
+        #' @param data (`data.frame`) A data table with columns that correspond
+        #'   to variables used in the model.
         set_data = function(data) ModelDecomposition$funs$set_self(env = self, key = "data", value = data),
         #' @description
         #' Predict method for \code{object}.
