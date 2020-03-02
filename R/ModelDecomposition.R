@@ -27,6 +27,9 @@ ModelDecomposition <- R6::R6Class( # nocov start
         role_input = NULL,
         # Public Methods -------------------------------------------------------
         #' @description
+        #' Substitute the default data with a different dataset. This is useful when
+        set_data = function(data) ModelDecomposition$funs$set_self(env = self, key = "data", value = data),
+        #' @description
         #' Predict method for \code{object}.
         #' @param newdata (`data.frame`)` A data table in which to look for
         #'   variables with which to predict.
@@ -53,6 +56,13 @@ ModelDecomposition <- R6::R6Class( # nocov start
 ) # nocov end
 ModelDecomposition$funs <- new.env()
 
+# Public Methods ----------------------------------------------------------
+ModelDecomposition$funs$set_self <- function(self, key, value) {
+    self[[key]] <- value
+    ModelDecomposition$funs$check_self()
+    return(self)
+}
+
 # Helpers -----------------------------------------------------------------
 ModelDecomposition$funs$check_self <- function(self){
     assert_that <- assertthat::assert_that
@@ -60,5 +70,8 @@ ModelDecomposition$funs$check_self <- function(self){
     assert_that(is.character(self$role_target), is.scalar(self$role_target))
     assert_that(is.character(self$role_input))
     assert_that(is.data.frame(self$data))
-}
 
+    missing_cols <- setdiff(c(self$role_input, self$role_target), colnames(self$data))
+    missing_cols_msg <- paste0("data table doesn't have ", paste0(missing_cols, collapse = ", "))
+    assert_that(length(missing_cols) ==0, msg = missing_cols_msg)
+}
