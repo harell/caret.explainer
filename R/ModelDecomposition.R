@@ -25,6 +25,7 @@ ModelDecomposition <- R6::R6Class( # nocov start
         model_object = NULL,
         historical_data = NULL,
         new_data = NULL,
+        data = NULL,
         role_target = NULL,
         role_input = NULL,
         # Public Methods -------------------------------------------------------
@@ -42,6 +43,7 @@ ModelDecomposition <- R6::R6Class( # nocov start
             self$role_input <- private$extract_role_input(object)
             self$historical_data <- private$extract_historical_data(object)
             self$new_data <- private$extract_new_data(object)
+            self$data <- private$extract_data(object)
             self$model_object <- private$extract_model_object(object)
             check_self(self)
         }

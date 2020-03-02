@@ -31,6 +31,7 @@ CaretModelDecomposition <- R6::R6Class(
         extract_model_object = function(object) CaretModelDecomposition$fun$extract_model_object(object),
         extract_historical_data = function(object) CaretModelDecomposition$fun$extract_historical_data(object),
         extract_new_data = function(object) CaretModelDecomposition$fun$extract_new_data(object),
+        extract_data = function(object) CaretModelDecomposition$fun$extract_data(object),
         extract_role_target = function(object) CaretModelDecomposition$fun$extract_role_target(object),
         extract_role_input = function(object) CaretModelDecomposition$fun$extract_role_input(object)
     )
@@ -43,6 +44,10 @@ CaretModelDecomposition$fun$extract_new_data <- function(object) NULL
 CaretModelDecomposition$fun$extract_role_target <- function(object) all.vars(object$terms)[1]
 CaretModelDecomposition$fun$extract_role_input <- function(object) all.vars(object$terms)[-1]
 CaretModelDecomposition$fun$extract_historical_data <- function(object){
+    self <- get("self", envir = parent.frame(2))
+    object[["trainingData"]] %>% dplyr::rename(!!self$role_target := .outcome)
+}
+CaretModelDecomposition$fun$extract_data <- function(object){
     self <- get("self", envir = parent.frame(2))
     object[["trainingData"]] %>% dplyr::rename(!!self$role_target := .outcome)
 }
