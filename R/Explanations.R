@@ -40,9 +40,10 @@ Explanations <- R6::R6Class(
 
 # Private Methods ---------------------------------------------------------
 Explanations$iBreakDown <- new.env()
+
 Explanations$iBreakDown$plot_break_down <- function(private, new_observation = NULL, ...){
     return_blank_ggplot <- Explanations$helpers$return_blank_ggplot
-    has_no_new_observation <- function(args) is.null(args$new_observation)
+    has_no_new_observation <- Explanations$helpers$has_no_new_observation
 
     args <- list(x = private$DALEX[[1]])
     args <- purrr::list_modify(args, !!!list(...))
@@ -57,4 +58,4 @@ Explanations$iBreakDown$plot_break_down <- function(private, new_observation = N
 # Helpers -----------------------------------------------------------------
 Explanations$helpers <- new.env()
 Explanations$helpers$return_blank_ggplot <- function() return(ggplot2::ggplot() + ggplot2::geom_blank())
-
+Explanations$helpers$has_no_new_observation <- function(args) is.null(args$new_observation)
