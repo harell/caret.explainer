@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Say Hello — hello • caret.explainer</title>
+<title>Explore, Explain and Examine Predictive Models — Explanations • caret.explainer</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,10 @@
 
 
 
-<meta property="og:title" content="Say Hello — hello" />
-<meta property="og:description" content="This is an example function named 'hello' which prints 'Hello,
-world!'." />
+<meta property="og:title" content="Explore, Explain and Examine Predictive Models — Explanations" />
+<meta property="og:description" content="This function finds Variable Attributions via Sequential Variable Conditioning.
+It calls either local_attributions for additive attributions
+or local_interactions for attributions with interactions." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -70,7 +71,7 @@ world!'." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">caret.explainer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
       </span>
     </div>
 
@@ -113,42 +114,89 @@ world!'." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Say Hello</h1>
+    <h1>Explore, Explain and Examine Predictive Models</h1>
     
-    <div class="hidden name"><code>hello.Rd</code></div>
+    <div class="hidden name"><code>Explanations.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This is an example function named 'hello' which prints 'Hello,
-world!'.</p>
+    <p>This function finds Variable Attributions via Sequential Variable Conditioning.
+It calls either <code><a href='https://rdrr.io/pkg/iBreakDown/man/local_attributions.html'>local_attributions</a></code> for additive attributions
+or <code><a href='https://rdrr.io/pkg/iBreakDown/man/local_interactions.html'>local_interactions</a></code> for attributions with interactions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>hello</span>()</pre>
 
 
-    <h2 class="hasAnchor" id="nice-to-know"><a class="anchor" href="#nice-to-know"></a>Nice to Know</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    
+<ul>
+<li><p>Instance-level explainers</p></li>
+<li><p>Dataset-level explainers</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="further-reading"><a class="anchor" href="#further-reading"></a>Further Reading</h2>
 
     
 
-<p>You can learn more about package authoring with RStudio at:
-<a href='http://r-pkgs.had.co.nz/'>http://r-pkgs.had.co.nz/</a></p>
-<p>Some useful keyboard shortcuts for package authoring:</p><ul>
-<li><p>Install Package: 'Ctrl + Shift + B'</p></li>
-<li><p>Check Package: 'Ctrl + Shift + E'</p></li>
-<li><p>Test Package: 'Ctrl + Shift + T'</p></li>
+<ul>
+<li><p><a href='https://pbiecek.github.io/ema/'>Explanatory Model Analysis book</a></p></li>
 </ul>
 
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-  <span class='fu'>hello</span>()
-}</div></pre>
+    
+<h3>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-new'><code>Explanations$new()</code></a></p></li>
+<li><p><a href='#method-plot_break_down'><code>Explanations$plot_break_down()</code></a></p></li>
+<li><p><a href='#method-clone'><code>Explanations$clone()</code></a></p></li>
+</ul>
+<p><hr>
+<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
+<p>Construct an Explanations object</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Explanations$new(...)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>...</code></dt><dd><p>(<code>ModelComposition</code>) One or more objects created by <a href='ModelComposition.html'>ModelComposition</a>.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-plot_break_down"></a></p><h3>Method <code>plot_break_down()</code></h3>
+
+<h3>Usage</h3>
+<p><div class="r"></p><pre>Explanations$plot_break_down(new_observation, ...)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>new_observation</code></dt><dd><p>(<code>data.frame</code>) A new observation with columns that
+correspond to variables used in the model.</p></dd>
+
+<dt><code>...</code></dt><dd><p>parameters passed to <a href='https://rdrr.io/pkg/iBreakDown/man/break_down.html'>break_down</a>.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Explanations$clone(deep = FALSE)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
+
+</dl><p></div></p>
+
+
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#nice-to-know">Nice to Know</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#details">Details</a></li>
+      <li><a href="#further-reading">Further Reading</a></li>
+      <li><a href="#methods">Methods</a></li>
     </ul>
 
   </div>

@@ -70,7 +70,7 @@ decomposes it into its essential parts." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">caret.explainer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
       </span>
     </div>
 
@@ -130,10 +130,8 @@ decomposes it into its essential parts.</p>
     <p><div class="r6-fields"></p><dl class='dl-horizontal'>
 <dt><code>model_object</code></dt><dd><p>(<code>?</code>) A model object to decompose.</p></dd>
 
-<dt><code>historical_data</code></dt><dd><p>(<code>data.frame</code>) A data table with the data used to
+<dt><code>data</code></dt><dd><p>(<code>data.frame</code>) A data table with the data used to
 create <code>model_object</code>.</p></dd>
-
-<dt><code>new_data</code></dt><dd><p>(<code>data.frame</code>) A data table with the data to predict.</p></dd>
 
 <dt><code>role_target</code></dt><dd><p>(<code>character</code>) The name of the target variable in
 <code>model_object</code>.</p></dd>
@@ -148,9 +146,23 @@ create <code>model_object</code>.</p></dd>
 <h3>Public methods</h3>
 
 <ul>
+<li><p><a href='#method-set_data'><code>ModelDecomposition$set_data()</code></a></p></li>
 <li><p><a href='#method-predict_function'><code>ModelDecomposition$predict_function()</code></a></p></li>
 <li><p><a href='#method-new'><code>ModelDecomposition$new()</code></a></p></li>
 </ul>
+<p><hr>
+<a id="method-set_data"></a></p><h3>Method <code>set_data()</code></h3>
+<p>Substitute the default data with a different dataset. This is useful
+when you have a model which was fitted on a train set, but you want
+to explain the test set.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>ModelDecomposition$set_data(data)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>data</code></dt><dd><p>(<code>data.frame</code>) A data table with columns that correspond
+to variables used in the model.</p></dd>
+
+</dl><p></div></p>
 <p><hr>
 <a id="method-predict_function"></a></p><h3>Method <code>predict_function()</code></h3>
 <p>Predict method for <code>object</code>.</p><h3>Usage</h3>
