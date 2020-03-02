@@ -34,8 +34,8 @@ ModelComposition$funs <- new.env()
 ModelComposition$funs$instantiate_DALEX <- function(object){
     DALEX::explain(
         model = object$model_object,
-        data = object$historical_data[, object$role_input],
-        y = object$historical_data[, object$role_target],
+        data = object$data[, object$role_input],
+        y = object$data[, object$role_target],
         predict_function = object$predict_function,
         verbose = FALSE
     )
