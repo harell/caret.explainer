@@ -14,6 +14,8 @@ pkgload::load_all(path = "./package", helpers = FALSE)
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
 
+    generate_dummy_caret()
+
     output$distPlot <- renderPlot({
 
         # generate bins based on input$bins from ui.R
