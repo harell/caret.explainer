@@ -14,7 +14,7 @@ pkgload::load_all(path = "./package", helpers = FALSE)
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
 
-    generate_dummy_caret()
+    caret_model <- Dashboard$funs$get_titanic_glm()
 
     output$distPlot <- renderPlot({
 
