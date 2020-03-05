@@ -17,7 +17,6 @@ shinyUI(fluidPage(
     # Application title
     titlePanel("Old Faithful Geyser Data"),
 
-    # Observation table
 
 
     # Sidebar with a slider input for number of bins
@@ -32,7 +31,8 @@ shinyUI(fluidPage(
 
         # Show a plot of the generated distribution
         mainPanel(
-            DT::dataTableOutput('unseen_observations'),
+            DT::dataTableOutput("unseen_observations"),
+            verbatimTextOutput("print_text", placeholder = TRUE),
             plotOutput("distPlot")
         )
     )

@@ -36,8 +36,11 @@ shinyServer(function(input, output) {
         ) #%>%
     # DT::formatRound(columns = intersect(type_numeric, role_input), digits = 0)
     ## Wrap data frame in SharedData
-    output$unseen_observations <- DT::renderDataTable(expr = unseen_observations, server = TRUE)
-    DT::dataTableOutput('unseen_observations')
+    output$unseen_observations <- DT::renderDataTable(caret$dataset, server = TRUE)
+    # DT::dataTableOutput('unseen_observations')
+
+    # Text --------------------------------------------------------------------
+    output$print_text <- renderText({input$unseen_observations_rows_selected})
 
     # Distribution Plot -------------------------------------------------------
     output$distPlot <- renderPlot({
