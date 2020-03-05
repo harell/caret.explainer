@@ -31,4 +31,5 @@ Imports:
     caret (>= 6.0),
     assertthat (>= 0.2.1),
     iBreakDown (>= 1.0.0),
-    purrr (>= 0.3.3)
+    purrr (>= 0.3.3),
+    DT (>= 0.11)
