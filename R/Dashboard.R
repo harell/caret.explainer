@@ -12,6 +12,7 @@ Dashboard$funs <- new.env()
 Dashboard$funs$load_data <- function(){
     caret <- new.env()
 
+    set.seed(2112)
     utils::data('titanic_imputed', package = "DALEX")
     dataset <-
         titanic_imputed %>%
