@@ -41,3 +41,21 @@ Dashboard$funs$load_data <- function(){
     assign("caret", caret, envir = parent.frame(1))
     invisible()
 }
+
+# {DT} functions ----------------------------------------------------------
+Dashboard$DT <- new.env()
+
+Dashboard$DT$col_to_hide <- function(data, col_names){
+    col_numbers <- match(col_names, colnames(data))
+    DT_options <- list()
+    DT_options[[1]] <- list(visible = FALSE, targets = col_numbers)
+    return(DT_options)
+}
+
+Dashboard$DT$col_to_show <- function(data, col_names){
+    col_numbers <- base::setdiff(1:ncol(data), match(col_names, colnames(data)))
+    DT_options <- list()
+    DT_options[[1]] <- list(visible = FALSE, targets = col_numbers)
+    return(DT_options)
+}
+

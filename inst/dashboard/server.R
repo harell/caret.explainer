@@ -21,15 +21,16 @@ shinyServer(function(input, output) {
     ## Create DT table
     unseen_observations <-
         DT::datatable(
-            data = model_elements$data,
+            data = caret$dataset,
             extensions = "Scroller",
             style = "bootstrap",
             class = "compact",
             selection = list(mode = "single", selected = 1, target = 'row'),
             width = "100%",
-            options = list(deferRender = TRUE, scroller = TRUE, dom = 't',
-                           autoWidth = FALSE#,
-                           # columnDefs = funs$aes$col_to_show(D_test, c(role_none, role_target))
+            options = list(
+                deferRender = TRUE, scroller = TRUE, dom = 't',
+                autoWidth = FALSE,
+                columnDefs = Dashboard$DT$col_to_show(caret$dataset, caret$role_info)
             ),
             editable = FALSE
         ) #%>%
