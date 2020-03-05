@@ -28,7 +28,8 @@ shinyServer(function(input, output) {
             selection = list(mode = "single", selected = 1, target = 'row'),
             width = "100%",
             options = list(
-                deferRender = TRUE, scroller = TRUE, dom = 't',
+                deferRender = TRUE, dom = 't',
+                scrollY = "400px", scrollCollapse = TRUE, paging = FALSE,
                 autoWidth = FALSE,
                 columnDefs = Dashboard$DT$col_to_show(caret$dataset, caret$role_info)
             ),
@@ -36,8 +37,7 @@ shinyServer(function(input, output) {
         ) #%>%
     # DT::formatRound(columns = intersect(type_numeric, role_input), digits = 0)
     ## Wrap data frame in SharedData
-    output$unseen_observations <- DT::renderDataTable(caret$dataset, server = TRUE)
-    # DT::dataTableOutput('unseen_observations')
+    output$unseen_observations <- DT::renderDataTable(unseen_observations, server = TRUE)
 
     # Text --------------------------------------------------------------------
     output$print_text <- renderText({input$unseen_observations_rows_selected})
