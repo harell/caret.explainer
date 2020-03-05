@@ -32,4 +32,6 @@ Imports:
     assertthat (>= 0.2.1),
     iBreakDown (>= 1.0.0),
     purrr (>= 0.3.3),
-    DT (>= 0.11)
+    DT (>= 0.11),
+    generator (>= 0.1.0),
+    dplyr (>= 0.8.0)

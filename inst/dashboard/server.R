@@ -14,8 +14,8 @@ pkgload::load_all(path = "./package", helpers = FALSE)
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
     # Setup -------------------------------------------------------------------
-    caret_model <- Dashboard$funs$get_titanic_glm()
-    model_elements <- caret_model %>% CaretModelDecomposition$new()
+    Dashboard$funs$load_data()
+    model_elements <- caret$train %>% CaretModelDecomposition$new()
 
     # Observation table -------------------------------------------------------
     ## Create DT table
