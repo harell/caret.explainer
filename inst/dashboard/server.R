@@ -16,6 +16,11 @@ shinyServer(function(input, output) {
     # Setup -------------------------------------------------------------------
     Dashboard$funs$load_data()
     model_elements <- caret$train %>% CaretModelDecomposition$new()
+    explanations <-
+        caret$train %>%
+        CaretModelDecomposition$new() %>%
+        ModelComposition$new() %>%
+        Explanations$new()
 
     # Observation table -------------------------------------------------------
     ## Create DT table
@@ -39,19 +44,11 @@ shinyServer(function(input, output) {
     ## Wrap data frame in SharedData
     output$unseen_observations <- DT::renderDataTable(unseen_observations, server = TRUE)
 
-    # Text --------------------------------------------------------------------
-    output$print_text <- renderText({input$unseen_observations_rows_selected})
-
-    # Distribution Plot -------------------------------------------------------
-    output$distPlot <- renderPlot({
-
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- generate_bins(x, input$bins)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white')
-
+    # Break Down Plot ---------------------------------------------------------
+    output$break_down <- renderPlot({
+        selected_row <- input$unseen_observations_rows_selected
+        new_observation <- if(length(selected_row) == 0) NULL else caret$dataset[selected_row, ]
+        explanations$plot_break_down(new_observation = new_observation)
     })
 
 })

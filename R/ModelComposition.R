@@ -32,12 +32,15 @@ ModelComposition$funs <- new.env()
 
 # Private Methods ---------------------------------------------------------
 ModelComposition$funs$instantiate_DALEX <- function(object){
-    DALEX::explain(
-        model = object$model_object,
-        data = object$data[, object$role_input],
-        y = object$data[, object$role_target],
-        predict_function = object$predict_function,
-        verbose = FALSE
+    suppressWarnings(
+        explainer <- DALEX::explain(
+            model = object$model_object,
+            data = object$data[, object$role_input],
+            y = object$data[, object$role_target],
+            predict_function = object$predict_function,
+            verbose = FALSE
+        )
     )
+    return(explainer)
 }
 

@@ -11,6 +11,7 @@ expect <- function(ok, failure_message, info = NULL, srcref = NULL){testthat::ex
 expect_class <- function(object, class) expect(any(base::class(object) %in% class), error_message(paste("object is", base::class(object), "not", class)))
 expect_table_has_col_names <- function(object, col_names) if(is.null(expect_class(object, "data.frame"))) expect(all(col_names %in% colnames(object)), error_message("data.frame missing columns: ", setdiff(col_names, colnames(object))))
 expect_not_null <- function(object) expect(isFALSE(is.null(object)), "object is NULL")
+
 # Skips -------------------------------------------------------------------
 skip_on_pc <- function(){
     is_ci <- function() identical(Sys.getenv("CI"), "true")
