@@ -50,7 +50,7 @@ test_that("CaretModelDecomposition$predict_function works", {
     cmd <- test_env$cmd
     new_data <- cmd$data
     model_object <- cmd$model_object
-
     expect_length(cmd$predict_function(model_object, new_data), nrow(new_data))
+    expect_class(cmd$predict_function(model_object, new_data), "numeric")
 })
 

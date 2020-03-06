@@ -20,5 +20,6 @@ test_that("ModelComposition$DALEX works", {
     attach(test_env)
     expect_class(test_env$mc$DALEX, "explainer")
     expect_setequal(colnames(test_env$mc$DALEX$data), test_env$md$role_input)
+    expect_length(test_env$mc$DALEX$y_hat, nrow(test_env$mc$DALEX$data))
 })
 
