@@ -44,6 +44,7 @@ Explanations$iBreakDown <- new.env()
 Explanations$iBreakDown$plot_break_down <- function(private, new_observation, ...){
     return_blank_ggplot <- Explanations$helpers$return_blank_ggplot
     if(missing(new_observation)) return(return_blank_ggplot())
+    if(is.null(new_observation)) return(return_blank_ggplot())
 
     args <- list(x = private$DALEX[[1]], new_observation = new_observation)
     args <- purrr::list_modify(args, !!!list(...))
