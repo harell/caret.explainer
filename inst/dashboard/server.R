@@ -44,13 +44,10 @@ shinyServer(function(input, output) {
     ## Wrap data frame in SharedData
     output$unseen_observations <- DT::renderDataTable(unseen_observations, server = TRUE)
 
-    # Text --------------------------------------------------------------------
-    output$print_text <- renderText({input$unseen_observations_rows_selected})
-
     # Break Down Plot ---------------------------------------------------------
     output$break_down <- renderPlot({
         selected_row <- input$unseen_observations_rows_selected
-        new_observation <- caret$dataset[selected_row, ]
+        new_observation <- if(length(selected_row) == 0) NULL else caret$dataset[selected_row, ]
         explanations$plot_break_down(new_observation = new_observation)
     })
 

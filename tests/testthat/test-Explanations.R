@@ -27,4 +27,3 @@ test_that("ModelComposition$plot_break_down works", {
     expect_class(breakdown_plot <- explanations$plot_break_down(new_observation = new_observation), "ggplot")
     expect_not_null(breakdown_plot$data %>% nrow())
 })
-

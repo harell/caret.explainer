@@ -22,7 +22,6 @@ shinyUI(fluidPage(
         sidebarPanel(DT::dataTableOutput("unseen_observations")),
 
         mainPanel(
-            verbatimTextOutput("print_text", placeholder = TRUE),
             plotOutput("break_down")
         )
     )

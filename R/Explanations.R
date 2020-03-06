@@ -42,7 +42,7 @@ Explanations <- R6::R6Class(
 Explanations$iBreakDown <- new.env()
 
 Explanations$iBreakDown$plot_break_down <- function(private, new_observation, ...){
-    return_blank_ggplot <- Explanations$helpers$return_blank_ggplot
+    return_blank_ggplot <- function() Explanations$helpers$return_blank_ggplot() + ggplot2::geom_text(ggplot2::aes(0,0), label = "Choose an observation")
     if(missing(new_observation)) return(return_blank_ggplot())
     if(is.null(new_observation)) return(return_blank_ggplot())
 
@@ -56,4 +56,4 @@ Explanations$iBreakDown$plot_break_down <- function(private, new_observation, ..
 
 # Helpers -----------------------------------------------------------------
 Explanations$helpers <- new.env()
-Explanations$helpers$return_blank_ggplot <- function() return(ggplot2::ggplot() + ggplot2::geom_blank())
+Explanations$helpers$return_blank_ggplot <- function() return(ggplot2::ggplot() + ggplot2::geom_blank() + ggplot2::theme_void())
