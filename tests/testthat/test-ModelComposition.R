@@ -1,4 +1,4 @@
-context("component test for ModelComposition object")
+context("unit test for ModelComposition object")
 
 # Setup -------------------------------------------------------------------
 testthat::setup({

@@ -1,4 +1,4 @@
-context("component test for CaretModelDecomposition object")
+context("unit test for CaretModelDecomposition object")
 
 # Setup -------------------------------------------------------------------
 testthat::setup({
