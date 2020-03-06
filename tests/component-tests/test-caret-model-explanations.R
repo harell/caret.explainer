@@ -23,6 +23,9 @@ testthat::setup({
 })
 
 # General -----------------------------------------------------------------
-test_that("Caret model break down plot renders", {
+test_that("Caret model break-down-plot renders", {
     attach(test_env)
+    expect_silent(interim_obj <- test_env$caret_train %>% CaretModelDecomposition$new())
+    expect_silent(interim_obj <- interim_obj %>% ModelComposition$new())
+    expect_silent(interim_obj <- interim_obj %>% Explanations$new())
 })
