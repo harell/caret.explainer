@@ -8,11 +8,24 @@ build_steps <- function(stage){
         add_step(step_rcmdcheck(error_on = "error"))
 }
 
-test_steps <- function(stage){
+test_suite_steps <- function(stage){
     stage %>%
-        add_step(step_message(c(add_hashtag_line(), "\n## Test\n", add_hashtag_line()))) %>%
+        unit_test_steps() %>%
+        component_test_steps()
+}
+
+unit_test_steps <- function(stage){
+    stage %>%
+        add_step(step_message(c(add_hashtag_line(), "\n## Test: Unit-Tests\n", add_hashtag_line()))) %>%
         add_code_step(devtools::load_all(export_all = FALSE)) %>%
         add_code_step(testthat::test_dir("./tests/testthat", stop_on_failure = TRUE))
+}
+
+component_test_steps <- function(stage){
+    stage %>%
+        add_step(step_message(c(add_hashtag_line(), "\n## Test: Component-Tests\n", add_hashtag_line()))) %>%
+        add_code_step(devtools::load_all(export_all = FALSE)) %>%
+        add_code_step(testthat::test_dir("./tests/component-tests", stop_on_failure = TRUE))
 }
 
 deploy_website <- function(stage){

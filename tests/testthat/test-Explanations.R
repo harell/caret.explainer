@@ -1,4 +1,4 @@
-context("component test for Explanations object")
+context("unit test for Explanations object")
 
 # Setup -------------------------------------------------------------------
 testthat::setup({
