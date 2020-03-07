@@ -13,11 +13,7 @@ pkgload::load_all(path = "./package", helpers = FALSE)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-
     # Setup -------------------------------------------------------------------
-    context <- new.env()
-    context$config <- new.env()
-    Dashboard$utils$yaml2env(input = "config.yml", envir = context$config)
     Dashboard$funs$load_data()
     model_elements <- caret$train %>% CaretModelDecomposition$new()
     explanations <-
