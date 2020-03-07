@@ -9,6 +9,6 @@ pkgload::load_all(path = "./package", helpers = FALSE)
 
 # Context Object ----------------------------------------------------------
 context <- new.env()
-
+## Load dashboard config file
 context$config <- new.env()
 Dashboard$utils$yaml2env(input = "config.yml", envir = context$config)
