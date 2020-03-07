@@ -58,9 +58,12 @@ Explanations$iBreakDown$plot_break_down <- function(private, new_observation, ..
     break_down <- do.call(iBreakDown::break_down, args)
 
     suppressMessages({
-    ggplot <-
-        plot(break_down) +
-        ggplot2::ylim(DALEX_ylim(explainer))
+        ggplot <-
+            plot(break_down) +
+            ggplot2::scale_y_continuous(
+                breaks = scales::pretty_breaks(n = 10),
+                limits = DALEX_ylim(explainer)
+            )
     })
 
     return(ggplot)
