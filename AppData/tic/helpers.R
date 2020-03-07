@@ -3,28 +3,41 @@ invisible(sapply(list.files("./AppData/tic", "^step_", full.names = TRUE), sourc
 # high level steps --------------------------------------------------------
 build_steps <- function(stage){
     stage %>%
-        add_step(step_message(c(add_hashtag_line(), "\n## Build\n", add_hashtag_line()))) %>%
+        add_step(step_message(c(sep(), "\n## Build", sep()))) %>%
         add_code_step(devtools::document(quiet = TRUE)) %>%
         add_step(step_rcmdcheck(error_on = "error"))
 }
 
-test_steps <- function(stage){
+test_suite_steps <- function(stage){
     stage %>%
-        add_step(step_message(c(add_hashtag_line(), "\n## Test\n", add_hashtag_line()))) %>%
+        unit_test_steps() %>%
+        component_test_steps()
+}
+
+unit_test_steps <- function(stage){
+    stage %>%
+        add_step(step_message(c(sep(), "\n## Test: Unit-Tests", sep()))) %>%
         add_code_step(devtools::load_all(export_all = FALSE)) %>%
         add_code_step(testthat::test_dir("./tests/testthat", stop_on_failure = TRUE))
 }
 
+component_test_steps <- function(stage){
+    stage %>%
+        add_step(step_message(c(sep(), "\n## Test: Component-Tests", sep()))) %>%
+        add_code_step(devtools::load_all(export_all = FALSE)) %>%
+        add_code_step(testthat::test_dir("./tests/component-tests", stop_on_failure = TRUE))
+}
+
 deploy_website <- function(stage){
     stage %>%
-        add_step(step_message(c(add_hashtag_line(), "\n## Deploy Website\n", add_hashtag_line()))) %>%
+        add_step(step_message(c(sep(), "\n## Deploy Website", sep()))) %>%
         add_code_step(covr::codecov(quiet = FALSE)) %>%
         add_step(step_build_pkgdown())
 }
 
 deploy_shiny <- function(stage){
     stage %>%
-        add_step(step_message(c(add_hashtag_line(), "\n## Deploy Shiny App\n", add_hashtag_line()))) %>%
+        add_step(step_message(c(sep(), "\n## Deploy Shiny App", sep()))) %>%
         add_step(step_deploy_shiny())
 }
 
@@ -37,5 +50,5 @@ is_release_branch <- function() grepl("release", ci_get_branch())
 
 # helper functions --------------------------------------------------------
 ci_get_job_name <- function() tolower(paste0(Sys.getenv("TRAVIS_JOB_NAME"), Sys.getenv("APPVEYOR_JOB_NAME")))
-add_hashtag_line <- function() paste0(rep("#", 80), collapse = "")
+sep <- function() paste0("\n", paste0(rep("#", 80), collapse = ""))
 

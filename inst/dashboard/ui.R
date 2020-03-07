@@ -7,29 +7,17 @@
 #    http://shiny.rstudio.com/
 #
 
-library(shiny)
-library(pkgload)
-pkgload::load_all(path = "./package", helpers = FALSE)
-
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
-
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel(context$config$appTitle),
 
-    # Sidebar with a slider input for number of bins
+    # Sidebar
     sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
-        ),
+        sidebarPanel(DT::dataTableOutput("unseen_observations")),
 
-        # Show a plot of the generated distribution
         mainPanel(
-            plotOutput("distPlot")
+            plotOutput("break_down")
         )
     )
 ))

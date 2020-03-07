@@ -23,7 +23,7 @@ CaretModelDecomposition <- R6::R6Class(
         #' Predict method for \code{object}.
         #' @param newdata (`data.frame`)` A data table in which to look for
         #'   variables with which to predict.
-        predict_function = function(object, newdata = NULL) predict(object, newdata)
+        predict_function = function(object, newdata) CaretModelDecomposition$funs$predict_function(object, newdata)
     ),
     private = list(
         # Private Fields -------------------------------------------------------
@@ -35,6 +35,12 @@ CaretModelDecomposition <- R6::R6Class(
     )
 )
 CaretModelDecomposition$fun <- new.env()
+
+# Public Methods ----------------------------------------------------------
+CaretModelDecomposition$funs$predict_function <- function(object, newdata){
+    response <- caret::predict.train(object, newdata, type = "prob", na.action = na.fail)
+    if(is.data.frame(response)) return(response[, 1]) else return(response)
+}
 
 # Private methods ---------------------------------------------------------
 CaretModelDecomposition$fun$extract_model_object <- function(object) object

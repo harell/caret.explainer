@@ -41,14 +41,13 @@ Explanations <- R6::R6Class(
 # Private Methods ---------------------------------------------------------
 Explanations$iBreakDown <- new.env()
 
-Explanations$iBreakDown$plot_break_down <- function(private, new_observation = NULL, ...){
-    return_blank_ggplot <- Explanations$helpers$return_blank_ggplot
-    has_no_new_observation <- Explanations$helpers$has_no_new_observation
+Explanations$iBreakDown$plot_break_down <- function(private, new_observation, ...){
+    return_blank_ggplot <- function() Explanations$helpers$return_blank_ggplot() + ggplot2::geom_text(ggplot2::aes(0,0), label = "Choose an observation")
+    if(missing(new_observation)) return(return_blank_ggplot())
+    if(is.null(new_observation)) return(return_blank_ggplot())
 
-    args <- list(x = private$DALEX[[1]])
+    args <- list(x = private$DALEX[[1]], new_observation = new_observation)
     args <- purrr::list_modify(args, !!!list(...))
-
-    if(args %>% has_no_new_observation()) return(return_blank_ggplot())
 
     break_down <- do.call(iBreakDown::break_down, args)
     ggplot <- plot(break_down)
@@ -57,5 +56,4 @@ Explanations$iBreakDown$plot_break_down <- function(private, new_observation = N
 
 # Helpers -----------------------------------------------------------------
 Explanations$helpers <- new.env()
-Explanations$helpers$return_blank_ggplot <- function() return(ggplot2::ggplot() + ggplot2::geom_blank())
-Explanations$helpers$has_no_new_observation <- function(args) is.null(args$new_observation)
+Explanations$helpers$return_blank_ggplot <- function() return(ggplot2::ggplot() + ggplot2::geom_blank() + ggplot2::theme_void())

@@ -1,4 +1,4 @@
-context("component test for Explanations object")
+context("unit test for Explanations object")
 
 # Setup -------------------------------------------------------------------
 testthat::setup({
@@ -20,7 +20,10 @@ test_that("ModelComposition$plot_break_down works", {
     explanations <- test_env$explanations
     new_observation <- test_env$mc$DALEX$data[1, ]
 
-    expect_class(explanations$plot_break_down(), "ggplot")
-    expect_class(explanations$plot_break_down(new_observation = new_observation), "ggplot")
-})
+    expect_class(blank_plot <- explanations$plot_break_down(), "ggplot")
+    expect_null(blank_plot$data %>% nrow())
+    expect_equal(explanations$plot_break_down(new_observation = NULL), blank_plot)
 
+    expect_class(breakdown_plot <- explanations$plot_break_down(new_observation = new_observation), "ggplot")
+    expect_not_null(breakdown_plot$data %>% nrow())
+})
