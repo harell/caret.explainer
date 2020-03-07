@@ -42,18 +42,35 @@ Explanations <- R6::R6Class(
 Explanations$iBreakDown <- new.env()
 
 Explanations$iBreakDown$plot_break_down <- function(private, new_observation, ...){
+    # Helpers
     return_blank_ggplot <- function() Explanations$helpers$return_blank_ggplot() + ggplot2::geom_text(ggplot2::aes(0,0), label = "Choose an observation")
+    DALEX_ylim <- Explanations$helpers$DALEX_ylim
+
+    # NULL object
     if(missing(new_observation)) return(return_blank_ggplot())
     if(is.null(new_observation)) return(return_blank_ggplot())
 
-    args <- list(x = private$DALEX[[1]], new_observation = new_observation)
+    # Plot
+    explainer <- private$DALEX[[1]]
+    args <- list(x = explainer, new_observation = new_observation)
     args <- purrr::list_modify(args, !!!list(...))
 
     break_down <- do.call(iBreakDown::break_down, args)
-    ggplot <- plot(break_down)
+
+    suppressMessages({
+        ggplot <-
+            plot(break_down) +
+            ggplot2::scale_y_continuous(
+                breaks = scales::pretty_breaks(n = 10),
+                limits = DALEX_ylim(explainer)
+            )
+    })
+
     return(ggplot)
 }
 
 # Helpers -----------------------------------------------------------------
 Explanations$helpers <- new.env()
 Explanations$helpers$return_blank_ggplot <- function() return(ggplot2::ggplot() + ggplot2::geom_blank() + ggplot2::theme_void())
+Explanations$helpers$DALEX_ylim <- function(explainer) range(explainer$y_hat, na.rm = TRUE)
+
