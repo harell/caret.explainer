@@ -1,4 +1,3 @@
-# !expr gsub("\\." ,"-", desc::description$new()$get_field("Package"))
-appName: !expr gsub("\\." ,"-", pkgload::pkg_name("./package"))
+appName: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_name("./package"), error = function(e) pkgload::pkg_name(".")))
 appTitle: The Simplest Shiny App
 appForceUpdate: no
