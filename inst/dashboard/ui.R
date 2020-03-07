@@ -7,15 +7,10 @@
 #    http://shiny.rstudio.com/
 #
 
-library(shiny)
-library(pkgload)
-pkgload::load_all(path = "./package", helpers = FALSE)
-
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
-
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel(context$config$appTitle),
 
     # Sidebar
     sidebarLayout(

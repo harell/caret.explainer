@@ -6,9 +6,17 @@ Dashboard <- R6::R6Class(
     cloneable = FALSE,
     lock_objects = FALSE
 )
-Dashboard$funs <- new.env()
+
+# Utils -------------------------------------------------------------------
+Dashboard$utils <- new.env()
+Dashboard$utils$yaml2env <- function(input = "config.yml", envir = globalenv()) {
+    yaml_content <- yaml::yaml.load_file(input, eval.expr = TRUE)
+    list2env(yaml_content, envir = envir)
+    invisible()
+}
 
 # Dashboard Functions -----------------------------------------------------
+Dashboard$funs <- new.env()
 Dashboard$funs$load_data <- function(){
     caret <- new.env()
 

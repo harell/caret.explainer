@@ -7,10 +7,6 @@
 #    http://shiny.rstudio.com/
 #
 
-library(shiny)
-library(pkgload)
-pkgload::load_all(path = "./package", helpers = FALSE)
-
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
     # Setup -------------------------------------------------------------------
@@ -39,8 +35,7 @@ shinyServer(function(input, output) {
                 columnDefs = Dashboard$DT$col_to_show(caret$dataset, caret$role_info)
             ),
             editable = FALSE
-        ) #%>%
-    # DT::formatRound(columns = intersect(type_numeric, role_input), digits = 0)
+        )
     ## Wrap data frame in SharedData
     output$unseen_observations <- DT::renderDataTable(unseen_observations, server = TRUE)
 

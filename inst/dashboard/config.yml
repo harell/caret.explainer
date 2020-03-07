@@ -1,3 +1,4 @@
-appName: !expr gsub("\\." ,"-", desc::description$new()$get_field("Package"))
+# !expr gsub("\\." ,"-", desc::description$new()$get_field("Package"))
+appName: !expr gsub("\\." ,"-", "caret.explainer")
 appTitle: The Simplest Shiny App
 appForceUpdate: no
