@@ -12,11 +12,7 @@ shinyServer(function(input, output) {
     # Setup -------------------------------------------------------------------
     Dashboard$funs$load_data()
     model_elements <- caret$train %>% CaretModelDecomposition$new()
-    explanations <-
-        caret$train %>%
-        CaretModelDecomposition$new() %>%
-        ModelComposition$new() %>%
-        Explanations$new()
+    explanations <- instantiate_explainer(caret$train)
 
     # Observation table -------------------------------------------------------
     ## Create DT table
