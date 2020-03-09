@@ -1,0 +1,51 @@
+---
+title: "Introduction"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    fig.align = "center"
+)
+pkgload::load_all(helpers = FALSE, quiet = TRUE)
+```
+
+## Setup
+
+### Get the Data
+
+```{r get-the-data, echo=4}
+utils::data('titanic_imputed', package = "DALEX")
+titanic <- titanic_imputed
+titanic$survived <- factor(titanic$survived, levels = 1:0, c("Survived", "Perished"))
+titanic %>% dplyr::glimpse()
+```
+
+### Build a `caret` model
+
+```{r build-caret-model}
+caret_model <- caret::train(
+    survived ~ ., 
+    data = titanic, 
+    method = "glm", 
+    trControl = caret::trainControl(method = "none", classProbs = TRUE)
+)
+```
+
+## Explain a `caret` model
+
+```{r explain-caret-model}
+library(caret.explainer)
+explanations <- instantiate_explainer(caret_model)
+```
+
+### Instance Level Explanation
+
+#### Break down plot
+
+```{r, fig.width=8, fig.height=4}
+set.seed(1540)
+new_observation <- titanic %>% dplyr::sample_n(1)
+explanations$plot_break_down(new_observation = new_observation)
+```
