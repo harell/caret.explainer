@@ -8,11 +8,14 @@
 #
 
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
     # Setup -------------------------------------------------------------------
     Dashboard$funs$load_data()
     model_elements <- caret$train %>% CaretModelDecomposition$new()
     explanations <- instantiate_explainer(caret$train)
+
+    context$values$role_input <- model_elements$role_input
+    updateCheckboxGroupInput(session, inputId = "what_if_vars", choices = as.list(context$values$role_input))
 
     # Observation table -------------------------------------------------------
     ## Create DT table

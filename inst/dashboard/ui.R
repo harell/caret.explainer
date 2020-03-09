@@ -14,8 +14,10 @@ shinyUI(fluidPage(
 
     # Sidebar
     sidebarLayout(
-        sidebarPanel(DT::dataTableOutput("unseen_observations")),
-
+        sidebarPanel(
+            DT::dataTableOutput("unseen_observations"),
+            checkboxGroupInput(inputId = "what_if_vars", label = h3("What-if Scenarios"), width = "100%")
+        ),
         mainPanel(
             plotOutput("break_down"),
             plotOutput("ceteris_paribus")
