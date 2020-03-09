@@ -13,6 +13,8 @@
 #' @param ... (`ModelComposition`) One or more objects created by \link{ModelComposition}.
 #' @param new_observation (`data.frame`) A new observation with columns that
 #'   correspond to variables used in the model.
+#' @param variables (`character`) A character vector with the variables names to
+#'   analyse.
 #'
 Explanations <- R6::R6Class(
     classname = "Explanations",
