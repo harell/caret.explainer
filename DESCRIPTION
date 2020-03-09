@@ -39,4 +39,5 @@ Imports:
     dplyr (>= 0.8.0),
     scales (>= 1.1.0),
     magrittr (>= 1.5),
-    ingredients (>= 1.0.0)
+    ingredients (>= 1.0.0),
+    e1071 (>= 1.7)
