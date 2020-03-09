@@ -12,6 +12,7 @@ pkgload::load_all(path = "./package", helpers = FALSE, quiet = TRUE)
 
 # Helper Functions --------------------------------------------------------
 box <- function(..., width = NULL) suppressWarnings(shinydashboard::box(..., width = width))
+dataTableOutput <- DT::dataTableOutput
 
 # Context Object ----------------------------------------------------------
 context <- new.env()
