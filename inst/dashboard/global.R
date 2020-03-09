@@ -4,6 +4,7 @@
 
 # Setup -------------------------------------------------------------------
 library(shiny)
+library(shinydashboard)
 library(pkgload)
 pkgload::load_all(path = "./package", helpers = FALSE)
 
