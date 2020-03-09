@@ -35,5 +35,8 @@ test_that("ModelComposition$plot_break_down works", {
     new_observation <- test_env$mc$DALEX$data[1, ]
 
     expect_class(blank_plot <- explanations$plot_ceteris_paribus(), "ggplot")
+    expect_null(blank_plot$data %>% nrow())
+    expect_equal(explanations$plot_break_down(new_observation = NULL), blank_plot)
+
 })
 

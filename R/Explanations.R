@@ -80,7 +80,9 @@ Explanations$ingredients$plot_ceteris_paribus <- function(private, new_observati
     return_blank_ggplot <- function() Explanations$helpers$return_blank_ggplot() + ggplot2::geom_text(ggplot2::aes(0,0), label = "Choose an observation")
     DALEX_ylim <- Explanations$helpers$DALEX_ylim
 
-    return_blank_ggplot()
+    # NULL object
+    if(missing(new_observation)) return(return_blank_ggplot())
+    if(is.null(new_observation)) return(return_blank_ggplot())
 }
 
 # Helpers -----------------------------------------------------------------
