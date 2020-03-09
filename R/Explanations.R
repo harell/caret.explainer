@@ -83,6 +83,24 @@ Explanations$ingredients$plot_ceteris_paribus <- function(private, new_observati
     # NULL object
     if(missing(new_observation)) return(return_blank_ggplot())
     if(is.null(new_observation)) return(return_blank_ggplot())
+
+    # Plot
+    explainer <- private$DALEX[[1]]
+    args <- list(x = explainer, new_observation = new_observation)
+    args <- purrr::list_modify(args, !!!list(...))
+
+    ceteris_paribus <- do.call(ingredients::ceteris_paribus, args)
+
+    suppressMessages({
+        ggplot <-
+            plot(ceteris_paribus) #+
+            # ggplot2::scale_y_continuous(
+            #     breaks = scales::pretty_breaks(n = 10),
+            #     limits = DALEX_ylim(explainer)
+            # )
+    })
+
+    return(ggplot)
 }
 
 # Helpers -----------------------------------------------------------------
