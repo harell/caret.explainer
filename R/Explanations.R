@@ -33,14 +33,18 @@ Explanations <- R6::R6Class(
         # iBreakDown plots -----------------------------------------------------
         #' @inherit iBreakDown::break_down description
         #' @param ... parameters passed to \link[iBreakDown]{break_down}.
-        plot_break_down = function(new_observation, ...) Explanations$iBreakDown$plot_break_down(private, new_observation, ...)
+        plot_break_down = function(new_observation, ...) Explanations$iBreakDown$plot_break_down(private, new_observation, ...),
+
+        # ingredients plots ----------------------------------------------------
+        #' @inherit ingredients::ceteris_paribus description
+        #' @param ... parameters passed to \link[ingredients]{ceteris_paribus}.
+        plot_ceteris_paribus = function(new_observation, ...) Explanations$ingredients$plot_ceteris_paribus(private, new_observation, ...)
     ),
     private = list(DALEX = list())
 )
 
-# Private Methods ---------------------------------------------------------
+# {iBreakDown} Methods ----------------------------------------------------
 Explanations$iBreakDown <- new.env()
-
 Explanations$iBreakDown$plot_break_down <- function(private, new_observation, ...){
     # Helpers
     return_blank_ggplot <- function() Explanations$helpers$return_blank_ggplot() + ggplot2::geom_text(ggplot2::aes(0,0), label = "Choose an observation")
@@ -64,6 +68,31 @@ Explanations$iBreakDown$plot_break_down <- function(private, new_observation, ..
                 breaks = scales::pretty_breaks(n = 10),
                 limits = DALEX_ylim(explainer)
             )
+    })
+
+    return(ggplot)
+}
+
+# {ingredients} Methods ---------------------------------------------------
+Explanations$ingredients <- new.env()
+Explanations$ingredients$plot_ceteris_paribus <- function(private, new_observation, ...){
+    # Helpers
+    return_blank_ggplot <- function() Explanations$helpers$return_blank_ggplot() + ggplot2::geom_text(ggplot2::aes(0,0), label = "Choose an observation")
+    DALEX_ylim <- Explanations$helpers$DALEX_ylim
+
+    # NULL object
+    if(missing(new_observation)) return(return_blank_ggplot())
+    if(is.null(new_observation)) return(return_blank_ggplot())
+
+    # Plot
+    explainer <- private$DALEX[[1]]
+    args <- list(x = explainer, new_observation = new_observation)
+    args <- purrr::list_modify(args, !!!list(...))
+
+    ceteris_paribus <- do.call(ingredients::ceteris_paribus, args)
+
+    suppressMessages({
+        ggplot <- plot(ceteris_paribus)
     })
 
     return(ggplot)
