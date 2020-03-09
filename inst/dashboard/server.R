@@ -8,11 +8,14 @@
 #
 
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
     # Setup -------------------------------------------------------------------
     Dashboard$funs$load_data()
     model_elements <- caret$train %>% CaretModelDecomposition$new()
     explanations <- instantiate_explainer(caret$train)
+
+    context$values$role_input <- model_elements$role_input
+    updateCheckboxGroupInput(session, inputId = "what_if_vars", choices = as.list(context$values$role_input))
 
     # Observation table -------------------------------------------------------
     ## Create DT table
@@ -40,6 +43,16 @@ shinyServer(function(input, output) {
         selected_row <- input$unseen_observations_rows_selected
         new_observation <- if(length(selected_row) == 0) NULL else caret$dataset[selected_row, ]
         explanations$plot_break_down(new_observation = new_observation)
+    })
+
+    # Ceteris Paribus Plot ----------------------------------------------------
+    output$ceteris_paribus <- renderPlot({
+        selected_row <- input$unseen_observations_rows_selected
+        new_observation <- if(length(selected_row) == 0) NULL else caret$dataset[selected_row, ]
+        explanations$plot_ceteris_paribus(
+            new_observation = new_observation,
+            variables = input$what_if_vars
+        )
     })
 
 })
