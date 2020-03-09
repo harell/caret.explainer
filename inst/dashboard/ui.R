@@ -8,19 +8,22 @@
 #
 
 # Define UI for application that draws a histogram
-shinyUI(fluidPage(
+shinyUI(dashboardPage(
+
     # Application title
-    titlePanel(context$config$appTitle),
+    dashboardHeader(title = context$config$appTitle),
 
     # Sidebar
-    sidebarLayout(
-        sidebarPanel(
-            DT::dataTableOutput("unseen_observations"),
-            checkboxGroupInput(inputId = "what_if_vars", label = h3("What-if Scenarios"), width = "100%")
-        ),
-        mainPanel(
-            plotOutput("break_down"),
-            plotOutput("ceteris_paribus")
-        )
-    )
+    dashboardSidebar(
+        # DT::dataTableOutput("unseen_observations"),
+        # checkboxGroupInput(inputId = "what_if_vars", label = h3("What-if Scenarios"), width = "100%")
+    ), # end dashboardSidebar
+
+    # Body
+    dashboardBody(
+        column(width = 12,
+               fluidRow(box(plotOutput("break_down"), title = "Break Down Plot")),
+               fluidRow(box(plotOutput("ceteris_paribus"), title = "What-if Scenarios Analysis"))
+        )# end column 12
+    ) # end dashboardBody
 ))
