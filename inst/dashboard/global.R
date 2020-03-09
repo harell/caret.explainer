@@ -5,8 +5,10 @@
 # Setup -------------------------------------------------------------------
 library(shiny)
 library(shinydashboard)
+library(remotes)
 library(pkgload)
-pkgload::load_all(path = "./package", helpers = FALSE)
+remotes::install_local(path = "./package", dependencies = "Imports", upgrade = "never", quiet = TRUE)
+pkgload::load_all(path = "./package", helpers = FALSE, quiet = TRUE)
 
 # Context Object ----------------------------------------------------------
 context <- new.env()
