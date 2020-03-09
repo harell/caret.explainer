@@ -46,7 +46,10 @@ shinyServer(function(input, output) {
     output$ceteris_paribus <- renderPlot({
         selected_row <- input$unseen_observations_rows_selected
         new_observation <- if(length(selected_row) == 0) NULL else caret$dataset[selected_row, ]
-        explanations$plot_ceteris_paribus(new_observation = new_observation)
+        explanations$plot_ceteris_paribus(
+            new_observation = new_observation,
+            variables = context$values$variables
+        )
     })
 
 })
