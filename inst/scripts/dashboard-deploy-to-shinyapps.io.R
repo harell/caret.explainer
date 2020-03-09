@@ -31,5 +31,6 @@ rsconnect::deployApp(
     appDir = getOption("path_dashboard"),
     appName = appName,
     appTitle = appTitle,
+    account = Sys.getenv("SHINY_NAME"),
     forceUpdate = appForceUpdate
 )
