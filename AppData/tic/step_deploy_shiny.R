@@ -27,6 +27,7 @@ DeployShiny <- R6::R6Class(
             pacakge_source <- "."
             package_target <- file.path(dashboard_target, "package")
             fs::dir_copy(pacakge_source, package_target)
+            fs::dir_delete(file.path(dashboard_target, "package", "vignettes"))
 
             # Prepare Shiny
             load_app_config()
