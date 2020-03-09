@@ -86,13 +86,16 @@ Explanations$ingredients$plot_ceteris_paribus <- function(private, new_observati
 
     # Plot
     explainer <- private$DALEX[[1]]
-    args <- list(x = explainer, new_observation = new_observation)
+    args <- list(x = explainer, new_observation = new_observation, variables = NULL)
     args <- purrr::list_modify(args, !!!list(...))
 
     ceteris_paribus <- do.call(ingredients::ceteris_paribus, args)
 
     suppressMessages({
-        ggplot <- plot(ceteris_paribus)
+        ggplot <-
+            plot(ceteris_paribus) +
+            ingredients::show_rugs(ceteris_paribus, variables = args$variables, sides = "bl", color = "red") +
+            ggplot2::theme_bw()
     })
 
     return(ggplot)
