@@ -92,12 +92,7 @@ Explanations$ingredients$plot_ceteris_paribus <- function(private, new_observati
     ceteris_paribus <- do.call(ingredients::ceteris_paribus, args)
 
     suppressMessages({
-        ggplot <-
-            plot(ceteris_paribus) #+
-            # ggplot2::scale_y_continuous(
-            #     breaks = scales::pretty_breaks(n = 10),
-            #     limits = DALEX_ylim(explainer)
-            # )
+        ggplot <- plot(ceteris_paribus)
     })
 
     return(ggplot)
