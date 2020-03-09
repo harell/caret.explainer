@@ -3,7 +3,7 @@ Type: Package
 Title: Explore, Explain and Examine Predictive `caret` Models
 URL: https://harell.github.io/caret.explainer/
 BugReports: https://github.com/harell/caret.explainer/issues
-Version: 0.0.4
+Version: 0.0.5
 Date: 2020-02-27
 Authors@R: c(person("Harel", "Lustiger", role = c("aut", "cre"),
     email = "tidylab@gmail.com",
@@ -36,4 +36,7 @@ Imports:
     purrr (>= 0.3.3),
     DT (>= 0.11),
     generator (>= 0.1.0),
-    dplyr (>= 0.8.0)
+    dplyr (>= 0.8.0),
+    scales (>= 1.1.0),
+    magrittr (>= 1.5),
+    ingredients (>= 1.0.0)
