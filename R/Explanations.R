@@ -97,7 +97,7 @@ Explanations$ingredients$plot_ceteris_paribus <- function(private, new_observati
         ggplot <-
             plot(ceteris_paribus) +
             ingredients::show_rugs(ceteris_paribus, variables = args$variables, sides = "bl", color = "red") +
-            ingredients::show_observations(ceteris_paribus) +
+            ingredients::show_observations(ceteris_paribus, variables = args$variables) +
             ggplot2::theme_bw()
     })
 
