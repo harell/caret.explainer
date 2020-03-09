@@ -97,6 +97,7 @@ Explanations$ingredients$plot_ceteris_paribus <- function(private, new_observati
         ggplot <-
             plot(ceteris_paribus) +
             ingredients::show_rugs(ceteris_paribus, variables = args$variables, sides = "bl", color = "red") +
+            ingredients::show_observations(ceteris_paribus) +
             ggplot2::theme_bw()
     })
 
@@ -107,4 +108,3 @@ Explanations$ingredients$plot_ceteris_paribus <- function(private, new_observati
 Explanations$helpers <- new.env()
 Explanations$helpers$return_blank_ggplot <- function() return(ggplot2::ggplot() + ggplot2::geom_blank() + ggplot2::theme_void())
 Explanations$helpers$DALEX_ylim <- function(explainer) range(explainer$y_hat, na.rm = TRUE)
-
