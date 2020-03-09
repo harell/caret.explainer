@@ -33,11 +33,13 @@ Explanations <- R6::R6Class(
         # iBreakDown plots -----------------------------------------------------
         #' @inherit iBreakDown::break_down description
         #' @param ... parameters passed to \link[iBreakDown]{break_down}.
+        #' @references \url{https://modeloriented.github.io/iBreakDown/reference/break_down.html}
         plot_break_down = function(new_observation, ...) Explanations$iBreakDown$plot_break_down(private, new_observation, ...),
 
         # ingredients plots ----------------------------------------------------
         #' @inherit ingredients::ceteris_paribus description
         #' @param ... parameters passed to \link[ingredients]{ceteris_paribus}.
+        #' @references \url{https://modeloriented.github.io/ingredients/reference/ceteris_paribus.html}
         plot_ceteris_paribus = function(new_observation, ...) Explanations$ingredients$plot_ceteris_paribus(private, new_observation, ...)
     ),
     private = list(DALEX = list())
