@@ -36,8 +36,7 @@ caret_model <- caret::train(
 ## Explain a `caret` model
 
 ```{r explain-caret-model}
-library(caret.explainer)
-explanations <- instantiate_explainer(caret_model)
+explanations <- caret.explainer::instantiate_explainer(caret_model)
 ```
 
 ### Instance Level Explanation
