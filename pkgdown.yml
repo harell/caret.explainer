@@ -2,5 +2,5 @@ pandoc: '2.2'
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
-  01.using-the-template-package: 01.using-the-template-package.html
+  01-introduction: 01-introduction.html
 
