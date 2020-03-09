@@ -38,4 +38,5 @@ Imports:
     generator (>= 0.1.0),
     dplyr (>= 0.8.0),
     scales (>= 1.1.0),
-    magrittr (>= 1.5)
+    magrittr (>= 1.5),
+    ingredients (>= 1.0.0)

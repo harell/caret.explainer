@@ -27,3 +27,13 @@ test_that("ModelComposition$plot_break_down works", {
     expect_class(breakdown_plot <- explanations$plot_break_down(new_observation = new_observation), "ggplot")
     expect_not_null(breakdown_plot$data %>% nrow())
 })
+
+# ingredients Plots -------------------------------------------------------
+test_that("ModelComposition$plot_break_down works", {
+    attach(test_env)
+    explanations <- test_env$explanations
+    new_observation <- test_env$mc$DALEX$data[1, ]
+
+    expect_class(blank_plot <- explanations$plot_ceteris_paribus(), "ggplot")
+})
+
