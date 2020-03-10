@@ -13,8 +13,16 @@ shinyServer(function(input, output, session) {
     Dashboard$funs$load_data()
     model_elements <- caret$train %>% CaretModelDecomposition$new()
     explanations <- instantiate_explainer(caret$train)
+    context$values$role_target <- model_elements$role_target
+    context$values$role_input <- setdiff(
+        sapply(model_elements$data, class) %>%
+            tibble::enframe("name", "type") %>%
+            dplyr::filter(type %in% c("numeric", "integer")) %>%
+            .$name,
+        model_elements$role_target
+    )
 
-    context$values$role_input <- model_elements$role_input
+    # UI Widgets --------------------------------------------------------------
     updateCheckboxGroupInput(session, inputId = "what_if_vars", choices = as.list(context$values$role_input))
 
     # Observation table -------------------------------------------------------
