@@ -20,7 +20,7 @@ InstanceAnalysisUI <- function(id){
 
 # Server ------------------------------------------------------------------
 InstanceAnalysisServer <- function(input, output, session){
-    # Setup -------------------------------------------------------------------
+    # Setup
     ns <- session$ns
     Dashboard$funs$load_data()
     model_elements <- caret$train %>% CaretModelDecomposition$new()
@@ -34,10 +34,10 @@ InstanceAnalysisServer <- function(input, output, session){
         model_elements$role_target
     )
 
-    # UI Widgets --------------------------------------------------------------
+    # UI Widgets
     updateCheckboxGroupInput(session, inputId = "what_if_vars", choices = as.list(context$values$role_input))
 
-    # Observation table -------------------------------------------------------
+    # Observation table
     ## Create DT table
     unseen_observations <-
         datatable(
@@ -58,14 +58,14 @@ InstanceAnalysisServer <- function(input, output, session){
     ## Wrap data frame in SharedData
     output$unseen_observations <- renderDataTable(unseen_observations, server = TRUE)
 
-    # Break Down Plot ---------------------------------------------------------
+    # Break Down Plot
     output$break_down <- renderPlot({
         selected_row <- input$unseen_observations_rows_selected
         new_observation <- if(length(selected_row) == 0) NULL else caret$dataset[selected_row, ]
         explanations$plot_break_down(new_observation = new_observation)
     })
 
-    # Ceteris Paribus Plot ----------------------------------------------------
+    # Ceteris Paribus Plot
     output$ceteris_paribus <- renderPlot({
         selected_row <- input$unseen_observations_rows_selected
         new_observation <- if(length(selected_row) == 0) NULL else caret$dataset[selected_row, ]

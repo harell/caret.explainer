@@ -9,7 +9,6 @@
 
 # Define UI for application that draws a histogram
 shinyUI(dashboardPage(
-
     # Application title
     dashboardHeader(title = context$config$appTitle), # end dashboardHeader
 
@@ -17,7 +16,5 @@ shinyUI(dashboardPage(
     dashboardSidebar(), # end dashboardSidebar
 
     # Body
-    dashboardBody(
-        InstanceAnalysisUI(id = "InstanceAnalysis")
-    )# end fluidRow
+    dashboardBody(InstanceAnalysisUI(id = "InstanceAnalysis")) # end dashboardBody
 ))
