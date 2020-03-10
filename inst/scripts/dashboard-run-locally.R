@@ -21,4 +21,5 @@ fs::dir_copy(package_source, package_target)
 write_requirements(package_target, dashboard_target)
 
 # Run Shiny ---------------------------------------------------------------
+options(shiny.autoload.r = TRUE)
 shiny::runApp(appDir = getOption("path_dashboard"))

@@ -8,6 +8,7 @@ library(shinydashboard)
 library(remotes)
 library(pkgload)
 pkgload::load_all(path = "./package", helpers = FALSE, quiet = TRUE)
+invisible(sapply(list.files("./R", ".R$|.r$", full.names = TRUE), source))
 
 # Helper Functions --------------------------------------------------------
 plotOutput <- function(...) shiny::plotOutput(..., height = "36vh")
@@ -24,3 +25,4 @@ Dashboard$utils$yaml2env(input = "config.yml", envir = context$config)
 ## Default values
 context$values <- new.env()
 context$values$role_input <- NULL
+context$values$role_target <- NULL
