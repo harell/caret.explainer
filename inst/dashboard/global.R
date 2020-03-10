@@ -4,8 +4,18 @@
 
 # Setup -------------------------------------------------------------------
 library(shiny)
+library(shinydashboard)
+library(remotes)
 library(pkgload)
-pkgload::load_all(path = "./package", helpers = FALSE)
+remotes::install_local(path = "./package", dependencies = "Imports", upgrade = "never", quiet = TRUE)
+pkgload::load_all(path = "./package", helpers = FALSE, quiet = TRUE)
+
+# Helper Functions --------------------------------------------------------
+plotOutput <- function(...) shiny::plotOutput(..., height = "36vh")
+box <- function(..., width = NULL, solidHeader = TRUE) suppressWarnings(shinydashboard::box(..., width = width, solidHeader = solidHeader))
+dataTableOutput <- DT::dataTableOutput
+renderDataTable <- DT::renderDataTable
+datatable <- DT::datatable
 
 # Context Object ----------------------------------------------------------
 context <- new.env()

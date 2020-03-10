@@ -2,7 +2,7 @@
 env_var_exists <- function(x) nchar(Sys.getenv(x))>0
 option_exists <- function(x) !is.null(getOption(x))
 load_app_config <- function() list2env(yaml::yaml.load_file(file.path(getOption("path_dashboard"), "config.yml"), eval.expr = TRUE), globalenv())
-create_dir <- function(x){unlink(x, recursive = TRUE, force = TRUE); dir.create(x, FALSE, TRUE)}
+create_dir <- function(x){unlink(x, recursive = TRUE, force = TRUE); stopifnot(isFALSE(dir.exists(x))); dir.create(x, FALSE, TRUE)}
 
 # Defensive Programming ---------------------------------------------------
 stopifnot(option_exists("dashboard_source"), option_exists("dashboard_target"), option_exists("path_dashboard"))

@@ -40,4 +40,5 @@ Imports:
     scales (>= 1.1.0),
     magrittr (>= 1.5),
     ingredients (>= 1.0.0),
-    e1071 (>= 1.7)
+    e1071 (>= 1.7),
+    shinydashboard (>= 0.7.1)

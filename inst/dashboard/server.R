@@ -20,7 +20,7 @@ shinyServer(function(input, output, session) {
     # Observation table -------------------------------------------------------
     ## Create DT table
     unseen_observations <-
-        DT::datatable(
+        datatable(
             data = caret$dataset,
             extensions = "Scroller",
             style = "bootstrap",
@@ -36,7 +36,7 @@ shinyServer(function(input, output, session) {
             editable = FALSE
         )
     ## Wrap data frame in SharedData
-    output$unseen_observations <- DT::renderDataTable(unseen_observations, server = TRUE)
+    output$unseen_observations <- renderDataTable(unseen_observations, server = TRUE)
 
     # Break Down Plot ---------------------------------------------------------
     output$break_down <- renderPlot({
