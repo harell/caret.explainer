@@ -28,7 +28,7 @@ shinyUI(dashboardPage(
             ),# end column 2
 
             column(width = 6,
-                   box(plotOutput("break_down"), title = "Break Down Plot", height = "20%"),
+                   box(plotOutput("break_down"), title = "Break Down Plot"),
                    box(plotOutput("ceteris_paribus"), title = "What-if Scenarios Analysis")
             )# end column 6
         ) # end dashboardBody
