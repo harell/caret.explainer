@@ -11,6 +11,7 @@ DeployShiny <- R6::R6Class(
         create_dir = function(x){unlink(x, recursive = TRUE, force = TRUE); dir.create(x, FALSE, TRUE)},
         initialize = function() remotes::install_cran(c("rsconnect", "yaml", "fs"), quiet = TRUE),
         run = function(){
+            write_requirements <- DeployShiny$funs$write_requirements
             load_app_config <- self$load_app_config
             env_var_exists <- self$env_var_exists
             create_dir <- self$create_dir
@@ -29,7 +30,7 @@ DeployShiny <- R6::R6Class(
             fs::dir_copy(package_source, package_target)
             fs::dir_delete(file.path(dashboard_target, "package", "vignettes"))
 
-            DeployShiny$funs$write_requirements(package_target, dashboard_target)
+            write_requirements(package_target, dashboard_target)
 
             # Prepare Shiny
             load_app_config()
