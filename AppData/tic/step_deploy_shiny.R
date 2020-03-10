@@ -11,6 +11,7 @@ DeployShiny <- R6::R6Class(
         create_dir = function(x){unlink(x, recursive = TRUE, force = TRUE); dir.create(x, FALSE, TRUE)},
         initialize = function() remotes::install_cran(c("rsconnect", "yaml", "fs"), quiet = TRUE),
         run = function(){
+            write_requirements <- DeployShiny$funs$write_requirements
             load_app_config <- self$load_app_config
             env_var_exists <- self$env_var_exists
             create_dir <- self$create_dir
@@ -24,10 +25,12 @@ DeployShiny <- R6::R6Class(
             create_dir(dashboard_target)
             fs::dir_copy(dashboard_source, dirname(dashboard_target))
 
-            pacakge_source <- "."
+            package_source <- "."
             package_target <- file.path(dashboard_target, "package")
-            fs::dir_copy(pacakge_source, package_target)
+            fs::dir_copy(package_source, package_target)
             fs::dir_delete(file.path(dashboard_target, "package", "vignettes"))
+
+            write_requirements(package_target, dashboard_target)
 
             # Prepare Shiny
             load_app_config()
@@ -47,10 +50,22 @@ DeployShiny <- R6::R6Class(
 
         }
     )
-)
+)# end DeployShiny
 
 step_deploy_shiny <- function() {
     DeployShiny$new()
 }
+
+# Helpers -----------------------------------------------------------------
+DeployShiny$funs <- new.env()
+DeployShiny$funs$write_requirements <- function(package_path, dashboard_path){
+    dependencies <-
+        desc::desc_get_deps(file.path(package_path, "DESCRIPTION")) %>%
+        dplyr::filter(type == "Imports") %>%
+        .$package
+    writeLines(paste0("library(", dependencies, ")"), file.path(dashboard_path, "requirements.R"))
+    invisible()
+}
+
 
 
