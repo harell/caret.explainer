@@ -16,6 +16,7 @@
     if(identical(Sys.getenv("FRESH_SESSION"), FALSE)) return() else Sys.setenv(FRESH_SESSION = FALSE)
 
     ## Set global options
+    print('Sys.getenv("R_LIBS_USER"):'); print(Sys.getenv("R_LIBS_USER"))
     .libPaths(Sys.getenv("R_LIBS_USER"))
     options(Ncpus = 8, repos = structure(c(CRAN = get_repos())))
 
