@@ -14,7 +14,7 @@
 
     # Programming Logic
     path <- ".git/First.lock"
-    if(file.exists(path)){unlink(path); return()} else {file.create(path, recursive = TRUE)}
+    if(file.exists(path)) return() else file.create(path, recursive = TRUE)
 
     ## Set global options
     print('Sys.getenv("R_LIBS_USER"):'); print(Sys.getenv("R_LIBS_USER"))
@@ -29,4 +29,6 @@
 }
 
 # Last --------------------------------------------------------------------
-.Last <- function(){}
+.Last <- function(){
+    unlink(".git/First.lock")
+}
