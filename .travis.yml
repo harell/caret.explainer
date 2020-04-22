@@ -22,7 +22,7 @@ before_install:
  - R -q -e
     '`%=%` <- function(key, value) paste0(key,"=",value);
      Renviron <- file(".Renviron", open = "wt");
-     writeLines("R_LIBS_USER" %=% Sys.getenv("R_LIBS_USER"), Renviron);
+     writeLines("R_PROFILE" %=% ".Rprofile", Renviron);
      close(Renviron)'
  - R -q -e 'tic::dsl_load(); tic::prepare_all_stages(); tic::before_install()'
 install:
