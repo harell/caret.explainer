@@ -12,7 +12,6 @@
         return(URL)
     }
 
-
     # Programming Logic
     ## Setup watchdog
     path <- ".git/First.lock"
@@ -24,7 +23,7 @@
 
     ## Install requirements
     if(!"remotes" %in% rownames(utils::installed.packages())) utils::install.packages("remotes")
-    try(remotes::install_github("ropenscilabs/tic@v0.6.0", dependencies = TRUE, quiet = TRUE))
+    remotes::install_github("ropenscilabs/tic@v0.6.0", dependencies = "Imports", quiet = TRUE, build = FALSE)
 
     return(invisible())
 }
