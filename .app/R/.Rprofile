@@ -13,7 +13,7 @@
     }
 
     # Programming Logic
-    if(identical(Sys.getenv("FRESH_SESSION", FALSE))) return() else Sys.setenv(FRESH_SESSION = FALSE)
+    if(identical(Sys.getenv("FRESH_SESSION"), FALSE)) return() else Sys.setenv(FRESH_SESSION = FALSE)
 
     ## Set global options
     .libPaths(Sys.getenv("R_LIBS_USER"))
