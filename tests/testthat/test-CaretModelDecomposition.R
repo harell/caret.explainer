@@ -3,40 +3,33 @@ context("unit test for CaretModelDecomposition object")
 # Setup -------------------------------------------------------------------
 testthat::setup({
     assign("test_env", testthat::test_env(), envir = parent.frame())
-    utils::data('titanic_imputed', package = "DALEX")
-    dataset <- titanic_imputed
-    dataset$survived <- factor(dataset$survived, levels = 1:0, c("Survived", "Perished"))
-    role_target <- "survived"
-    role_input <- c("gender", "age", "class", "embarked", "fare", "sibsp", "parch")
-    model_formula <- formula(paste(role_target, "~" , paste(role_input, collapse = " + ")))
-
-    set.seed(1546)
-    suppressWarnings({
-        caret_ctrl <- caret::trainControl(method = "none", classProbs = TRUE, summaryFunction = caret::twoClassSummary)
-        caret_train <- caret::train(survived ~ ., data = dataset, method = "glm", trControl = caret_ctrl)
-        caret_predict <- predict(caret_train, newdata = dataset)
-    })
-
-    test_env$role_input <- role_input
-    test_env$role_target <- role_target
-    test_env$caret_train <- caret_train
+    assign("classification", generate_classification_caret_model(), envir = test_env)
+    assign("regression", generate_regression_caret_model(), envir = test_env)
 })
 
 # General -----------------------------------------------------------------
 test_that("CaretModelDecomposition$new works", {
     attach(test_env)
-    object <- test_env$caret_train
+
+    # Classification model
+    object <- test_env$classification$model
     expect_silent(cmd <- CaretModelDecomposition$new(object))
     expect_class(cmd, "ModelDecomposition")
-    test_env$cmd <- cmd
+    test_env$classification$cmd <- cmd
+
+    # Regression model
+    object <- test_env$regression$model
+    expect_silent(cmd <- CaretModelDecomposition$new(object))
+    expect_class(cmd, "ModelDecomposition")
+    test_env$regression$cmd <- cmd
 })
 
 # Extract essential elements ----------------------------------------------
 test_that("CaretModelDecomposition extract essential elements", {
     attach(test_env)
-    cmd <- test_env$cmd
-    role_target <- test_env$role_target
-    role_input <- test_env$role_input
+    cmd <- test_env$classification$cmd
+    role_target <- test_env$classification$role_target
+    role_input <- test_env$classification$role_input
 
     expect_class(cmd$model_object, "train")
     expect_identical(cmd$role_target, role_target)
@@ -47,10 +40,21 @@ test_that("CaretModelDecomposition extract essential elements", {
 # Predict Function --------------------------------------------------------
 test_that("CaretModelDecomposition$predict_function works", {
     attach(test_env)
-    cmd <- test_env$cmd
+
+    # Classification model
+    cmd <- test_env$classification$cmd
+    new_data <- cmd$data
+    model_object <- cmd$model_object
+    expect_length(cmd$predict_function(model_object, new_data), nrow(new_data))
+    expect_class(cmd$predict_function(model_object, new_data), "numeric")
+
+    # Regression model
+    cmd <- test_env$regression$cmd
     new_data <- cmd$data
     model_object <- cmd$model_object
     expect_length(cmd$predict_function(model_object, new_data), nrow(new_data))
     expect_class(cmd$predict_function(model_object, new_data), "numeric")
 })
 
+# Cleanup -----------------------------------------------------------------
+testthat::teardown(test_env <- NULL)

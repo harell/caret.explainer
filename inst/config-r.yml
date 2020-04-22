@@ -1,0 +1,26 @@
+default:
+  base:
+    - !expr options(path_project = stringr::str_remove(getwd(), "(|.Rcheck)/(tests/testthat|/tests)$"))
+    - !expr 'options(
+        path_dashboard = file.path(tempdir(), "dashboard"),
+        path_functions = file.path(.Options$path_project, "R"),
+        path_tests = file.path(.Options$path_project, "tests"),
+        path_inst = file.path(.Options$path_project, "inst")
+        )'
+    - !expr 'options(
+        path_analysis = file.path(.Options$path_inst, "analysis"),
+        path_archive = file.path(.Options$path_inst, "archive"),
+        path_cache = file.path(.Options$path_inst, "cache"),
+        path_reports = file.path(.Options$path_inst, "reports"),
+        path_scripts = file.path(.Options$path_inst, "scripts"),
+        path_docs = file.path(.Options$path_inst, "docs"),
+        path_models = file.path(.Options$path_inst, "models"),
+        path_data = file.path(.Options$path_inst, "data")
+        )'
+    - !expr 'options(
+        path_data_dropzone = file.path(.Options$path_data, "dropzone"),
+        path_data_processed = file.path(.Options$path_data, "processed"),
+        path_data_for_modelling = file.path(.Options$path_data, "ready-for-modelling")
+        )'
+  usethis:
+    - !expr 'options(usethis.quiet = TRUE)'
