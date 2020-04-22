@@ -21,7 +21,7 @@
     options(Ncpus = 8, repos = structure(c(CRAN = get_repos())))
 
     ## Install requirements
-    if(!"remotes" %in% rownames(utils::installed.packages())) utils::install.packages("remotes")
+    if(!"remotes" %in% rownames(utils::installed.packages())) utils::install.packages("remotes", clean = TRUE)
     try(remotes::install_github("ropenscilabs/tic@v0.5.0", dependencies = TRUE, quiet = TRUE))
 
     return(invisible())
