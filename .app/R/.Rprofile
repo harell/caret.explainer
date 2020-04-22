@@ -12,18 +12,19 @@
         return(URL)
     }
 
+
     # Programming Logic
+    ## Setup watchdog
     path <- ".git/First.lock"
     if(file.exists(path)) return() else file.create(path, recursive = TRUE)
 
     ## Set global options
-    print('Sys.getenv("R_LIBS_USER"):'); print(Sys.getenv("R_LIBS_USER"))
     .libPaths(Sys.getenv("R_LIBS_USER"))
     options(Ncpus = 8, repos = structure(c(CRAN = get_repos())))
 
     ## Install requirements
-    if(!"remotes" %in% rownames(utils::installed.packages())) utils::install.packages("remotes", clean = TRUE)
-    try(remotes::install_github("ropenscilabs/tic@v0.5.0", dependencies = TRUE, quiet = TRUE))
+    if(!"remotes" %in% rownames(utils::installed.packages())) utils::install.packages("remotes")
+    try(remotes::install_github("ropenscilabs/tic@v0.6.0", dependencies = TRUE, quiet = TRUE))
 
     return(invisible())
 }
