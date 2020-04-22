@@ -1,20 +1,28 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
-# Define UI for application that draws a histogram
 shinyUI(dashboardPage(
     # Application title
-    dashboardHeader(title = context$config$appTitle), # end dashboardHeader
+    dashboardHeader(
+        title = stringr::str_glue("{appTitle}\n{appVersion}", appTitle = context$config$appTitle, appVersion = context$config$appVersion)
+    ), # end dashboardHeader
 
     # Sidebar
-    dashboardSidebar(), # end dashboardSidebar
+    dashboardSidebar(
+        sidebarMenu(
+            menuItem("Instance-level Analysis", tabName = "InstanceAnalysisTab", icon = icon("dashboard"), enable = context$config$tabs$InstanceAnalysis)
+        ),
+        disable = context$shinydashboard$dashboardSidebar$disable,
+        width = context$shinydashboard$dashboardSidebar$width,
+        collapsed = context$shinydashboard$dashboardSidebar$collapsed
+    ), # end dashboardSidebar
 
     # Body
-    dashboardBody(InstanceAnalysisUI(id = "InstanceAnalysis")) # end dashboardBody
-))
+    dashboardBody(
+        tabItems(
+            tabItem(tabName = "InstanceAnalysisTab", InstanceAnalysisUI(id = "InstanceAnalysis"), enable = context$config$tabs$InstanceAnalysis)
+        ) # end tabItems
+    ), # end dashboardBody
+
+    # Aesthetics
+    title = context$config$appTitle,
+    skin = context$shinydashboard$dashboardPage$skin
+) # end dashboardPage
+)
