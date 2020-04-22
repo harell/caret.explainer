@@ -32,6 +32,7 @@ rsconnect::setAccountInfo(
 )
 
 # Deploy Shiny ------------------------------------------------------------
+options(shiny.autoload.r = TRUE)
 rsconnect::deployApp(
     appDir = getOption("path_dashboard"),
     appName = appName,

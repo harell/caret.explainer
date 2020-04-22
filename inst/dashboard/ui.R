@@ -1,36 +1,28 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
-# Define UI for application that draws a histogram
 shinyUI(dashboardPage(
-
     # Application title
-    dashboardHeader(title = context$config$appTitle), # end dashboardHeader
+    dashboardHeader(
+        title = stringr::str_glue("{appTitle}\n{appVersion}", appTitle = context$config$appTitle, appVersion = context$config$appVersion)
+    ), # end dashboardHeader
 
     # Sidebar
-    dashboardSidebar(), # end dashboardSidebar
+    dashboardSidebar(
+        sidebarMenu(
+            menuItem("Instance-level Analysis", tabName = "InstanceAnalysisTab", icon = icon("dashboard"), enable = context$config$tabs$InstanceAnalysis)
+        ),
+        disable = context$shinydashboard$dashboardSidebar$disable,
+        width = context$shinydashboard$dashboardSidebar$width,
+        collapsed = context$shinydashboard$dashboardSidebar$collapsed
+    ), # end dashboardSidebar
 
     # Body
     dashboardBody(
-        fluidRow(
-            column(width = 4,
-                   box(dataTableOutput("unseen_observations"), title = "Observations")
-            ), # end column 4
+        tabItems(
+            tabItem(tabName = "InstanceAnalysisTab", InstanceAnalysisUI(id = "InstanceAnalysis"), enable = context$config$tabs$InstanceAnalysis)
+        ) # end tabItems
+    ), # end dashboardBody
 
-            column(width = 2,
-                   box(checkboxGroupInput(inputId = "what_if_vars", label = ""), title = "Variables")
-            ),# end column 2
-
-            column(width = 6,
-                   box(plotOutput("break_down"), title = "Break Down Plot"),
-                   box(plotOutput("ceteris_paribus"), title = "What-if Scenarios Analysis")
-            )# end column 6
-        ) # end dashboardBody
-    )# end fluidRow
-))
+    # Aesthetics
+    title = context$config$appTitle,
+    skin = context$shinydashboard$dashboardPage$skin
+) # end dashboardPage
+)

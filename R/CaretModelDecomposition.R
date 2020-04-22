@@ -38,7 +38,14 @@ CaretModelDecomposition$fun <- new.env()
 
 # Public Methods ----------------------------------------------------------
 CaretModelDecomposition$funs$predict_function <- function(object, newdata){
-    response <- caret::predict.train(object, newdata, type = "prob", na.action = na.fail)
+    is_regression_model <- CaretModelDecomposition$helpers$is_regression_model
+
+    response <- if(is_regression_model(object)){
+        caret::predict.train(object, newdata, na.action = na.fail)
+    } else {
+        caret::predict.train(object, newdata, type = "prob", na.action = na.fail)
+    }
+
     if(is.data.frame(response)) return(response[, 1]) else return(response)
 }
 
@@ -50,3 +57,7 @@ CaretModelDecomposition$fun$extract_data <- function(object){
     self <- get("self", envir = parent.frame(2))
     object[["trainingData"]] %>% dplyr::rename(!!self$role_target := .outcome)
 }
+
+# Helpers -----------------------------------------------------------------
+CaretModelDecomposition$helpers <- new.env()
+CaretModelDecomposition$helpers$is_regression_model <- function(object) identical(is.numeric(object$trainingData$.outcome), TRUE)

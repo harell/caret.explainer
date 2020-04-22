@@ -14,7 +14,7 @@
 ^vignettes/01-introduction\.Rmd$
 
 # Folders ----------------------------------------------------------------------
-^AppData$
+^\.app/*
 ^\.idea/*
 ^\.Rproj\.user$
 ^temp/*

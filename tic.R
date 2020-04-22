@@ -8,7 +8,7 @@
 #' 6. OPTIONAL after_deploy
 #'
 library(tic, warn.conflicts = FALSE)
-source("./AppData/tic/helpers.R")
+source("./.app/tic/helpers.R")
 
 # Stage: Before Script ----------------------------------------------------
 get_stage("before_script") %>%
@@ -17,19 +17,21 @@ get_stage("before_script") %>%
 
 # Stage: Script -----------------------------------------------------------
 if(is_master_branch() | is_hotfix_branch()){
-    get_stage("script") %>% build_steps() %>% test_suite_steps() %>% deploy_website() %>% deploy_shiny()
+    get_stage("script") %>% build_steps() %>% test_suite_steps() %>% deploy_shiny()
 
 } else if (is_develop_branch() | is_release_branch()){
     get_stage("script") %>% build_steps() %>% test_suite_steps()
 
 } else if (is_feature_branch()){
     get_stage("script") %>% test_suite_steps()
-
 }
 
 # Stage: After Success ----------------------------------------------------
-get_stage("after_success") %>%
-    add_code_step(print(covr::package_coverage(type = "tests")))
+if (is_master_branch() | is_develop_branch()){
+    get_stage("after_success") %>%
+        add_code_step(step_install_cran("covr")) %>%
+        add_code_step(covr::package_coverage(type = "tests", quiet = FALSE, pre_clean = FALSE))
+}
 
 # Stage: After Failure ----------------------------------------------------
 get_stage("after_failure") %>%
@@ -37,14 +39,12 @@ get_stage("after_failure") %>%
 
 # Stage: Before Deploy ----------------------------------------------------
 get_stage("before_deploy")
-if(is_master_branch()){
-    get_stage("before_deploy") %>%
-        add_code_step(rmarkdown::render("README.Rmd")) %>% # 1st time adds badges tags
-        add_code_step(rmarkdown::render("README.Rmd")) # 2nd shows badges
-}
 
 # Stage: Deploy -----------------------------------------------------------
-get_stage("deploy") # tic deploy is disabled at config.yml
+get_stage("deploy")
 
 # Stage: After Deploy -----------------------------------------------------
 get_stage("after_deploy")
+
+# Stage: After Script -----------------------------------------------------
+get_stage("after_script")

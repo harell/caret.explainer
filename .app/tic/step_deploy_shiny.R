@@ -41,6 +41,7 @@ DeployShiny <- R6::R6Class(
             )
 
             # Deploy Shiny
+            options(shiny.autoload.r = TRUE)
             rsconnect::deployApp(
                 appDir = dashboard_target,
                 appName = appName,

@@ -5,13 +5,16 @@
 # Setup -------------------------------------------------------------------
 library(shiny)
 library(shinydashboard)
-library(remotes)
-library(pkgload)
+base::readRenviron(path = "./package/.Renviron")
 pkgload::load_all(path = "./package", helpers = FALSE, quiet = TRUE)
+invisible(sapply(list.files("./R", ".R$|.r$", full.names = TRUE), source))
 
 # Helper Functions --------------------------------------------------------
-plotOutput <- function(...) shiny::plotOutput(..., height = "36vh")
+plotOutput <- function(...) shiny::plotOutput(..., height = "34vh")
 box <- function(..., width = NULL, solidHeader = TRUE) suppressWarnings(shinydashboard::box(..., width = width, solidHeader = solidHeader))
+tabItem <- function(tabName = NULL, ..., enable = TRUE) if(enable) shinydashboard::tabItem(tabName = tabName, ...) else shinydashboard::tabItem(tabName = tabName, NullModuleUI(id = tabName))
+menuItem <- function(..., enable = TRUE) if(enable) shinydashboard::menuItem(...) else NULL
+callModule <-  function(..., enable = TRUE) if(enable) shiny::callModule(...) else shiny::callModule(NullModuleServer, id = id)
 dataTableOutput <- DT::dataTableOutput
 renderDataTable <- DT::renderDataTable
 datatable <- DT::datatable
@@ -19,8 +22,11 @@ datatable <- DT::datatable
 # Context Object ----------------------------------------------------------
 context <- new.env()
 ## Load dashboard config file
-context$config <- new.env()
+context$config <- context$shinydashboard <- new.env()
 Dashboard$utils$yaml2env(input = "config.yml", envir = context$config)
+Dashboard$utils$yaml2env(input = "shinydashboard.yml", envir = context$shinydashboard)
+
 ## Default values
 context$values <- new.env()
 context$values$role_input <- NULL
+context$values$role_target <- NULL
