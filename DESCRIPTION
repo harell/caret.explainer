@@ -3,7 +3,7 @@ Type: Package
 Title: Explore, Explain and Examine Predictive `caret` Models
 URL: https://harell.github.io/caret.explainer/
 BugReports: https://github.com/harell/caret.explainer/issues
-Version: 0.0.6
+Version: 0.1.0
 Date: 2020-02-27
 Authors@R: c(person("Harel", "Lustiger", role = c("aut", "cre"),
     email = "tidylab@gmail.com",
@@ -23,8 +23,7 @@ Suggests:
     covr (>= 3.2.1),
     desc (>= 1.2.0),
     devtools (>= 2.0.2),
-    testthat (>= 2.0.1),
-    rmarkdown
+    testthat (>= 2.0.1)
 Imports: 
     shiny (>= 1.4.0),
     R6 (>= 2.4.1),
@@ -41,4 +40,8 @@ Imports:
     magrittr (>= 1.5),
     ingredients (>= 1.0.0),
     e1071 (>= 1.7),
-    shinydashboard (>= 0.7.1)
+    shinydashboard (>= 0.7.1),
+    xgboost (>= 0.90.0),
+    pkgload (>= 1.0.2),
+    config (>= 0.3.0),
+    stringr (>= 1.4.0)
