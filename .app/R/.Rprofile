@@ -13,7 +13,8 @@
     }
 
     # Programming Logic
-    if(identical(Sys.getenv("FRESH_SESSION"), FALSE)) return() else Sys.setenv(FRESH_SESSION = FALSE)
+    path <- ".git/First.lock"
+    if(file.exists(path)){unlink(path); return()} else {file.create(path, recursive = TRUE)}
 
     ## Set global options
     print('Sys.getenv("R_LIBS_USER"):'); print(Sys.getenv("R_LIBS_USER"))
