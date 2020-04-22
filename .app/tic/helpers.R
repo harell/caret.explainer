@@ -1,4 +1,4 @@
-invisible(sapply(list.files("./AppData/tic", "^step_", full.names = TRUE), source))
+invisible(sapply(list.files("./.app/tic", "^step_", full.names = TRUE), source))
 
 # high level steps --------------------------------------------------------
 build_steps <- function(stage){
@@ -22,10 +22,13 @@ unit_test_steps <- function(stage){
 }
 
 component_test_steps <- function(stage){
-    stage %>%
-        add_step(step_message(c(sep(), "\n## Test: Component-Tests", sep()))) %>%
-        add_code_step(devtools::load_all(export_all = FALSE)) %>%
-        add_code_step(testthat::test_dir("./tests/component-tests", stop_on_failure = TRUE))
+    if(dir.exists("./tests/component-tests"))
+        stage <-
+            stage %>%
+            add_step(step_message(c(sep(), "\n## Test: Component-Tests", sep()))) %>%
+            add_code_step(devtools::load_all(export_all = FALSE)) %>%
+            add_code_step(testthat::test_dir("./tests/component-tests", stop_on_failure = TRUE))
+    return(stage)
 }
 
 deploy_website <- function(stage){
@@ -42,6 +45,8 @@ deploy_shiny <- function(stage){
 }
 
 # branches wrappers -------------------------------------------------------
+ci_is_gitlab <- function() identical(Sys.getenv("CI_SERVER_NAME"), "GitLab")
+ci_get_branch <- function() if(ci_is_gitlab()) Sys.getenv("CI_COMMIT_REF_NAME") else tic::ci_get_branch()
 is_master_branch <- function() "master" %in% ci_get_branch()
 is_develop_branch <- function() "develop" %in% ci_get_branch()
 is_feature_branch <- function() grepl("feature", ci_get_branch())
