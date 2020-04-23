@@ -3,15 +3,12 @@ DeployShiny <- R6::R6Class(
     inherit = TicStep,
     public = list(
         # Public Methods -------------------------------------------------------
-        env_var_exists = function(x) nchar(Sys.getenv(x)) > 0,
-        load_app_config = function() list2env(yaml::yaml.load_file(file.path(getOption("dashboard_target"), "config-shiny.yml"), eval.expr = TRUE), globalenv()),
-        create_dir = function(x){unlink(x, recursive = TRUE, force = TRUE); dir.create(x, FALSE, TRUE)},
         initialize = function() remotes::install_cran(c("rsconnect", "yaml", "fs"), quiet = TRUE),
         run = function(){
             write_requirements <- DeployShiny$funs$write_requirements
-            load_app_config <- self$load_app_config
-            env_var_exists <- self$env_var_exists
-            create_dir <- self$create_dir
+            load_app_config <- DeployShiny$funs$load_app_config
+            env_var_exists <- DeployShiny$funs$env_var_exists
+            create_dir <- DeployShiny$funs$create_dir
 
             # Defensive Programming
             stopifnot(env_var_exists("SHINY_NAME"), env_var_exists("SHINY_TOKEN"), env_var_exists("SHINY_SECRET"))
@@ -57,6 +54,10 @@ step_deploy_shiny <- function() {
 
 # Helpers -----------------------------------------------------------------
 DeployShiny$funs <- new.env()
+
+DeployShiny$funs$env_var_exists = function(x) nchar(Sys.getenv(x)) > 0
+DeployShiny$funs$load_app_config = function() list2env(yaml::yaml.load_file(list.files(".", "config-shiny.yml", full.names = TRUE, recursive = TRUE)[1], eval.expr = TRUE), globalenv())
+DeployShiny$funs$create_dir = function(x){unlink(x, recursive = TRUE, force = TRUE); dir.create(x, FALSE, TRUE)}
 DeployShiny$funs$write_requirements <- function(package_path, dashboard_path){
     dependencies <-
         desc::desc_get_deps(file.path(package_path, "DESCRIPTION")) %>%
@@ -65,6 +66,7 @@ DeployShiny$funs$write_requirements <- function(package_path, dashboard_path){
     writeLines(paste0("library(", dependencies, ")"), file.path(dashboard_path, "requirements.R"))
     invisible()
 }
+
 
 
 
