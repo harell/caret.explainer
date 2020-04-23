@@ -24,7 +24,6 @@ DeployShiny <- R6::R6Class(
             create_dir(dashboard_target)
             fs::dir_copy(dashboard_source, dirname(dashboard_target))
             fs::dir_copy(package_source, package_target)
-            fs::dir_delete(file.path(package_target, "vignettes"))
             fs::dir_delete(file.path(package_target, "inst", "dashboard"))
             fs::file_delete(list_markdown(package_target))
             write_requirements(package_target, dashboard_target)
