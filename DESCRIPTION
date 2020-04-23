@@ -23,8 +23,7 @@ Suggests:
     covr (>= 3.2.1),
     desc (>= 1.2.0),
     devtools (>= 2.0.2),
-    testthat (>= 2.0.1),
-    rsconnect (>= 0.8.0)
+    testthat (>= 2.0.1)
 Imports: 
     shiny (>= 1.4.0),
     R6 (>= 2.4.1),
