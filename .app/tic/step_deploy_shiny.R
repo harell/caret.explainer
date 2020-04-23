@@ -2,14 +2,11 @@ DeployShiny <- R6::R6Class(
     "DeployShiny",
     inherit = TicStep,
     public = list(
-        # Public Fields --------------------------------------------------------
-        dashboard_source = "./inst/dashboard",
-        dashboard_target = file.path(tempdir(), "dashboard"),
         # Public Methods -------------------------------------------------------
         env_var_exists = function(x) nchar(Sys.getenv(x)) > 0,
         load_app_config = function() list2env(yaml::yaml.load_file(file.path(getOption("path_dashboard"), "config.yml"), eval.expr = TRUE), globalenv()),
         create_dir = function(x){unlink(x, recursive = TRUE, force = TRUE); dir.create(x, FALSE, TRUE)},
-        initialize = function() remotes::install_cran(c("rsconnect", "yaml", "fs"), quiet = TRUE),
+        initialize = function() remotes::install_cran(c("rsconnect", "yaml", "fs", "pkgload"), quiet = TRUE),
         run = function(){
             write_requirements <- DeployShiny$funs$write_requirements
             load_app_config <- self$load_app_config
@@ -20,8 +17,10 @@ DeployShiny <- R6::R6Class(
             stopifnot(env_var_exists("SHINY_NAME"), env_var_exists("SHINY_TOKEN"), env_var_exists("SHINY_SECRET"))
 
             # Setup
-            dashboard_source <- self$dashboard_source
-            dashboard_target <- self$dashboard_target
+            pkgload::load_all(path = ".", helpers = FALSE, quiet = TRUE)
+            dashboard_source <- getOption("dashboard_source")
+            dashboard_target <- getOption("dashboard_target")
+            options(shiny.autoload.r = TRUE)
             create_dir(dashboard_target)
             fs::dir_copy(dashboard_source, dirname(dashboard_target))
 
@@ -41,8 +40,6 @@ DeployShiny <- R6::R6Class(
             )
 
             # Deploy Shiny
-            pkgload::load_all(path = ".", helpers = FALSE, quiet = TRUE)
-            options(shiny.autoload.r = TRUE)
             rsconnect::deployApp(
                 appDir = getOption("path_dashboard"),
                 appName = appName,
