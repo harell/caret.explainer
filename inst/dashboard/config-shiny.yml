@@ -1,6 +1,6 @@
 appName: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_name("./package"), error = function(e) pkgload::pkg_name(".")))
 appVersion: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_version("./package"), error = function(e) pkgload::pkg_version(".")))
-appTitle: IDS Studio
+appTitle: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_name("./package"), error = function(e) pkgload::pkg_name(".")))
 appForceUpdate: no
 tabs:
   InstanceAnalysis: yes
