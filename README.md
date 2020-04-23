@@ -29,3 +29,5 @@ You can install `caret.explainer` by using:
 
     install.packages("devtools")
     devtools::install_github("harell/caret.explainer")
+
+<!-- ## Repository Structure -->

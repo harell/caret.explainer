@@ -13,16 +13,22 @@
     }
 
     # Programming Logic
+    ## Setup watchdog
+    path <- ".git/First.lock"
+    if(file.exists(path)) return() else file.create(path, recursive = TRUE)
+
     ## Set global options
     .libPaths(Sys.getenv("R_LIBS_USER"))
-    options(Ncpus = 8, repos = structure(c(CRAN = get_repos())))
+    options(Ncpus = 8, repos = structure(c(CRAN = get_repos())), dependencies = "Imports")
 
     ## Install requirements
-    if(!require(remotes, quietly = TRUE)) utils::install.packages("remotes")
-    try(remotes::install_github("ropenscilabs/tic@v0.5.0", dependencies = TRUE, quiet = TRUE))
+    if(!"remotes" %in% rownames(utils::installed.packages())) utils::install.packages("remotes", dependencies = getOption("dependencies"))
+    remotes::install_github("ropenscilabs/tic@v0.6.0", dependencies = getOption("dependencies"), quiet = TRUE, build = FALSE)
 
     return(invisible())
 }
 
 # Last --------------------------------------------------------------------
-.Last <- function(){}
+.Last <- function(){
+    unlink(".git/First.lock")
+}

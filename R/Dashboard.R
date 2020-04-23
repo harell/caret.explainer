@@ -9,7 +9,7 @@ Dashboard <- R6::R6Class(
 
 # Utils -------------------------------------------------------------------
 Dashboard$utils <- new.env()
-Dashboard$utils$yaml2env <- function(input = "config.yml", envir = globalenv()) {
+Dashboard$utils$yaml2env <- function(input = "config-shiny.yml", envir = globalenv()) {
     yaml_content <- yaml::yaml.load_file(input, eval.expr = TRUE)
     list2env(yaml_content, envir = envir)
     invisible()

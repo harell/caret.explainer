@@ -41,6 +41,7 @@ deploy_website <- function(stage){
 deploy_shiny <- function(stage){
     stage %>%
         add_step(step_message(c(sep(), "\n## Deploy Shiny App", sep()))) %>%
+        add_step(step_install_cran("rsconnect")) %>%
         add_step(step_deploy_shiny())
 }
 
