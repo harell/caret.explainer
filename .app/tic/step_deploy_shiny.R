@@ -17,8 +17,8 @@ DeployShiny <- R6::R6Class(
             stopifnot(env_var_exists("SHINY_NAME"), env_var_exists("SHINY_TOKEN"), env_var_exists("SHINY_SECRET"))
 
             # Setup
-            path_dashboard <- "inst/dashboard"
-            dashboard_source <- file.path(getwd(), path_dashboard)
+            pkgload::load_all(path = ".", helpers = FALSE, quiet = TRUE)
+            dashboard_source <- getOption("path_dashboard")
             dashboard_target <- file.path(tempdir(), "dashboard")
             package_source <- getwd()
             package_target <- file.path(dashboard_target, "package")
