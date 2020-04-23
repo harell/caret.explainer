@@ -41,14 +41,15 @@ DeployShiny <- R6::R6Class(
             )
 
             # Deploy Shiny
+            pkgload::load_all(path = ".", helpers = FALSE, quiet = TRUE)
             options(shiny.autoload.r = TRUE)
             rsconnect::deployApp(
-                appDir = dashboard_target,
+                appDir = getOption("path_dashboard"),
                 appName = appName,
                 appTitle = appTitle,
+                account = Sys.getenv("SHINY_NAME"),
                 forceUpdate = appForceUpdate
             )
-
         }
     )
 )# end DeployShiny

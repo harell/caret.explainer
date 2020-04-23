@@ -8,12 +8,13 @@ write_requirements <- function(package_path, dashboard_path){ dependencies <- de
 
 # Defensive Programming ---------------------------------------------------
 stopifnot(env_var_exists("SHINY_NAME"), env_var_exists("SHINY_TOKEN"), env_var_exists("SHINY_SECRET"))
-stopifnot(option_exists("dashboard_source"), option_exists("dashboard_target"), option_exists("path_dashboard"))
 
 # Setup -------------------------------------------------------------------
+pkgload::load_all(path = ".", helpers = FALSE, quiet = TRUE)
 dashboard_source <- getOption("dashboard_source")
 dashboard_target <- getOption("dashboard_target")
 create_dir(dashboard_target)
+
 fs::dir_copy(dashboard_source, dirname(dashboard_target))
 
 package_source <- "."
