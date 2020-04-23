@@ -1,7 +1,7 @@
 # Helpers -----------------------------------------------------------------
 env_var_exists <- function(x) nchar(Sys.getenv(x))>0
 option_exists <- function(x) !is.null(getOption(x))
-load_app_config <- function() list2env(yaml::yaml.load_file(file.path(getOption("path_dashboard"), "config.yml"), eval.expr = TRUE), globalenv())
+load_app_config <- function() list2env(yaml::yaml.load_file(file.path(getOption("path_dashboard"), "config-shiny.yml"), eval.expr = TRUE), globalenv())
 create_dir <- function(x){unlink(x, recursive = TRUE, force = TRUE); stopifnot(isFALSE(dir.exists(x))); dir.create(x, FALSE, TRUE)}
 write_requirements <- function(package_path, dashboard_path){ dependencies <- desc::desc_get_deps(file.path(package_path, "DESCRIPTION")) %>% dplyr::filter(type == "Imports") %>% .$package;writeLines(paste0("library(", dependencies, ")"), file.path(dashboard_path, "requirements.R"))}
 
