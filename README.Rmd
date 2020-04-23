@@ -3,7 +3,7 @@ output: github_document
 ---
 
 ```{r setup, echo = FALSE, results = 'hide', message = FALSE, warning = FALSE}
-source("./AppData/README/helpers.R")
+source("./.app/README/helpers.R")
 pkgs <- c("desc", "devtools", "usethis")
 try(remotes::install_cran(pkgs), silent = TRUE)
 knitr::opts_chunk$set(
@@ -81,4 +81,10 @@ You can install ``r package_name`` by using:
 ```
 install.packages("devtools")
 devtools::install_github("`r package_repo`")
+```
+
+<!-- ## Repository Structure -->
+
+```{r dir_tree, echo = FALSE, results = "show", eval=FALSE}
+fs::dir_tree(path_project)
 ```
