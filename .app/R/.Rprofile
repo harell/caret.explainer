@@ -18,8 +18,8 @@
     if(file.exists(path)) return() else file.create(path, recursive = TRUE)
 
     ## Set global options
-    .libPaths(Sys.getenv("R_LIBS_USER"))
     options(Ncpus = 8, repos = structure(c(CRAN = get_repos())), dependencies = "Imports")
+    .libPaths(Sys.getenv("R_LIBS_USER"))
 
     ## Install requirements
     if(!"remotes" %in% rownames(utils::installed.packages())) utils::install.packages("remotes", dependencies = getOption("dependencies"))

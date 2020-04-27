@@ -1,14 +1,15 @@
 # First -------------------------------------------------------------------
 .First <- function(){
     # Helper Functions
-    set_repos <- function(){
+    get_repos <- function(){
         DESCRIPTION <- readLines("DESCRIPTION")
         Date <- trimws(gsub("Date:", "", DESCRIPTION[grepl("Date:", DESCRIPTION)]))
-        if(length(Date) == 1) options(repos = paste0("https://mran.microsoft.com/snapshot/", Date))
+        URL <- if(length(Date) == 1) paste0("https://mran.microsoft.com/snapshot/", Date) else "https://cran.rstudio.com/"
+        return(URL)
     }
 
     # Programming Logic
-    suppressWarnings(try(set_repos(), silent = TRUE))
+    options(Ncpus = 8, repos = structure(c(CRAN = get_repos())), dependencies = "Imports")
     pkgs <- c("usethis", "testthat", "devtools")
     invisible(sapply(pkgs, require, character.only = TRUE, quietly = TRUE, warn.conflicts = FALSE))
 }
