@@ -17,7 +17,7 @@
     if(isFALSE(Sys.getenv("NEW_SESSION"))) return() else Sys.setenv(NEW_SESSION = FALSE)
 
     ## Set global options
-    ptions(startup.check.options.ignore = "stringsAsFactors", stringsAsFactors = TRUE)
+    options(startup.check.options.ignore = "stringsAsFactors", stringsAsFactors = TRUE)
     options(Ncpus = 8, repos = structure(c(CRAN = get_repos())), dependencies = "Imports", build = FALSE)
     .libPaths(Sys.getenv("R_LIBS_USER"))
 
