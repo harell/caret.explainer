@@ -240,6 +240,13 @@
       "Repository": "CRAN",
       "Hash": "fbca7161e09d205648cd784611633ea8"
     },
+    "fs": {
+      "Package": "fs",
+      "Version": "1.3.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "0e26be4558dbbc713d7cfe4a4c361f38"
+    },
     "generator": {
       "Package": "generator",
       "Version": "0.1.0",

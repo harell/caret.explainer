@@ -13,12 +13,12 @@
     }
 
     # Programming Logic
-    ## Setup watchdog
-    path <- ".git/First.lock"
-    if(file.exists(path)) return() else file.create(path, recursive = TRUE)
+    ## .First watchdog
+    if(isFALSE(Sys.getenv("NEW_SESSION"))) return() else Sys.setenv(NEW_SESSION = FALSE)
 
     ## Set global options
-    options(Ncpus = 8, repos = structure(c(CRAN = get_repos())), dependencies = "Imports")
+    ptions(startup.check.options.ignore = "stringsAsFactors", stringsAsFactors = TRUE)
+    options(Ncpus = 8, repos = structure(c(CRAN = get_repos())), dependencies = "Imports", build = FALSE)
     .libPaths(Sys.getenv("R_LIBS_USER"))
 
     ## Install requirements
@@ -30,5 +30,6 @@
 
 # Last --------------------------------------------------------------------
 .Last <- function(){
-    unlink(".git/First.lock")
+    ## .First watchdog
+    Sys.unsetenv("NEW_SESSION")
 }
