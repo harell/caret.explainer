@@ -12,7 +12,7 @@ source("./.app/tic/helpers.R")
 
 # Stage: Before Script ----------------------------------------------------
 get_stage("before_script") %>%
-    add_code_step(remotes::install_deps(dependencies = TRUE, build = FALSE, quiet = TRUE)) %>%
+    add_code_step(install_deps()) %>%
     add_code_step(try(devtools::uninstall(), silent = TRUE))
 
 # Stage: Script -----------------------------------------------------------
