@@ -1,6 +1,7 @@
 # First -------------------------------------------------------------------
 .First <- function(){
     # Helpers
+    assign(".Rprofile", new.env(), envir = globalenv())
     get_repos <- function(){
         DESCRIPTION <- readLines("DESCRIPTION")
         Date <- trimws(gsub("Date:", "", DESCRIPTION[grepl("Date:", DESCRIPTION)]))
@@ -17,8 +18,10 @@
 
     ## Initiate the package management system
     options(Ncpus = 8, repos = structure(c(CRAN = get_repos())), dependencies = "Imports", build = FALSE)
-    try(source("./.app/renv/activate.R"))
-    message("Activate the package management system with: activate()")
+    try({
+        source("./.app/renv/activate-renv.R", local = .Rprofile)
+        message("Activate the package management system with: .Rprofile$activate()")
+    })
 
     ## Load development toolkit
     pkgs <- c("usethis", "testthat", "devtools")
