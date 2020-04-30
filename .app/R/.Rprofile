@@ -4,7 +4,12 @@
 
 # First -------------------------------------------------------------------
 .First <- function(){
+    assign(".Rprofile", new.env(), envir = globalenv())
+
     # Helpers
+    .Rprofile$unset_NEW_SESSION <- function() Sys.unsetenv("NEW_SESSION")
+    .Rprofile$set_NEW_SESSION <- function() Sys.setenv(NEW_SESSION = FALSE)
+    .Rprofile$get_NEW_SESSION <- function() as.logical(Sys.getenv("NEW_SESSION"))
     get_repos <- function(){
         DESCRIPTION <- readLines("DESCRIPTION")
         Date <- trimws(gsub("Date:", "", DESCRIPTION[grepl("Date:", DESCRIPTION)]))
@@ -14,7 +19,7 @@
 
     # Programming Logic
     ## .First watchdog
-    if(isFALSE(Sys.getenv("NEW_SESSION"))) return() else Sys.setenv(NEW_SESSION = FALSE)
+    if(isFALSE(.Rprofile$get_NEW_SESSION())) return() else .Rprofile$set_NEW_SESSION()
 
     ## Set global options
     options(startup.check.options.ignore = "stringsAsFactors", stringsAsFactors = TRUE)
@@ -31,5 +36,5 @@
 # Last --------------------------------------------------------------------
 .Last <- function(){
     ## .First watchdog
-    Sys.unsetenv("NEW_SESSION")
+    .Rprofile$unset_NEW_SESSION()
 }
