@@ -7,3 +7,10 @@ default:
     tabs:
       InstanceAnalysis: yes
       NetworkAnalysis: no
+  shinydashboard:
+    dashboardPage:
+      skin: yellow
+    dashboardSidebar:
+      disable: yes
+      width: ~
+      collapsed: no

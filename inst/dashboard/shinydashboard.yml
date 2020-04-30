@@ -1,6 +1,0 @@
-dashboardPage:
-  skin: yellow
-dashboardSidebar:
-  disable: yes
-  width: ~
-  collapsed: no
