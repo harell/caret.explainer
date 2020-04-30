@@ -3,9 +3,10 @@
     assign(".Rprofile", new.env(), envir = globalenv())
 
     # Helpers
-    .Rprofile$unset_NEW_SESSION <- function() Sys.unsetenv("NEW_SESSION")
-    .Rprofile$set_NEW_SESSION <- function() Sys.setenv(NEW_SESSION = FALSE)
-    .Rprofile$get_NEW_SESSION <- function() as.logical(Sys.getenv("NEW_SESSION"))
+    .Rprofile$NEW_SESSION <- new.env()
+    .Rprofile$NEW_SESSION$unset <- function() Sys.unsetenv("NEW_SESSION")
+    .Rprofile$NEW_SESSION$set <- function() Sys.setenv(NEW_SESSION = FALSE)
+    .Rprofile$NEW_SESSION$get <- function() as.logical(Sys.getenv("NEW_SESSION"))
     get_repos <- function(){
         DESCRIPTION <- readLines("DESCRIPTION")
         Date <- trimws(gsub("Date:", "", DESCRIPTION[grepl("Date:", DESCRIPTION)]))
@@ -15,7 +16,7 @@
 
     # Programming Logic
     ## .First watchdog
-    if(isFALSE(.Rprofile$get_NEW_SESSION())) return() else .Rprofile$set_NEW_SESSION()
+    if(isFALSE(.Rprofile$NEW_SESSION$get())) return() else .Rprofile$NEW_SESSION$set()
 
     ## Set global options
     options(startup.check.options.ignore = "stringsAsFactors", stringsAsFactors = TRUE)
@@ -37,7 +38,7 @@
     unlink <- function(x) base::unlink(x, recursive = TRUE, force = TRUE)
 
     ## .First watchdog
-    .Rprofile$unset_NEW_SESSION()
+    .Rprofile$NEW_SESSION$unset()
 
     ## Cleanup
     unlink("./.git/index.lock")
