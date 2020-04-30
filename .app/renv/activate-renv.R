@@ -1,11 +1,15 @@
 activate <- function(){
   # Setup
-  if(!"renv" %in% rownames(utils::installed.packages())) utils::install.packages("renv", dependencies = getOption("dependencies"))
+  installed.packages <- utils::installed.packages
+  install.packages <-  utils::install.packages
+  packageVersion <- utils::packageVersion
+
+  if(!"renv" %in% rownames(installed.packages())) install.packages("renv", dependencies = getOption("dependencies"))
   options(
     renv.lockfile = "./.app/renv/renv.lock",
     renv.consent = TRUE,
     renv.settings = list(
-      ignored.packages = c("R", utils::installed.packages(priority = c("base", "recommended"))[,1]),
+      ignored.packages = c("R", installed.packages(priority = c("base", "recommended"))[,1]),
       snapshot.type = ifelse(packageVersion("renv") > "0.9.3", "explicit", "packrat"),
       auto.snapshot = FALSE,
       package.dependency.fields = getOption("dependencies", TRUE),
