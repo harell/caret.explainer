@@ -8,6 +8,7 @@ Dashboard <- R6::R6Class(
 )
 
 # Utils -------------------------------------------------------------------
+Dashboard$funs <- new.env()
 Dashboard$load_shiny_configuration <- function(envir = .GlobalEnv){
     config = Sys.getenv("R_CONFIG_ACTIVE", "default")
     file = list.files(".", "config-shiny.yml$", recursive = TRUE, full.names = TRUE)[1]
@@ -16,14 +17,18 @@ Dashboard$load_shiny_configuration <- function(envir = .GlobalEnv){
 }
 
 Dashboard$prepare_app_files <-  function(dashboard_source, dashboard_target){
+    unlink <- function(x) base::unlink(x, recursive = !FALSE, force = !FALSE)
+
     package_source <- "."
     package_target <- file.path(dashboard_target, "package")
 
     Dashboard$create_dir(dashboard_target)
     fs::dir_copy(dashboard_source, dirname(dashboard_target))
     fs::dir_copy(package_source, package_target)
-    fs::dir_delete(file.path(package_target, "vignettes"))
-    fs::dir_delete(file.path(package_target, "inst", "dashboard"))
+    unlink(file.path(package_target, c(".Rprofile")))
+    unlink(file.path(package_target, c(".app", ".git", ".Rproj.user", "check", "vignettes")))
+    unlink(file.path(package_target, "inst", "dashboard"))
+    unlink(Dashboard$funs$list_markdown(package_target))
     Dashboard$write_requirements(package_target, dashboard_target)
 
     invisible()
@@ -44,82 +49,10 @@ Dashboard$create_dir <- function(x){
     invisible()
 }
 
-# Dashboard functions -----------------------------------------------------
-Dashboard$funs <- new.env()
-
-Dashboard$funs$load_caret <-  function(){
-    set.seed(1353)
-
-    caret <- new.env()
-    caret <- Dashboard$funs$load_data(envir = caret)
-    caret <- Dashboard$funs$load_model(envir = caret)
-    return(caret)
+Dashboard$funs$list_markdown <- function(path){
+    list.files(path, ".(Rmd|md)$", full.names = TRUE, recursive = TRUE)
 }
 
-Dashboard$funs$load_data <- function(envir){
-    role_target <- "survived"
-    role_input <- c("gender", "age", "class", "embarked", "fare", "sibsp", "parch")
-    role_info <- c("gender")
-    role_pk <- "name"
-
-    utils::data('titanic_imputed', package = "DALEX")
-    dataset <-
-        titanic_imputed %>%
-        dplyr::mutate(survived = factor(survived, levels = 1:0, c("Survived", "Perished"))) %>%
-        dplyr::mutate_if(is.numeric, ~round(., 0)) %>%
-        tibble::add_column(name = generator::r_full_names(nrow(.)), .before = 0)
-
-    envir$dataset <- dataset %>% dplyr::select(!!role_pk, !!role_target, !!role_input, !!role_info)
-    envir$role_target <- role_target
-    envir$role_input <- role_input
-    envir$role_info <- role_info
-    envir$role_pk <- role_pk
-    return(envir)
-}
-
-Dashboard$funs$load_model <- function(envir){
-    assertthat::assert_that(
-        !is.null(envir$role_target),
-        !is.null(envir$role_input),
-        !is.null(envir$dataset)
-    )
-
-    role_target <- envir$role_target
-    role_input <- envir$role_input
-    model_formula <- formula(paste(envir$role_target, "~" , paste(envir$role_input, collapse = " + ")))
-    model_object <- Dashboard$funs$model_fit(envir$dataset, model_formula)
-
-    envir$train <- model_object
-    return(envir)
-}
-
-Dashboard$funs$model_fit <- function(data, formula){
-    is.formula <- function (x) invisible(inherits(x, "formula"))
-    assertthat::assert_that(is.data.frame(data), is.formula(formula))
-    set.seed(1546)
-
-    caret_ctrl <- caret::trainControl(method = "none")
-
-    caret_tune <- tibble::tibble(
-        nrounds = 50,
-        max_depth = 6,
-        eta = 0.05,
-        gamma = 0.01,
-        colsample_bytree = 0.8,
-        min_child_weight = 15,
-        subsample = 0.5
-    )
-
-    model_object <- caret::train(
-        formula,
-        data = data,
-        method = "xgbTree",
-        tuneGrid = caret_tune,
-        trControl = caret_ctrl
-    )
-
-    return(model_object)
-}
 
 # {DT} functions ----------------------------------------------------------
 Dashboard$DT <- new.env()
