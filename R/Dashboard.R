@@ -15,6 +15,20 @@ Dashboard$load_shiny_configuration <- function(envir = .GlobalEnv){
     invisible()
 }
 
+Dashboard$prepare_app_files <-  function(dashboard_source, dashboard_target){
+    package_source <- "."
+    package_target <- file.path(dashboard_target, "package")
+
+    Dashboard$create_dir(dashboard_target)
+    fs::dir_copy(dashboard_source, dirname(dashboard_target))
+    fs::dir_copy(package_source, package_target)
+    fs::dir_delete(file.path(package_target, "vignettes"))
+    fs::dir_delete(file.path(package_target, "inst", "dashboard"))
+    Dashboard$write_requirements(package_target, dashboard_target)
+
+    invisible()
+}
+
 Dashboard$write_requirements <- function(package_path, dashboard_path){
     dependencies <-
         desc::desc_get_deps(file.path(package_path, "DESCRIPTION")) %>%
@@ -29,7 +43,6 @@ Dashboard$create_dir <- function(x){
     base::dir.create(x, FALSE, TRUE)
     invisible()
 }
-
 
 # Dashboard functions -----------------------------------------------------
 Dashboard$funs <- new.env()
