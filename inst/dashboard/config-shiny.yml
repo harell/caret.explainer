@@ -1,7 +1,22 @@
-appName: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_name("./package"), error = function(e) pkgload::pkg_name(".")))
-appVersion: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_version("./package"), error = function(e) pkgload::pkg_version(".")))
-appTitle: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_name("./package"), error = function(e) pkgload::pkg_name(".")))
-appForceUpdate: no
-tabs:
-  InstanceAnalysis: yes
-  NetworkAnalysis: no
+default:
+  shiny:
+    appName: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_name("./package"), error = function(e) pkgload::pkg_name(".")))
+    appVersion: "(preview)"
+    appTitle: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_name("./package"), error = function(e) pkgload::pkg_name(".")))
+    appForceUpdate: no
+    tabs:
+      InstanceAnalysis: yes
+      NetworkAnalysis: no
+  shinydashboard:
+    dashboardPage:
+      skin: yellow
+    dashboardSidebar:
+      disable: yes
+      width: ~
+      collapsed: no
+master:
+  shiny:
+    appVersion: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_version("./package"), error = function(e) pkgload::pkg_version(".")))
+  shinydashboard:
+    dashboardPage:
+      skin: yellow
