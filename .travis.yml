@@ -23,6 +23,7 @@ before_install:
     '`%=%` <- function(key, value) paste0(key,"=",value);
      Renviron <- file(".Renviron", open = "wt");
      writeLines("R_PROFILE" %=% ".Rprofile", Renviron);
+     writeLines("R_CONFIG_ACTIVE" %=% Sys.getenv("TRAVIS_BRANCH"), Renviron);
      close(Renviron)'
  - R -q -e 'tic::dsl_load(); tic::prepare_all_stages(); tic::before_install()'
 install:
