@@ -11,7 +11,7 @@ DeployShiny <- R6::R6Class(
             env_var_exists <- function(x) nchar(Sys.getenv(x)) > 0
             option_exists <- function(x) !is.null(getOption(x))
             stopifnot(env_var_exists("SHINY_NAME"), env_var_exists("SHINY_TOKEN"), env_var_exists("SHINY_SECRET"))
-            stopifnot(option_exists("dashboard_source"))
+            stopifnot(option_exists("path_dashboard"))
 
             # Setup
             dashboard_source <- getOption("path_dashboard")
