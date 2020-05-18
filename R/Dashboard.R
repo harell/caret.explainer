@@ -7,34 +7,34 @@ Dashboard <- R6::R6Class(
     lock_objects = FALSE
 )
 
-# Utils -------------------------------------------------------------------
-Dashboard$funs <- new.env()
-Dashboard$load_shiny_configuration <- function(envir = .GlobalEnv){
+# Helper Functions --------------------------------------------------------
+Dashboard$utils <- new.env()
+Dashboard$utils$load_shiny_configuration <- function(envir = .GlobalEnv){
     config = Sys.getenv("R_CONFIG_ACTIVE", "default")
     file = list.files(".", "config-shiny.yml$", recursive = TRUE, full.names = TRUE)[1]
     list2env(config::get(NULL, config, file), envir = envir)
     invisible()
 }
 
-Dashboard$prepare_app_files <-  function(dashboard_source, dashboard_target){
+Dashboard$utils$prepare_app_files <-  function(dashboard_source, dashboard_target){
     unlink <- function(x) base::unlink(x, recursive = !FALSE, force = !FALSE)
 
     package_source <- "."
     package_target <- file.path(dashboard_target, "package")
 
-    Dashboard$create_dir(dashboard_target)
+    Dashboard$utils$create_dir(dashboard_target)
     fs::dir_copy(dashboard_source, dirname(dashboard_target))
     fs::dir_copy(package_source, package_target)
     unlink(file.path(package_target, c(".Rprofile")))
     unlink(file.path(package_target, c(".app", ".git", ".Rproj.user", "check", "vignettes")))
     unlink(file.path(package_target, "inst", "dashboard"))
-    unlink(Dashboard$funs$list_markdown(package_target))
-    Dashboard$write_requirements(package_target, dashboard_target)
+    unlink(Dashboard$utils$list_markdown(package_target))
+    Dashboard$utils$write_requirements(package_target, dashboard_target)
 
     invisible()
 }
 
-Dashboard$write_requirements <- function(package_path, dashboard_path){
+Dashboard$utils$write_requirements <- function(package_path, dashboard_path){
     dependencies <-
         desc::desc_get_deps(file.path(package_path, "DESCRIPTION")) %>%
         dplyr::filter(type == "Imports") %>%
@@ -43,16 +43,15 @@ Dashboard$write_requirements <- function(package_path, dashboard_path){
     invisible()
 }
 
-Dashboard$create_dir <- function(x){
+Dashboard$utils$create_dir <- function(x){
     base::unlink(x, recursive = TRUE, force = TRUE)
     base::dir.create(x, FALSE, TRUE)
     invisible()
 }
 
-Dashboard$funs$list_markdown <- function(path){
+Dashboard$utils$list_markdown <- function(path){
     list.files(path, ".(Rmd|md)$", full.names = TRUE, recursive = TRUE)
 }
-
 
 # {DT} functions ----------------------------------------------------------
 Dashboard$DT <- new.env()
