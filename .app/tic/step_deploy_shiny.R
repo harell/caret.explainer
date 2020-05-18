@@ -27,6 +27,7 @@ DeployShiny <- R6::R6Class(
 
             # Deploy Shiny
             DeployShiny$funs$load_shiny_configuration(envir = environment())
+            stopifnot(exists("rsconnect"))
             options(shiny.autoload.r = TRUE)
             rsconnect::deployApp(
                 appDir = dashboard_target,
