@@ -30,10 +30,23 @@ renv$snapshot <- function(){
 }
 
 renv$restore <- function(){
-  renv::restore(
-    lockfile = getOption("renv.lockfile"),
-    confirm = !getOption("renv.consent", FALSE)
+  unload_namespace <- function(ns) try(base::unloadNamespace(ns), silent = !TRUE)
+  attach_namespace <- function(ns) try(base::attachNamespace(ns), silent = !TRUE)
+
+  system_packages <- unname(utils::installed.packages(priority = c("base", "recommended"))[,1])
+  attached_packages <- setdiff(.packages(), system_packages)
+  invisible(sapply(attached_packages, unload_namespace))
+
+  tryCatch(
+    renv::restore(
+      lockfile = getOption("renv.lockfile"),
+      confirm = !getOption("renv.consent", FALSE),
+      clean = getOption("renv.clean")
+    ),
+    error = function(e) stop(e, "Try installing Rtools")
   )
+
+  invisible(sapply(attached_packages, attach_namespace))
 }
 
 # low level functions -----------------------------------------------------
@@ -50,6 +63,7 @@ renv$options <- function(){
   options(
     renv.lockfile = "./.app/renv/renv.lock",
     renv.consent = TRUE,
+    renv.clean = FALSE,
     renv.settings = list(
       ignored.packages = unique(c(config_packages, system_packages)),
       snapshot.type = ifelse(utils::packageVersion("renv") > "0.9.3", "explicit", "packrat"),
