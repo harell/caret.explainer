@@ -3,7 +3,7 @@ default:
     appName: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_name("./package"), error = function(e) pkgload::pkg_name(".")))
     appVersion: "(preview)"
     appTitle: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_name("./package"), error = function(e) pkgload::pkg_name(".")))
-    appForceUpdate: no
+    appForceUpdate: yes
     tabs:
       InstanceAnalysis: yes
       NetworkAnalysis: no

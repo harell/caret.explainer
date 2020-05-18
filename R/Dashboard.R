@@ -2,16 +2,16 @@
 #' @title One Stop Shop for Dashboard Functions
 #' @export
 Dashboard <- R6::R6Class(
-    classname = "LinkFunction",
+    classname = "Dashboard",
     cloneable = FALSE,
     lock_objects = FALSE
 )
 
 # Utils -------------------------------------------------------------------
-Dashboard$utils <- new.env()
-Dashboard$utils$yaml2env <- function(input = "config-shiny.yml", envir = globalenv()) {
-    yaml_content <- yaml::yaml.load_file(input, eval.expr = TRUE)
-    list2env(yaml_content, envir = envir)
+Dashboard$load_shiny_configuration <- function(envir = .GlobalEnv){
+    config = Sys.getenv("R_CONFIG_ACTIVE", "default")
+    file = list.files(".", "config-shiny.yml$", recursive = TRUE, full.names = TRUE)[1]
+    list2env(config::get(NULL, config, file), envir = envir)
     invisible()
 }
 
