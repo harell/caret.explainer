@@ -1,9 +1,10 @@
 default:
-  shiny:
+  rsconnect:
     appName: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_name("./package"), error = function(e) pkgload::pkg_name(".")))
     appVersion: "(preview)"
     appTitle: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_name("./package"), error = function(e) pkgload::pkg_name(".")))
-    appForceUpdate: no
+    appForceUpdate: yes
+  shiny:
     tabs:
       InstanceAnalysis: yes
       NetworkAnalysis: no
@@ -15,7 +16,7 @@ default:
       width: ~
       collapsed: no
 master:
-  shiny:
+  rsconnect:
     appVersion: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_version("./package"), error = function(e) pkgload::pkg_version(".")))
   shinydashboard:
     dashboardPage:

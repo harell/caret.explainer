@@ -2,16 +2,45 @@
 #' @title One Stop Shop for Dashboard Functions
 #' @export
 Dashboard <- R6::R6Class(
-    classname = "LinkFunction",
+    classname = "Dashboard",
     cloneable = FALSE,
     lock_objects = FALSE
 )
 
 # Utils -------------------------------------------------------------------
-Dashboard$utils <- new.env()
-Dashboard$utils$yaml2env <- function(input = "config-shiny.yml", envir = globalenv()) {
-    yaml_content <- yaml::yaml.load_file(input, eval.expr = TRUE)
-    list2env(yaml_content, envir = envir)
+Dashboard$load_shiny_configuration <- function(envir = .GlobalEnv){
+    config = Sys.getenv("R_CONFIG_ACTIVE", "default")
+    file = list.files(".", "config-shiny.yml$", recursive = TRUE, full.names = TRUE)[1]
+    list2env(config::get(NULL, config, file), envir = envir)
+    invisible()
+}
+
+Dashboard$prepare_app_files <-  function(dashboard_source, dashboard_target){
+    package_source <- "."
+    package_target <- file.path(dashboard_target, "package")
+
+    Dashboard$create_dir(dashboard_target)
+    fs::dir_copy(dashboard_source, dirname(dashboard_target))
+    fs::dir_copy(package_source, package_target)
+    fs::dir_delete(file.path(package_target, "vignettes"))
+    fs::dir_delete(file.path(package_target, "inst", "dashboard"))
+    Dashboard$write_requirements(package_target, dashboard_target)
+
+    invisible()
+}
+
+Dashboard$write_requirements <- function(package_path, dashboard_path){
+    dependencies <-
+        desc::desc_get_deps(file.path(package_path, "DESCRIPTION")) %>%
+        dplyr::filter(type == "Imports") %>%
+        .$package
+    writeLines(paste0("library(", dependencies, ")"), file.path(dashboard_path, "requirements.R"))
+    invisible()
+}
+
+Dashboard$create_dir <- function(x){
+    base::unlink(x, recursive = TRUE, force = TRUE)
+    base::dir.create(x, FALSE, TRUE)
     invisible()
 }
 

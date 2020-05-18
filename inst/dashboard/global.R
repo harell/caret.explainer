@@ -21,8 +21,9 @@ datatable <- DT::datatable
 
 # Context Object ----------------------------------------------------------
 context <- new.env()
+
 ## Load dashboard config file
-list2env(config::get(file = list.files(".", "config-shiny.yml$", recursive = TRUE, full.names = TRUE)[1]), envir = context)
+Dashboard$load_shiny_configuration(envir = context)
 
 ## Default values
 context$values <- new.env()
