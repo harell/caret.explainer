@@ -28,8 +28,8 @@ Dashboard$load_shiny_configuration()
 options(shiny.autoload.r = TRUE)
 rsconnect::deployApp(
     appDir = dashboard_target,
-    appName = shiny$appName,
-    appTitle = shiny$appTitle,
+    appName = rsconnect$appName,
+    appTitle = rsconnect$appTitle,
     account = Sys.getenv("SHINY_NAME"),
-    forceUpdate = shiny$appForceUpdate
+    forceUpdate = rsconnect$appForceUpdate
 )
