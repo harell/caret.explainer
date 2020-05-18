@@ -24,6 +24,13 @@ Dashboard$write_requirements <- function(package_path, dashboard_path){
     invisible()
 }
 
+Dashboard$create_dir <- function(x){
+    base::unlink(x, recursive = TRUE, force = TRUE)
+    base::dir.create(x, FALSE, TRUE)
+    invisible()
+}
+
+
 # Dashboard functions -----------------------------------------------------
 Dashboard$funs <- new.env()
 

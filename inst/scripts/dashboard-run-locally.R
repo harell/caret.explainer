@@ -1,6 +1,3 @@
-# Helpers -----------------------------------------------------------------
-create_dir <- function(x){unlink(x, recursive = TRUE, force = TRUE); dir.create(x, FALSE, TRUE)}
-
 # Setup -------------------------------------------------------------------
 pkgload::load_all(path = ".", helpers = FALSE, quiet = TRUE)
 dashboard_source <- getOption("path_dashboard")
@@ -8,7 +5,7 @@ dashboard_target <- file.path(tempdir(), "dashboard")
 package_source <- "."
 package_target <- file.path(dashboard_target, "package")
 
-create_dir(dashboard_target)
+Dashboard$create_dir(dashboard_target)
 fs::dir_copy(dashboard_source, dirname(dashboard_target))
 fs::dir_copy(package_source, package_target)
 fs::dir_delete(file.path(package_target, "vignettes"))
