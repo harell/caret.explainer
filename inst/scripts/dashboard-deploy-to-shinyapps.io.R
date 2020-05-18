@@ -24,7 +24,7 @@ rsconnect::setAccountInfo(
 # sort(rsconnect::appDependencies()$packages)
 
 # Deploy Shiny ------------------------------------------------------------
-Dashboard$load_shiny_configuration()
+Dashboard$load_shiny_configuration(envir = environment())
 options(shiny.autoload.r = TRUE)
 rsconnect::deployApp(
     appDir = dashboard_target,

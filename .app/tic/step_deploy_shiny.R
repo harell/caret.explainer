@@ -3,33 +3,22 @@ DeployShiny <- R6::R6Class(
     inherit = TicStep,
     public = list(
         # Public Methods -------------------------------------------------------
-        initialize = function() remotes::install_cran(c("rsconnect", "yaml", "fs"), quiet = TRUE),
+        initialize = function() remotes::install_cran(c("rsconnect", "yaml", "fs", "pkgload"), quiet = TRUE),
         run = function(){
-            write_requirements <- DeployShiny$funs$write_requirements
-            load_app_config <- DeployShiny$funs$load_app_config
-            env_var_exists <- DeployShiny$funs$env_var_exists
-            list_markdown <- DeployShiny$funs$list_markdown
-            create_dir <- DeployShiny$funs$create_dir
+            pkgload::load_all(path = ".", helpers = FALSE, quiet = TRUE)
 
             # Defensive Programming
+            env_var_exists <- function(x) nchar(Sys.getenv(x)) > 0
+            option_exists <- function(x) !is.null(getOption(x))
             stopifnot(env_var_exists("SHINY_NAME"), env_var_exists("SHINY_TOKEN"), env_var_exists("SHINY_SECRET"))
+            stopifnot(option_exists("dashboard_source"))
 
             # Setup
-            pkgload::load_all(path = ".", helpers = FALSE, quiet = TRUE)
             dashboard_source <- getOption("path_dashboard")
             dashboard_target <- file.path(tempdir(), "dashboard")
-            package_source <- getwd()
-            package_target <- file.path(dashboard_target, "package")
-
-            create_dir(dashboard_target)
-            fs::dir_copy(dashboard_source, dirname(dashboard_target))
-            fs::dir_copy(package_source, package_target)
-            fs::dir_delete(file.path(package_target, "inst", "dashboard"))
-            fs::file_delete(list_markdown(package_target))
-            write_requirements(package_target, dashboard_target)
+            DeployShiny$funs$prepare_app_files(dashboard_source, dashboard_target)
 
             # Prepare Shiny
-            load_app_config()
             rsconnect::setAccountInfo(
                 name = Sys.getenv("SHINY_NAME"),
                 token = Sys.getenv("SHINY_TOKEN"),
@@ -37,13 +26,14 @@ DeployShiny <- R6::R6Class(
             )
 
             # Deploy Shiny
+            DeployShiny$funs$load_shiny_configuration(envir = environment())
             options(shiny.autoload.r = TRUE)
             rsconnect::deployApp(
                 appDir = dashboard_target,
-                appName = appName,
-                appTitle = appTitle,
+                appName = rsconnect$appName,
+                appTitle = rsconnect$appTitle,
                 account = Sys.getenv("SHINY_NAME"),
-                forceUpdate = appForceUpdate
+                forceUpdate = rsconnect$appForceUpdate
             )
         }
     )
@@ -56,11 +46,38 @@ step_deploy_shiny <- function() {
 # Helpers -----------------------------------------------------------------
 DeployShiny$funs <- new.env()
 
-DeployShiny$funs$env_var_exists = function(x) nchar(Sys.getenv(x)) > 0
-DeployShiny$funs$load_app_config = function() list2env(yaml::yaml.load_file(list.files(".", "config-shiny.yml", full.names = TRUE, recursive = TRUE)[1], eval.expr = TRUE), globalenv())
-DeployShiny$funs$list_markdown = function(path) list.files(path, ".(Rmd|md)$", full.names = TRUE, recursive = TRUE)
-DeployShiny$funs$create_dir = function(x){unlink(x, recursive = TRUE, force = TRUE); dir.create(x, FALSE, TRUE)}
+DeployShiny$funs$load_shiny_configuration <- function(envir = .GlobalEnv){
+    config = Sys.getenv("R_CONFIG_ACTIVE", "default")
+    file = list.files(".", "config-shiny.yml$", recursive = TRUE, full.names = TRUE)[1]
+    list2env(config::get(NULL, config, file), envir = envir)
+    invisible()
+}
 
+DeployShiny$funs$prepare_app_files <-  function(dashboard_source, dashboard_target){
+    package_source <- "."
+    package_target <- file.path(dashboard_target, "package")
 
+    DeployShiny$funs$create_dir(dashboard_target)
+    fs::dir_copy(dashboard_source, dirname(dashboard_target))
+    fs::dir_copy(package_source, package_target)
+    fs::dir_delete(file.path(package_target, "vignettes"))
+    fs::dir_delete(file.path(package_target, "inst", "dashboard"))
+    DeployShiny$funs$write_requirements(package_target, dashboard_target)
 
+    invisible()
+}
 
+DeployShiny$funs$write_requirements <- function(package_path, dashboard_path){
+    dependencies <-
+        desc::desc_get_deps(file.path(package_path, "DESCRIPTION")) %>%
+        dplyr::filter(type == "Imports") %>%
+        .$package
+    writeLines(paste0("library(", dependencies, ")"), file.path(dashboard_path, "requirements.R"))
+    invisible()
+}
+
+DeployShiny$funs$create_dir <- function(x){
+    base::unlink(x, recursive = TRUE, force = TRUE)
+    base::dir.create(x, FALSE, TRUE)
+    invisible()
+}
