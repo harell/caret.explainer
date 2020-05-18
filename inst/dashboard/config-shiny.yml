@@ -1,7 +1,7 @@
 default:
   shiny:
     appName: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_name("./package"), error = function(e) pkgload::pkg_name(".")))
-    appVersion: "0-9000"
+    appVersion: "(preview)"
     appTitle: !expr gsub("\\." ,"-", tryCatch(pkgload::pkg_name("./package"), error = function(e) pkgload::pkg_name(".")))
     appForceUpdate: no
     tabs:

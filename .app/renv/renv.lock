@@ -4,7 +4,7 @@
     "Repositories": [
       {
         "Name": "CRAN",
-        "URL": "https://mran.microsoft.com/snapshot/2020-02-27"
+        "URL": "https://mran.microsoft.com/snapshot/2020-04-24"
       }
     ]
   },
@@ -561,18 +561,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "57c3009534f805f0f6476ffee68483cc"
-    },
-    "renv": {
-      "Package": "renv",
-      "Version": "0.9.3-100",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "renv",
-      "RemoteUsername": "rstudio",
-      "RemoteRef": "master",
-      "RemoteSha": "d737b5083a347f9b1722c8d1a91e5b8f3b6f7657",
-      "Hash": "bca8db48625b371548690022bbcb1f7d"
     },
     "reshape2": {
       "Package": "reshape2",

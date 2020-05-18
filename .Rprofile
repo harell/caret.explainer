@@ -25,7 +25,7 @@
     options(Ncpus = 8, repos = structure(c(CRAN = get_repos())), dependencies = "Imports", build = FALSE)
     try({
         source("./.app/renv/activate-renv.R", local = .Rprofile)
-        message("Activate the package management system with: .Rprofile$activate()")
+        message("\033[47m\033[31mActivate the package management system with: .Rprofile$restore()\033[39m\033[49m")
     })
 
     ## Load development toolkit
@@ -43,5 +43,4 @@
     ## Cleanup
     unlink("./.git/index.lock")
     unlink("./renv")
-    rm(unlink)
 }
