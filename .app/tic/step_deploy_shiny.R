@@ -29,12 +29,15 @@ DeployShiny <- R6::R6Class(
             DeployShiny$funs$load_shiny_configuration(envir = environment())
             stopifnot(exists("rsconnect"))
             options(shiny.autoload.r = TRUE)
-            rsconnect::deployApp(
-                appDir = dashboard_target,
-                appName = rsconnect$appName,
-                appTitle = rsconnect$appTitle,
-                account = Sys.getenv("SHINY_NAME"),
-                forceUpdate = rsconnect$appForceUpdate
+            tryCatch(
+                rsconnect::deployApp(
+                    appDir = dashboard_target,
+                    appName = rsconnect$appName,
+                    appTitle = rsconnect$appTitle,
+                    account = Sys.getenv("SHINY_NAME"),
+                    forceUpdate = rsconnect$appForceUpdate
+                ),
+                error = function(e) print(sort(rsconnect::appDependencies()$packages))
             )
         }
     )
