@@ -35,7 +35,7 @@ if (is_master_branch() | is_develop_branch()){
 
 # Stage: After Failure ----------------------------------------------------
 get_stage("after_failure") %>%
-    add_code_step(print(sessioninfo::session_info(include_base = FALSE)))
+    add_code_step(print(unname(sort(utils::installed.packages(priority = c("NA"))[,1]))))
 
 # Stage: Before Deploy ----------------------------------------------------
 get_stage("before_deploy")
