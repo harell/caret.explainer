@@ -4,7 +4,16 @@
 MockDatabase <- R6::R6Class(
     classname = "MockDatabase",
     cloneable = FALSE,
-    lock_objects = FALSE
+    lock_objects = FALSE,
+    public = list(
+        # Public Fields --------------------------------------------------------
+        path = character(0),
+        artifact = c(),
+        # Public Methods -------------------------------------------------------
+        #' @description
+        #' Generate a caret model
+        initialize = function(){self$artifact <- MockDatabase$funs$load_caret()}
+    )
 )
 
 
