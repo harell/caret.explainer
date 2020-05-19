@@ -1,7 +1,7 @@
 shinyUI(dashboardPage(
     # Application title
     dashboardHeader(
-        title = stringr::str_glue("{appTitle}\n{appVersion}", appTitle = context$rsconnect$appTitle, appVersion = context$rsconnect$appVersion)
+        title = context$shinydashboard$dashboardHeader$title
     ), # end dashboardHeader
 
     # Sidebar

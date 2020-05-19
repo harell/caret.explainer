@@ -31,6 +31,9 @@ context$values <- new.env()
 context$values$role_input <- NULL
 context$values$role_target <- NULL
 
+## UI elements
+context$shinydashboard$dashboardHeader$title <- stringr::str_glue("{appTitle}\n{appVersion}", appTitle = context$rsconnect$appTitle, appVersion = context$rsconnect$appVersion)
+
 # Generate caret model ----------------------------------------------------
 tags <- "mock:yes"
 if(length(database$read(tags)) == 0)
