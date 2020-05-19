@@ -8,6 +8,7 @@ library(shinydashboard)
 base::readRenviron(path = "./package/.Renviron")
 pkgload::load_all(path = "./package", helpers = FALSE, quiet = TRUE)
 invisible(sapply(list.files("./R", ".R$|.r$", full.names = TRUE), source))
+database <- DBMS$new()$establish_connection()
 
 # Helper Functions --------------------------------------------------------
 plotOutput <- function(...) shiny::plotOutput(..., height = "34vh")

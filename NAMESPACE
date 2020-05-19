@@ -2,8 +2,10 @@
 
 export("%>%")
 export(CaretModelDecomposition)
+export(DBMS)
 export(Dashboard)
 export(Explanations)
+export(MockDatabase)
 export(ModelComposition)
 export(ModelDecomposition)
 export(instantiate_explainer)
