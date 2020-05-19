@@ -15,7 +15,10 @@ DBMS <- R6::R6Class(
         #' @description
         #' Initialize a database
         #' @param path (`character`) A path to the database location
-        initialize = function(path = tempfile("DBMS")){self$path <- path},
+        initialize = function(path = tempfile("DBMS")){
+            dir.create(path, showWarnings = FALSE, recursive = TRUE)
+            self$path <- path
+        },
         #' @description
         #' Establish a connection to the database
         establish_connection = function() DBMS$funs$establish_connection(self),
