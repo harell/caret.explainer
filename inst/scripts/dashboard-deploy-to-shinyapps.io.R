@@ -10,7 +10,7 @@ stopifnot(env_var_exists("SHINY_NAME"), env_var_exists("SHINY_TOKEN"), env_var_e
 pkgload::load_all(path = ".", helpers = FALSE, quiet = TRUE)
 dashboard_source <- getOption("path_dashboard")
 dashboard_target <- file.path(tempdir(), "dashboard")
-Dashboard$prepare_app_files(dashboard_source, dashboard_target)
+Dashboard$utils$prepare_app_files(dashboard_source, dashboard_target)
 
 # Prepare Shiny -----------------------------------------------------------
 rsconnect::setAccountInfo(
@@ -24,7 +24,7 @@ rsconnect::setAccountInfo(
 # sort(rsconnect::appDependencies()$packages)
 
 # Deploy Shiny ------------------------------------------------------------
-Dashboard$load_shiny_configuration(envir = environment())
+Dashboard$utils$load_shiny_configuration(envir = environment())
 options(shiny.autoload.r = TRUE)
 rsconnect::deployApp(
     appDir = dashboard_target,

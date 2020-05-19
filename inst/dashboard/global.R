@@ -23,7 +23,7 @@ datatable <- DT::datatable
 context <- new.env()
 
 ## Load dashboard config file
-Dashboard$load_shiny_configuration(envir = context)
+Dashboard$utils$load_shiny_configuration(envir = context)
 
 ## Default values
 context$values <- new.env()
