@@ -19,4 +19,12 @@ test_that("DBMS$establish_connection works", {
     expect_silent(test_env$database$establish_connection())
 })
 
+# import caret model ------------------------------------------------------
+test_that("DBMS$query_tags works", {
+    attach(test_env)
+    tags <- "class:learn"
+    expect_silent(test_env$database$query_tags(tags))
+})
+
+
 
