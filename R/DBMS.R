@@ -23,9 +23,9 @@ DBMS <- R6::R6Class(
         #' Create an artifact in the archive
         create = function(artifact, tags = c()) DBMS$funs$create(self, artifact, tags),
         #' @description
-        #' Query the database by using JSON tags
+        #' Read an artifact from the archive
         #' @param tags (`character`) A character vector with key:value tags
-        query_tags = function(tags) DBMS$funs$query_tags(self, tags)
+        read = function(tags) DBMS$funs$read(self, tags)
     )
 )
 DBMS$funs <- new.env()
@@ -40,7 +40,7 @@ DBMS$funs$create <- function(self, artifact, tags){
     archivist::saveToLocalRepo(artifact, repoDir = self$path, userTags = tags)
 }
 
-DBMS$funs$query_tags <- function(self, tags){
+DBMS$funs$read <- function(self, tags){
     archivist::setLocalRepo(repoDir = self$path)
     artifact <- archivist::asearch(tags, repo = NULL)
     return(artifact)

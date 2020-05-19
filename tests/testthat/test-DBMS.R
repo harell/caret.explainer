@@ -18,24 +18,25 @@ test_that("DBMS$new works", {
     test_env$database <- database
 })
 
-# establish_connection ----------------------------------------------------
+# establish archive -------------------------------------------------------
 test_that("DBMS$establish_connection works", {
     attach(test_env)
     expect_silent(test_env$database$establish_connection())
 })
 
-# save_an_artifact --------------------------------------------------------
+# create an artifact ------------------------------------------------------
 test_that("DBMS$create works", {
     attach(test_env)
     expect_silent(test_env$database$create(mtcars))
 })
 
-# # import caret model ------------------------------------------------------
-# test_that("DBMS$query_tags works", {
-#     attach(test_env)
-#     tags <- "class:data.frame"
-#     expect_class(test_env$database$query_tags(tags), "data.frame")
-# })
+# read an artifact --------------------------------------------------------
+test_that("DBMS$read works", {
+    attach(test_env)
+    tags <- "class:data.frame"
+    expect_class(artifact <- test_env$database$read(tags), "list")
+    expect_class(artifact[[1]], "data.frame")
+})
 
 
 
