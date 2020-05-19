@@ -8,7 +8,7 @@ library(shinydashboard)
 base::readRenviron(path = "./package/.Renviron")
 pkgload::load_all(path = "./package", helpers = FALSE, quiet = TRUE)
 invisible(sapply(list.files("./R", ".R$|.r$", full.names = TRUE), source))
-database <- DBMS$new(path = getOption("path_archive"))$establish_connection()
+database <- DBMS$new(path = tempfile("archive-"))$establish_connection()
 
 # Helper Functions --------------------------------------------------------
 plotOutput <- function(...) shiny::plotOutput(..., height = "34vh")
@@ -32,5 +32,6 @@ context$values$role_input <- NULL
 context$values$role_target <- NULL
 
 # Generate caret model ----------------------------------------------------
-database$create(artifact = MockDatabase$new()$artifact)
-
+tags <- "mock:yes"
+if(length(database$read(tags)) == 0)
+    database$create(artifact = MockDatabase$new()$artifact, tags)
