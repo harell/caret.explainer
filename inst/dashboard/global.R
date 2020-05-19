@@ -30,3 +30,7 @@ Dashboard$utils$load_shiny_configuration(envir = context)
 context$values <- new.env()
 context$values$role_input <- NULL
 context$values$role_target <- NULL
+
+# Generate caret model ----------------------------------------------------
+database$create(MockDatabase$funs$load_caret())
+
