@@ -8,6 +8,7 @@ library(shinydashboard)
 base::readRenviron(path = "./package/.Renviron")
 pkgload::load_all(path = "./package", helpers = FALSE, quiet = TRUE)
 invisible(sapply(list.files("./R", ".R$|.r$", full.names = TRUE), source))
+database <- DBMS$new(path = tempfile("archive-"))$establish_connection()
 
 # Helper Functions --------------------------------------------------------
 plotOutput <- function(...) shiny::plotOutput(..., height = "34vh")
@@ -23,9 +24,14 @@ datatable <- DT::datatable
 context <- new.env()
 
 ## Load dashboard config file
-Dashboard$load_shiny_configuration(envir = context)
+Dashboard$utils$load_shiny_configuration(envir = context)
 
 ## Default values
 context$values <- new.env()
 context$values$role_input <- NULL
 context$values$role_target <- NULL
+
+# Generate caret model ----------------------------------------------------
+tags <- "mock:yes"
+if(length(database$read(tags)) == 0)
+    database$create(artifact = MockDatabase$new()$artifact, tags)

@@ -2,7 +2,7 @@
 pkgload::load_all(path = ".", helpers = FALSE, quiet = TRUE)
 dashboard_source <- getOption("path_dashboard")
 dashboard_target <- file.path(tempdir(), "dashboard")
-Dashboard$prepare_app_files(dashboard_source, dashboard_target)
+Dashboard$utils$prepare_app_files(dashboard_source, dashboard_target)
 
 # App Information ---------------------------------------------------------
 # shell.exec(dashboard_target)

@@ -30,7 +30,7 @@ InstanceAnalysisServer <- function(input, output, session){
     assert_exists <- function(x, env = parent.frame()) invisible(sapply(x, function(x, env) assertthat::assert_that(exists(x, envir = env), msg = paste(x, "doesn't exist")), env = env))
 
     # Get the data
-    caret <- Dashboard$funs$load_caret()
+    caret <- database$read("class:environment")[[1]]
     assert_exists(c("dataset", "role_target", "role_input", "role_info", "role_pk"), env = caret)
 
     # Setup
