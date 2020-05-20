@@ -786,13 +786,6 @@
       "Repository": "CRAN",
       "Hash": "aa57ed55ff2df4bea697a07df528993d"
     },
-    "xgboost": {
-      "Package": "xgboost",
-      "Version": "0.90.0.2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "1f29db60e440a590f98511b44595f0f3"
-    },
     "xml2": {
       "Package": "xml2",
       "Version": "1.2.2",
