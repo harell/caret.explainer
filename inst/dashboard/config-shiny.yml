@@ -9,6 +9,8 @@ default:
       InstanceAnalysis: yes
       NetworkAnalysis: no
   shinydashboard:
+    dashboardHeader:
+      title: null
     dashboardPage:
       skin: yellow
     dashboardSidebar:
