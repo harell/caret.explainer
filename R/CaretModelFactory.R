@@ -71,20 +71,12 @@ CaretModelFactory$funs$model_fit <- function(data, formula){
 
     caret_ctrl <- caret::trainControl(method = "none")
 
-    caret_tune <- tibble::tibble(
-        nrounds = 50,
-        max_depth = 6,
-        eta = 0.05,
-        gamma = 0.01,
-        colsample_bytree = 0.8,
-        min_child_weight = 15,
-        subsample = 0.5
-    )
+    caret_tune <- NULL
 
     model_object <- caret::train(
         formula,
         data = data,
-        method = "xgbTree",
+        method = "glm",
         tuneGrid = caret_tune,
         trControl = caret_ctrl
     )
