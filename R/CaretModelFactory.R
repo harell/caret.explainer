@@ -1,8 +1,8 @@
-# MockDatabase ------------------------------------------------------------
+# CaretModelFactory ------------------------------------------------------------
 #' @title Create a caret Model to Present on a Dashboard
 #' @export
-MockDatabase <- R6::R6Class(
-    classname = "MockDatabase",
+CaretModelFactory <- R6::R6Class(
+    classname = "CaretModelFactory",
     cloneable = FALSE,
     lock_objects = FALSE,
     public = list(
@@ -12,24 +12,22 @@ MockDatabase <- R6::R6Class(
         # Public Methods -------------------------------------------------------
         #' @description
         #' Generate a caret model
-        initialize = function(){self$artifact <- MockDatabase$funs$load_caret()}
+        initialize = function(){self$artifact <- CaretModelFactory$funs$load_caret()}
     )
 )
-
+CaretModelFactory$funs <- new.env()
 
 # Dashboard functions -----------------------------------------------------
-MockDatabase$funs <- new.env()
-
-MockDatabase$funs$load_caret <-  function(){
+CaretModelFactory$funs$load_caret <-  function(){
     set.seed(1353)
 
     caret <- new.env()
-    caret <- MockDatabase$funs$load_data(envir = caret)
-    caret <- MockDatabase$funs$load_model(envir = caret)
+    caret <- CaretModelFactory$funs$load_data(envir = caret)
+    caret <- CaretModelFactory$funs$load_model(envir = caret)
     return(caret)
 }
 
-MockDatabase$funs$load_data <- function(envir){
+CaretModelFactory$funs$load_data <- function(envir){
     role_target <- "survived"
     role_input <- c("gender", "age", "class", "embarked", "fare", "sibsp", "parch")
     role_info <- c("gender")
@@ -50,7 +48,7 @@ MockDatabase$funs$load_data <- function(envir){
     return(envir)
 }
 
-MockDatabase$funs$load_model <- function(envir){
+CaretModelFactory$funs$load_model <- function(envir){
     assertthat::assert_that(
         !is.null(envir$role_target),
         !is.null(envir$role_input),
@@ -60,13 +58,13 @@ MockDatabase$funs$load_model <- function(envir){
     role_target <- envir$role_target
     role_input <- envir$role_input
     model_formula <- formula(paste(envir$role_target, "~" , paste(envir$role_input, collapse = " + ")))
-    model_object <- MockDatabase$funs$model_fit(envir$dataset, model_formula)
+    model_object <- CaretModelFactory$funs$model_fit(envir$dataset, model_formula)
 
     envir$train <- model_object
     return(envir)
 }
 
-MockDatabase$funs$model_fit <- function(data, formula){
+CaretModelFactory$funs$model_fit <- function(data, formula){
     is.formula <- function (x) invisible(inherits(x, "formula"))
     assertthat::assert_that(is.data.frame(data), is.formula(formula))
     set.seed(1546)
