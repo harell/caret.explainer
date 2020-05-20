@@ -1,5 +1,6 @@
 # CaretModelFactory ------------------------------------------------------------
 #' @title Create a caret Model to Present on a Dashboard
+#' @field artifact (`environment`) An environment with a caret model
 #' @export
 CaretModelFactory <- R6::R6Class(
     classname = "CaretModelFactory",
@@ -7,7 +8,6 @@ CaretModelFactory <- R6::R6Class(
     lock_objects = FALSE,
     public = list(
         # Public Fields --------------------------------------------------------
-        path = character(0),
         artifact = c(),
         # Public Methods -------------------------------------------------------
         #' @description
