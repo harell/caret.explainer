@@ -42,7 +42,6 @@ Imports:
     ingredients (>= 1.0.0),
     e1071 (>= 1.7),
     shinydashboard (>= 0.7.1),
-    xgboost (>= 0.90.0),
     pkgload (>= 1.0.2),
     config (>= 0.3.0),
     stringr (>= 1.4.0),
