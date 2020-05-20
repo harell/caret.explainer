@@ -34,4 +34,4 @@ shinydashboard$dashboardPage$title <- rsconnect$appTitle
 # Generate caret model ----------------------------------------------------
 tags <- "mock:yes"
 if(length(database$read(tags)) == 0)
-    database$create(artifact = MockDatabase$new()$artifact, tags)
+    database$create(artifact = CaretModelFactory$new()$artifact, tags)
