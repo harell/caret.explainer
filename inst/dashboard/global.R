@@ -8,6 +8,7 @@ library(shinydashboard)
 base::readRenviron(path = "./package/.Renviron")
 pkgload::load_all(path = "./package", helpers = FALSE, quiet = TRUE)
 invisible(sapply(list.files("./R", ".R$|.r$", full.names = TRUE), source))
+Dashboard$utils$load_shiny_configuration(envir = environment())
 database <- DBMS$new(path = tempfile("archive-"))$establish_connection()
 
 # Helper Functions --------------------------------------------------------
@@ -22,14 +23,13 @@ datatable <- DT::datatable
 
 # Context Object ----------------------------------------------------------
 context <- new.env()
+context$role <- new.env()
+context$role$input <- NULL
+context$role$target <- NULL
 
-## Load dashboard config file
-Dashboard$utils$load_shiny_configuration(envir = context)
-
-## Default values
-context$values <- new.env()
-context$values$role_input <- NULL
-context$values$role_target <- NULL
+# UI Elements -------------------------------------------------------------
+shinydashboard$dashboardHeader$title <- stringr::str_glue("{appTitle}\n{appVersion}", appTitle = rsconnect$appTitle, appVersion = rsconnect$appVersion)
+shinydashboard$dashboardPage$title <- rsconnect$appTitle
 
 # Generate caret model ----------------------------------------------------
 tags <- "mock:yes"

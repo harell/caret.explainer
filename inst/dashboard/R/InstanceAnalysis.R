@@ -38,20 +38,20 @@ InstanceAnalysisServer <- function(input, output, session){
     model_elements <- caret$train %>% CaretModelDecomposition$new()
     explanations <- instantiate_explainer(caret$train)
     vars_meta <- sapply(caret$dataset, class) %>% tibble::enframe("name", "type")
-    context$values$role_pk <- caret$role_pk
-    context$values$role_target <- caret$role_target
-    context$values$role_input <- vars_meta %>% dplyr::filter(name %in% caret$role_input, type %in% c("numeric", "integer")) %>% .$name
-    context$values$role_info <- vars_meta %>% dplyr::filter(name %in% caret$role_info, type %in% c("factor")) %>% .$name
+    context$role$pk <- caret$role_pk
+    context$role$target <- caret$role_target
+    context$role$input <- vars_meta %>% dplyr::filter(name %in% caret$role_input, type %in% c("numeric", "integer")) %>% .$name
+    context$role$info <- vars_meta %>% dplyr::filter(name %in% caret$role_info, type %in% c("factor")) %>% .$name
 
     # UI Widgets
-    updateCheckboxGroupInput(session, inputId = "what_if_vars", choices = as.list(context$values$role_input))
+    updateCheckboxGroupInput(session, inputId = "what_if_vars", choices = as.list(context$role$input))
 
     # Observation table
     ## DT table filters
     tableFilterGenerator <- Dashboard$shiny$tableFilterGenerator
     output$instances_filters <- renderUI({
         purrr::map(
-            context$values$role_info,
+            context$role$info,
             ~ tableFilterGenerator(data = caret$dataset, col_name = .x, Namespace = ns)
         )
     })
