@@ -10,4 +10,4 @@ Dashboard$utils$prepare_app_files(dashboard_source, dashboard_target)
 
 # Run Shiny ---------------------------------------------------------------
 options(shiny.autoload.r = TRUE)
-shiny::runApp(appDir = dashboard_target)
+shiny::runApp(appDir = normalizePath(dashboard_target))
