@@ -9,18 +9,14 @@ Dashboard <- R6::R6Class(
 
 # Helper Functions --------------------------------------------------------
 Dashboard$utils <- new.env()
-Dashboard$utils$load_shiny_configuration <- function(envir = .GlobalEnv){
-    config = Sys.getenv("R_CONFIG_ACTIVE", "default")
-    file = list.files(".", "config-shiny.yml$", recursive = TRUE, full.names = TRUE)[1]
-    list2env(config::get(NULL, config, file), envir = envir)
-    invisible()
-}
 
 Dashboard$utils$prepare_app_files <-  function(dashboard_source, dashboard_target){
-    unlink <- function(x) base::unlink(x, recursive = !FALSE, force = !FALSE)
+    unlink <- purrr::partial(base::unlink, recursive = TRUE, force = TRUE)
 
+    dashboard_source <- normalizePath(dashboard_source)
+    dashboard_target <- normalizePath(dashboard_target)
     package_source <- "."
-    package_target <- file.path(dashboard_target, "package")
+    package_target <- normalizePath(file.path(dashboard_target, "package"))
 
     Dashboard$utils$create_dir(dashboard_target)
     fs::dir_copy(dashboard_source, dirname(dashboard_target))
