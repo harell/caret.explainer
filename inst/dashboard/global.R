@@ -9,7 +9,6 @@
 # Setup -------------------------------------------------------------------
 library(shiny)
 library(shinydashboard)
-library(purrr)
 base::readRenviron(path = "./package/.Renviron")
 pkgload::load_all(path = "./package", helpers = FALSE, quiet = TRUE)
 invisible(sapply(list.files("./R", ".R$|.r$", full.names = TRUE), source))
