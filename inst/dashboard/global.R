@@ -5,6 +5,13 @@
 #' 1. across all sessions;
 #' 2. to the code in the server object; and
 #' 3. to the code in the ui object.
+#'
+#' Context Object
+#' A context object encapsulates the references/pointers to services and
+#' configuration information used/needed by other objects. It allows the objects
+#' living within a context to see the outside world. Objects living in a
+#' different context see a different view of the outside world.
+context <- new.env()
 
 # Setup -------------------------------------------------------------------
 library(shiny)
@@ -16,7 +23,6 @@ Dashboard$utils$load_shiny_configuration(envir = environment())
 database <- DBMS$new(path = tempfile("archive-"))$establish_connection()
 
 # Helper Functions --------------------------------------------------------
-get_shiny <- purrr::partial(config::get, file = list.files(".", "config-shiny.yml$", recursive = TRUE, full.names = TRUE)[1])
 plotOutput <- function(...) shiny::plotOutput(..., height = "34vh")
 box <- function(..., width = NULL, solidHeader = TRUE) suppressWarnings(shinydashboard::box(..., width = width, solidHeader = solidHeader))
 tabItem <- function(tabName = NULL, ..., enable = TRUE) if(enable) shinydashboard::tabItem(tabName = tabName, ...) else shinydashboard::tabItem(tabName = tabName, NullModuleUI(id = tabName))
@@ -26,15 +32,13 @@ dataTableOutput <- DT::dataTableOutput
 renderDataTable <- DT::renderDataTable
 datatable <- DT::datatable
 
-# Context Object ----------------------------------------------------------
-context <- new.env()
-context$role <- new.env()
-context$role$input <- NULL
-context$role$target <- NULL
+# Configuration -----------------------------------------------------------
+get_shiny <- purrr::partial(config::get, file = list.files(".", "config-shiny.yml$", recursive = TRUE, full.names = TRUE)[1])
+shinydashboard <- get_shiny("shinydashboard")
+rsconnect <- get_shiny("rsconnect")
 
 # UI Elements -------------------------------------------------------------
 ## {shinydashboard}
-shinydashboard <- get_shiny("shinydashboard")
 shinydashboard$dashboardHeader$title <- stringr::str_glue("{appTitle}\n{appVersion}", appTitle = rsconnect$appTitle, appVersion = rsconnect$appVersion)
 shinydashboard$dashboardPage$title <- rsconnect$appTitle
 dashboardPage <- purrr::partial(
