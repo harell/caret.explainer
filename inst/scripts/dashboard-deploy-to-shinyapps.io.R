@@ -9,7 +9,7 @@ stopifnot(env_var_exists("SHINY_NAME"), env_var_exists("SHINY_TOKEN"), env_var_e
 # Setup -------------------------------------------------------------------
 pkgload::load_all(path = ".", helpers = FALSE, quiet = TRUE)
 dashboard_source <- getOption("path_dashboard")
-dashboard_target <- file.path(tempdir(), "dashboard")
+dashboard_target <- normalizePath(file.path(tempdir(), "dashboard"))
 Dashboard$utils$prepare_app_files(dashboard_source, dashboard_target)
 
 # Prepare Shiny -----------------------------------------------------------

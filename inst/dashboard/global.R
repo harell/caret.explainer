@@ -41,9 +41,16 @@ dashboardPage <- purrr::partial(
     title = shinydashboard$dashboardPage$title,
     skin = shinydashboard$dashboardPage$skin
 )
-# dashboardHeader <- purrr::partial(shinydashboard::dashboardHeader)
-# dashboardSidebar <- purrr::partial(shinydashboard::dashboardSidebar)
-# dashboardBody <- purrr::partial(shinydashboard::dashboardBody)
+dashboardHeader <- purrr::partial(
+    shinydashboard::dashboardHeader,
+    title = shinydashboard$dashboardHeader$title
+)
+dashboardSidebar <- purrr::partial(
+    shinydashboard::dashboardSidebar,
+    disable = shinydashboard$dashboardSidebar$disable,
+    width = shinydashboard$dashboardSidebar$width,
+    collapsed = shinydashboard$dashboardSidebar$collapsed
+)
 
 # Generate caret model ----------------------------------------------------
 tags <- "mock:yes"
