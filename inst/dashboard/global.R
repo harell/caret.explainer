@@ -16,6 +16,7 @@ Dashboard$utils$load_shiny_configuration(envir = environment())
 database <- DBMS$new(path = tempfile("archive-"))$establish_connection()
 
 # Helper Functions --------------------------------------------------------
+get_shiny <- purrr::partial(config::get, file = list.files(".", "config-shiny.yml$", recursive = TRUE, full.names = TRUE)[1])
 plotOutput <- function(...) shiny::plotOutput(..., height = "34vh")
 box <- function(..., width = NULL, solidHeader = TRUE) suppressWarnings(shinydashboard::box(..., width = width, solidHeader = solidHeader))
 tabItem <- function(tabName = NULL, ..., enable = TRUE) if(enable) shinydashboard::tabItem(tabName = tabName, ...) else shinydashboard::tabItem(tabName = tabName, NullModuleUI(id = tabName))
@@ -32,9 +33,10 @@ context$role$input <- NULL
 context$role$target <- NULL
 
 # UI Elements -------------------------------------------------------------
+## {shinydashboard}
+shinydashboard <- get_shiny("shinydashboard")
 shinydashboard$dashboardHeader$title <- stringr::str_glue("{appTitle}\n{appVersion}", appTitle = rsconnect$appTitle, appVersion = rsconnect$appVersion)
 shinydashboard$dashboardPage$title <- rsconnect$appTitle
-## {shinydashboard}
 dashboardPage <- purrr::partial(
     shinydashboard::dashboardPage,
     title = shinydashboard$dashboardPage$title,

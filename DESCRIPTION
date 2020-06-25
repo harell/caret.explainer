@@ -20,7 +20,8 @@ Language: en-GB
 Depends: 
     R (>= 3.5),
     R6 (>= 2.4.1),
-    shiny (>= 1.4.0)
+    shiny (>= 1.4.0),
+    config (>= 0.3.0)
 Suggests: 
     covr (>= 3.2.1),
     desc (>= 1.2.0),
@@ -43,6 +44,5 @@ Imports:
     e1071 (>= 1.7),
     shinydashboard (>= 0.7.1),
     pkgload (>= 1.0.2),
-    config (>= 0.3.0),
     stringr (>= 1.4.0),
     archivist (>= 2.3.4)
