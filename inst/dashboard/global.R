@@ -1,6 +1,9 @@
 ################################################################################
 ##                               Global Objects                               ##
 ################################################################################
+#' Shiny startup procedure
+#' global.R --> server.R
+#'
 #' Objects defined here are visible:
 #' 1. across all sessions;
 #' 2. to the code in the server object; and
@@ -19,7 +22,10 @@ library(shinydashboard)
 base::readRenviron(path = "./package/.Renviron")
 pkgload::load_all(path = "./package", helpers = FALSE, quiet = TRUE)
 invisible(sapply(list.files("./R", ".R$|.r$", full.names = TRUE), source))
-database <- DBMS$new(path = tempfile("archive-"))$establish_connection()
+
+# Source Layers -----------------------------------------------------------
+source("./global_app.R")
+# source("./global_ui.R")
 
 # Helper Functions --------------------------------------------------------
 plotOutput <- function(...) shiny::plotOutput(..., height = "34vh")
@@ -33,6 +39,7 @@ datatable <- DT::datatable
 
 # Configuration -----------------------------------------------------------
 get_shiny <- purrr::partial(config::get, file = list.files(".", "config-shiny.yml$", recursive = TRUE, full.names = TRUE)[1])
+shiny <- get_shiny("shiny")
 shinydashboard <- get_shiny("shinydashboard")
 rsconnect <- get_shiny("rsconnect")
 
@@ -55,8 +62,3 @@ dashboardSidebar <- purrr::partial(
     width = shinydashboard$dashboardSidebar$width,
     collapsed = shinydashboard$dashboardSidebar$collapsed
 )
-
-# Generate caret model ----------------------------------------------------
-tags <- "mock:yes"
-if(length(database$read(tags)) == 0)
-    database$create(artifact = CaretModelFactory$new()$artifact, tags)
