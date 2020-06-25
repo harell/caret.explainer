@@ -35,10 +35,11 @@ Dashboard$utils$prepare_app_files <-  function(dashboard_source, dashboard_targe
 }
 
 Dashboard$utils$write_requirements <- function(package_path, dashboard_path){
-    dependencies <-
-        desc::desc_get_deps(file.path(package_path, "DESCRIPTION")) %>%
-        dplyr::filter(type == "Imports") %>%
-        .$package
+    invisible(
+        dependencies <- desc::desc_get_deps(file.path(package_path, "DESCRIPTION"))
+        %>% dplyr::filter(type %in% c("Imports", "Depends"), package != "R")
+        %>% .$package
+    )
     writeLines(paste0("library(", dependencies, ")"), file.path(dashboard_path, "requirements.R"))
     invisible()
 }
