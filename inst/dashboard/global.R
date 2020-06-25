@@ -1,10 +1,15 @@
-# Objects defined here are:
-# 1. visible across all sessions; and
-# 2. visible to the code in both the server and ui objects.
+################################################################################
+##                               Global Objects                               ##
+################################################################################
+#' Objects defined here are visible:
+#' 1. across all sessions;
+#' 2. to the code in the server object; and
+#' 3. to the code in the ui object.
 
 # Setup -------------------------------------------------------------------
 library(shiny)
 library(shinydashboard)
+library(purrr)
 base::readRenviron(path = "./package/.Renviron")
 pkgload::load_all(path = "./package", helpers = FALSE, quiet = TRUE)
 invisible(sapply(list.files("./R", ".R$|.r$", full.names = TRUE), source))
@@ -30,6 +35,15 @@ context$role$target <- NULL
 # UI Elements -------------------------------------------------------------
 shinydashboard$dashboardHeader$title <- stringr::str_glue("{appTitle}\n{appVersion}", appTitle = rsconnect$appTitle, appVersion = rsconnect$appVersion)
 shinydashboard$dashboardPage$title <- rsconnect$appTitle
+## {shinydashboard}
+dashboardPage <- purrr::partial(
+    shinydashboard::dashboardPage,
+    title = shinydashboard$dashboardPage$title,
+    skin = shinydashboard$dashboardPage$skin
+)
+# dashboardHeader <- purrr::partial(shinydashboard::dashboardHeader)
+# dashboardSidebar <- purrr::partial(shinydashboard::dashboardSidebar)
+# dashboardBody <- purrr::partial(shinydashboard::dashboardBody)
 
 # Generate caret model ----------------------------------------------------
 tags <- "mock:yes"

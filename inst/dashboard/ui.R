@@ -19,10 +19,6 @@ shinyUI(dashboardPage(
         tabItems(
             tabItem(tabName = "InstanceAnalysisTab", InstanceAnalysisUI(id = "InstanceAnalysis"), enable = shiny$tabs$InstanceAnalysis)
         ) # end tabItems
-    ), # end dashboardBody
-
-    # Aesthetics
-    title = shinydashboard$dashboardPage$title,
-    skin = shinydashboard$dashboardPage$skin
+    ) # end dashboardBody
 ) # end dashboardPage
 )
