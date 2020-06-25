@@ -1,6 +1,17 @@
-# Objects defined here are:
-# 1. visible across all sessions; and
-# 2. visible to the code in both the server and ui objects.
+################################################################################
+##                               Global Objects                               ##
+################################################################################
+#' Objects defined here are visible:
+#' 1. across all sessions;
+#' 2. to the code in the server object; and
+#' 3. to the code in the ui object.
+#'
+#' Context Object
+#' A context object encapsulates the references/pointers to services and
+#' configuration information used/needed by other objects. It allows the objects
+#' living within a context to see the outside world. Objects living in a
+#' different context see a different view of the outside world.
+context <- new.env()
 
 # Setup -------------------------------------------------------------------
 library(shiny)
@@ -8,7 +19,6 @@ library(shinydashboard)
 base::readRenviron(path = "./package/.Renviron")
 pkgload::load_all(path = "./package", helpers = FALSE, quiet = TRUE)
 invisible(sapply(list.files("./R", ".R$|.r$", full.names = TRUE), source))
-Dashboard$utils$load_shiny_configuration(envir = environment())
 database <- DBMS$new(path = tempfile("archive-"))$establish_connection()
 
 # Helper Functions --------------------------------------------------------
@@ -21,15 +31,30 @@ dataTableOutput <- DT::dataTableOutput
 renderDataTable <- DT::renderDataTable
 datatable <- DT::datatable
 
-# Context Object ----------------------------------------------------------
-context <- new.env()
-context$role <- new.env()
-context$role$input <- NULL
-context$role$target <- NULL
+# Configuration -----------------------------------------------------------
+get_shiny <- purrr::partial(config::get, file = list.files(".", "config-shiny.yml$", recursive = TRUE, full.names = TRUE)[1])
+shinydashboard <- get_shiny("shinydashboard")
+rsconnect <- get_shiny("rsconnect")
 
 # UI Elements -------------------------------------------------------------
+## {shinydashboard}
 shinydashboard$dashboardHeader$title <- stringr::str_glue("{appTitle}\n{appVersion}", appTitle = rsconnect$appTitle, appVersion = rsconnect$appVersion)
 shinydashboard$dashboardPage$title <- rsconnect$appTitle
+dashboardPage <- purrr::partial(
+    shinydashboard::dashboardPage,
+    title = shinydashboard$dashboardPage$title,
+    skin = shinydashboard$dashboardPage$skin
+)
+dashboardHeader <- purrr::partial(
+    shinydashboard::dashboardHeader,
+    title = shinydashboard$dashboardHeader$title
+)
+dashboardSidebar <- purrr::partial(
+    shinydashboard::dashboardSidebar,
+    disable = shinydashboard$dashboardSidebar$disable,
+    width = shinydashboard$dashboardSidebar$width,
+    collapsed = shinydashboard$dashboardSidebar$collapsed
+)
 
 # Generate caret model ----------------------------------------------------
 tags <- "mock:yes"
