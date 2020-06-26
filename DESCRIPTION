@@ -4,7 +4,7 @@ Title: Explore, Explain and Examine Predictive `caret` Models
 URL: https://harell.github.io/caret.explainer/
 BugReports: https://github.com/harell/caret.explainer/issues
 Version: 0.3.0
-Date: 2020-02-27
+Date: 2020-04-24
 Authors@R: c(person("Harel", "Lustiger", role = c("aut", "cre"),
     email = "tidylab@gmail.com",
     comment = c(ORCID = "0000-0003-2953-9598")))

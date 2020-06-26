@@ -28,7 +28,7 @@
 
     ## Install requirements
     if(!"remotes" %in% rownames(utils::installed.packages())) utils::install.packages("remotes", dependencies = getOption("dependencies"))
-    remotes::install_github("ropenscilabs/tic@v0.7.0", dependencies = getOption("dependencies"), quiet = TRUE, build = FALSE)
+    remotes::install_github("ropenscilabs/tic@v0.9.0", dependencies = getOption("dependencies"), quiet = TRUE, build = FALSE)
 
     return(invisible())
 }

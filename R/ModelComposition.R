@@ -38,6 +38,7 @@ ModelComposition$funs$instantiate_DALEX <- function(object){
             data = object$data[, object$role_input],
             y = object$data[, object$role_target],
             predict_function = object$predict_function,
+            label = object$model_name,
             verbose = FALSE
         )
     )
