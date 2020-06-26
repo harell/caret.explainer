@@ -9,5 +9,7 @@ Dashboard$utils$prepare_app_files(dashboard_source, dashboard_target)
 # sort(rsconnect::appDependencies()$packages)
 
 # Run Shiny ---------------------------------------------------------------
-options(shiny.autoload.r = TRUE)
-shiny::runApp(appDir = dashboard_target)
+withr::local_options(
+    list(shiny.autoload.r = TRUE, shiny.reactlog = TRUE),
+    shiny::runApp(appDir = dashboard_target)
+)
