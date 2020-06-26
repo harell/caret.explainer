@@ -29,6 +29,7 @@ CaretModelDecomposition <- R6::R6Class(
         # Private Fields -------------------------------------------------------
         # Private Methods ------------------------------------------------------
         extract_model_object = function(object) CaretModelDecomposition$fun$extract_model_object(object),
+        extract_model_name = function(object) CaretModelDecomposition$fun$extract_model_name(object),
         extract_data = function(object) CaretModelDecomposition$fun$extract_data(object),
         extract_role_target = function(object) CaretModelDecomposition$fun$extract_role_target(object),
         extract_role_input = function(object) CaretModelDecomposition$fun$extract_role_input(object)
@@ -51,6 +52,7 @@ CaretModelDecomposition$funs$predict_function <- function(object, newdata){
 
 # Private methods ---------------------------------------------------------
 CaretModelDecomposition$fun$extract_model_object <- function(object) object
+CaretModelDecomposition$fun$extract_model_name <-  function(object) object$method
 CaretModelDecomposition$fun$extract_role_target <- function(object) all.vars(object$terms)[1]
 CaretModelDecomposition$fun$extract_role_input <- function(object) all.vars(object$terms)[-1]
 CaretModelDecomposition$fun$extract_data <- function(object){

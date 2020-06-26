@@ -1,6 +1,17 @@
-# Objects defined here are:
-# 1. visible across all sessions; and
-# 2. visible to the code in both the server and ui objects.
+################################################################################
+##                               Global Objects                               ##
+################################################################################
+#' Objects defined here are visible:
+#' 1. across all sessions;
+#' 2. to the code in the server object; and
+#' 3. to the code in the ui object.
+#'
+#' Context Object
+#' A context object encapsulates the references/pointers to services and
+#' configuration information used/needed by other objects. It allows the objects
+#' living within a context to see the outside world. Objects living in a
+#' different context see a different view of the outside world.
+context <- new.env()
 
 # Setup -------------------------------------------------------------------
 library(shiny)
@@ -8,30 +19,13 @@ library(shinydashboard)
 base::readRenviron(path = "./package/.Renviron")
 pkgload::load_all(path = "./package", helpers = FALSE, quiet = TRUE)
 invisible(sapply(list.files("./R", ".R$|.r$", full.names = TRUE), source))
-Dashboard$utils$load_shiny_configuration(envir = environment())
-database <- DBMS$new(path = tempfile("archive-"))$establish_connection()
 
-# Helper Functions --------------------------------------------------------
-plotOutput <- function(...) shiny::plotOutput(..., height = "34vh")
-box <- function(..., width = NULL, solidHeader = TRUE) suppressWarnings(shinydashboard::box(..., width = width, solidHeader = solidHeader))
-tabItem <- function(tabName = NULL, ..., enable = TRUE) if(enable) shinydashboard::tabItem(tabName = tabName, ...) else shinydashboard::tabItem(tabName = tabName, NullModuleUI(id = tabName))
-menuItem <- function(..., enable = TRUE) if(enable) shinydashboard::menuItem(...) else NULL
-callModule <-  function(..., enable = TRUE) if(enable) shiny::callModule(...) else shiny::callModule(NullModuleServer, id = id)
-dataTableOutput <- DT::dataTableOutput
-renderDataTable <- DT::renderDataTable
-datatable <- DT::datatable
+# Configuration -----------------------------------------------------------
+get_shiny <- purrr::partial(config::get, file = list.files(".", "config-shiny.yml$", recursive = TRUE, full.names = TRUE)[1])
+shiny <- get_shiny("shiny")
+shinydashboard <- get_shiny("shinydashboard")
+rsconnect <- get_shiny("rsconnect")
 
-# Context Object ----------------------------------------------------------
-context <- new.env()
-context$role <- new.env()
-context$role$input <- NULL
-context$role$target <- NULL
-
-# UI Elements -------------------------------------------------------------
-shinydashboard$dashboardHeader$title <- stringr::str_glue("{appTitle}\n{appVersion}", appTitle = rsconnect$appTitle, appVersion = rsconnect$appVersion)
-shinydashboard$dashboardPage$title <- rsconnect$appTitle
-
-# Generate caret model ----------------------------------------------------
-tags <- "mock:yes"
-if(length(database$read(tags)) == 0)
-    database$create(artifact = CaretModelFactory$new()$artifact, tags)
+# Source Layers -----------------------------------------------------------
+source("./global_server.R")
+source("./global_ui.R")
