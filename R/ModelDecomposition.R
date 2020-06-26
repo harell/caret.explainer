@@ -4,6 +4,7 @@
 #'   decomposes it into its essential parts.
 #'
 #' @field model_object (`?`) A model object to decompose.
+#' @field model_name (`character`) The \code{model_object} name.
 #' @field data (`data.frame`) A data table with the data used to
 #'   create \code{model_object}.
 #' @field role_target (`character`) The name of the target variable in
@@ -22,6 +23,7 @@ ModelDecomposition <- R6::R6Class( # nocov start
     public = list(
         # Public Fields --------------------------------------------------------
         model_object = NULL,
+        model_name = NULL,
         data = NULL,
         role_target = NULL,
         role_input = NULL,
@@ -47,12 +49,15 @@ ModelDecomposition <- R6::R6Class( # nocov start
             self$role_input <- private$extract_role_input(object)
             self$data <- private$extract_data(object)
             self$model_object <- private$extract_model_object(object)
+            self$model_name <- private$extract_model_name(object)
+
             check_self(self)
         }
     ),
     private = list(
         # Private Methods ------------------------------------------------------
         extract_model_object = function(object) stop("I'm a signature function"),
+        extract_model_name = function(object) "Unnamed",
         extract_data = function(object) stop("I'm a signature function"),
         extract_role_target = function(object) stop("I'm a signature function"),
         extract_role_input = function(object) stop("I'm a signature function")
