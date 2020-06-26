@@ -11,7 +11,7 @@
 #' configuration information used/needed by other objects. It allows the objects
 #' living within a context to see the outside world. Objects living in a
 #' different context see a different view of the outside world.
-context <- new.env()
+context <- shiny::reactiveValues()
 
 # Setup -------------------------------------------------------------------
 library(shiny)

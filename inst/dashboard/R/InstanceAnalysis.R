@@ -38,20 +38,20 @@ InstanceAnalysisServer <- function(input, output, session){
     model_elements <- caret$train %>% CaretModelDecomposition$new()
     explanations <- instantiate_explainer(caret$train)
     vars_meta <- sapply(caret$dataset, class) %>% tibble::enframe("name", "type")
-    context$role$pk <- caret$role_pk
-    context$role$target <- caret$role_target
-    context$role$input <- vars_meta %>% dplyr::filter(name %in% caret$role_input, type %in% c("numeric", "integer")) %>% .$name
-    context$role$info <- vars_meta %>% dplyr::filter(name %in% caret$role_info, type %in% c("factor")) %>% .$name
+    context$role_pk <- caret$role_pk
+    context$role_target <- caret$role_target
+    context$role_input <- vars_meta %>% dplyr::filter(name %in% caret$role_input, type %in% c("numeric", "integer")) %>% .$name
+    context$role_info <- vars_meta %>% dplyr::filter(name %in% caret$role_info, type %in% c("factor")) %>% .$name
 
     # UI Widgets
-    updateCheckboxGroupInput(session, inputId = "what_if_vars", choices = as.list(context$role$input))
+    updateCheckboxGroupInput(session, inputId = "what_if_vars", choices = as.list(isolate(context$role_input)))
 
     # Observation table
     ## DT table filters
     tableFilterGenerator <- Dashboard$shiny$tableFilterGenerator
     output$instances_filters <- renderUI({
         purrr::map(
-            context$role$info,
+            context$role_info,
             ~ tableFilterGenerator(data = caret$dataset, col_name = .x, Namespace = ns)
         )
     })
@@ -59,7 +59,7 @@ InstanceAnalysisServer <- function(input, output, session){
     ## DT table observations
     instances_table <- reactive({
         indicators <- base::rep(TRUE, nrow(caret$dataset))
-        for(key in context$values$role_info){
+        for(key in context$role_info){
             if(is.null(input[[key]])) next
             indicators <- caret$dataset[[key]] %in% input[[key]] & indicators
         }
